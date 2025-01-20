@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
-import { Bounce, ToastContainer, toast } from 'react-toastify';
+import { Bounce, ToastContainer } from 'react-toastify';
 import { CircleNotch, Eye, EyeSlash, GoogleLogo } from '@phosphor-icons/react';
 import { Link } from 'react-router-dom';
 import logo from '../img/logo.svg';
