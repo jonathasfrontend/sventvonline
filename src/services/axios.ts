@@ -5,7 +5,7 @@ export function getAPIClient(ctx?: any) {
   const { "nextauth.token": token } = parseCookies(ctx);
 
   const api = axios.create({
-    baseURL: 'https://serversventv.vercel.app/',
+    baseURL: 'https://serversventv.vercel.app',
   });
 
   if (token) {

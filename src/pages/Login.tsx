@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { Bounce, ToastContainer } from 'react-toastify';
-import { CircleNotch, Eye, EyeSlash, GoogleLogo } from '@phosphor-icons/react';
+import { CircleNotch, Eye, EyeSlash } from '@phosphor-icons/react';
 import { Link } from 'react-router-dom';
 import logo from '../img/logo.svg';
 import background from '../img/background.png';
@@ -46,7 +46,7 @@ export default function Login() {
       />
 
       <div className='flex-1 flex items-center justify-center bg-cover bg-center max-[1100px]:hidden'>
-        <img src={background} alt="" className='w-[500px] h-auto object-cover' />
+        <img src={background} alt="" className='w-[450px] h-auto object-cover' />
       </div>
 
       <div className='w-[40%] h-screen gap-3 flex-[560px_1_0] min-[1101px]:max-w-[560px] max-[1100px]:flex-1 bg-[#3fa5ff10]'>
@@ -63,7 +63,7 @@ export default function Login() {
                 <label htmlFor="email-address">
                   E-mail
                 </label>
-                <div className='flex w-full h-12 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-[#3fa5ff2f] box-border transition-opacity focus-within:border-purpleseat-base'>
+                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-[#3fa5ff2f] box-border transition-opacity focus-within:border-purpleseat-base'>
                   <input
                     {...register('email')}
                     id="email-address"
@@ -82,7 +82,7 @@ export default function Login() {
                   <label htmlFor="password">
                     Senha
                   </label>
-                  <div className="flex w-full h-12 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-[#3fa5ff2f] box-border transition-opacity focus-within:border-purpleseat-base">
+                  <div className="flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-[#3fa5ff2f] box-border transition-opacity focus-within:border-purpleseat-base">
                     <input
                       {...register('password')}
                       id="password"
@@ -125,13 +125,6 @@ export default function Login() {
               <Link to={'/signup'} className='text-white text-sm font-semibold hover:decoration-white ml-1'>
                 Crie uma conta
               </Link>
-              <button
-                type="submit"
-                className="relative inline-flex bg-[#ffffff] hover:bg-[#c5c5c5] flex-shrink-0 justify-center items-center gap-2 rounded transition-colors ease-in-out duration-200 font-semibold disabled:opacity-50 disabled:cursor-not-allowed disabled:select-none border-none cursor-pointer overflow-hidden bg-purpleseat-dark hover:enabled:bg-purpleseat-base text-black px-4 py-3 [&_svg]:size-6 text-md leading-6"
-                disabled={isLoading}
-              >
-                <span className='flex items-center'><GoogleLogo className="text-black mr-2" size={32} /> Entrar com google</span>
-              </button>
             </div>
           </div>
         </div>

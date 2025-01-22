@@ -1,11 +1,11 @@
 import { useForm } from 'react-hook-form';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
-import { Bounce, ToastContainer, toast } from 'react-toastify';
+import { Bounce, ToastContainer } from 'react-toastify';
 import { CircleNotch, Eye, EyeSlash } from '@phosphor-icons/react';
-import { GoogleLogin } from '@react-oauth/google';
 import logo from '../img/logo.svg';
 import background from '../img/background.png';
+import { Link } from 'react-router-dom';
 
 type SignUpData = {
   username: string;
@@ -16,7 +16,7 @@ type SignUpData = {
 
 export default function Signup() {
   const { register, handleSubmit } = useForm<SignUpData>();
-  const { signUp, googleSignUp } = useContext(AuthContext);
+  const { signUp } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -30,23 +30,6 @@ export default function Signup() {
       setIsLoading(false);
     }
   }
-
-  // Função para autenticar com o Google
-  const handleGoogleSignUp = (response: any) => {
-    const { credential } = response;
-    const userInfo = JSON.parse(atob(credential.split('.')[1]));
-    const { name, email, picture } = userInfo;
-
-    const data = {
-      username: name,
-      email: email,
-      avatar: picture,
-      password: 'randomPassword',  // Pode gerar uma senha temporária ou pedir para o usuário criar uma
-    };
-
-    setIsLoading(true);
-    googleSignUp(data);
-  };
 
   return (
     <div className="relative min-h-screen flex items-stretch bg-[#121214]">
@@ -66,7 +49,7 @@ export default function Signup() {
       />
 
       <div className='flex-1 flex items-center justify-center bg-cover bg-center max-[1100px]:hidden'>
-        <img src={background} alt="" className='w-[500px] h-auto object-cover' />
+        <img src={background} alt="" className='w-[450px] h-auto object-cover' />
       </div>
 
       <div className='w-[40%] h-screen gap-3 flex-[560px_1_0] min-[1101px]:max-w-[560px] max-[1100px]:flex-1 bg-[#3fa5ff10]'>
@@ -84,7 +67,7 @@ export default function Signup() {
                 <label htmlFor="username">
                   Nome Completo
                 </label>
-                <div className='flex w-full h-12 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-[#3fa5ff2f] box-border transition-opacity focus-within:border-purpleseat-base'>
+                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-[#3fa5ff2f] box-border transition-opacity focus-within:border-purpleseat-base'>
                   <input
                     {...register('username')}
                     id="username"
@@ -100,7 +83,7 @@ export default function Signup() {
                 <label htmlFor="email-address">
                   E-mail
                 </label>
-                <div className='flex w-full h-12 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-[#3fa5ff2f] box-border transition-opacity focus-within:border-purpleseat-base'>
+                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-[#3fa5ff2f] box-border transition-opacity focus-within:border-purpleseat-base'>
                   <input
                     {...register('email')}
                     id="email-address"
@@ -118,7 +101,7 @@ export default function Signup() {
                 <label htmlFor="avatar">
                   Imagem de perfil
                 </label>
-                <div className='flex w-full h-12 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-[#3fa5ff2f] box-border transition-opacity focus-within:border-purpleseat-base'>
+                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-[#3fa5ff2f] box-border transition-opacity focus-within:border-purpleseat-base'>
                   <input
                     {...register('avatar')}
                     id="avatar"
@@ -136,7 +119,7 @@ export default function Signup() {
                   <label htmlFor="password">
                     Senha
                   </label>
-                  <div className="flex w-full h-12 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-[#3fa5ff2f] box-border transition-opacity focus-within:border-purpleseat-base">
+                  <div className="flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-[#3fa5ff2f] box-border transition-opacity focus-within:border-purpleseat-base">
                     <input
                       {...register('password')}
                       id="password"
@@ -173,11 +156,9 @@ export default function Signup() {
             </form>
 
             <div className='w-full flex items-center justify-between mt-6'>
-              <GoogleLogin 
-                onSuccess={handleGoogleSignUp}
-                onError={() => toast.error('Falha na autenticação com o Google.')}
-                useOneTap
-              />
+              <Link to={'/'} className='text-white text-sm font-semibold hover:decoration-white ml-1'>
+                Já tem uma conta? Faça login
+              </Link>
             </div>
           </div>
         </div>
