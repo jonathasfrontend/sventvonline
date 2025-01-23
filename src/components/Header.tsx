@@ -34,13 +34,12 @@ export function Header() {
     return (
         <header className='w-full px-16 py-5 flex items-center justify-between z-50'>
             <div className='flex items-center'>
-                <img src={logo} alt="" className="w-[110px]" />
+                <Link to='/dashboard' className='text-white text-[15px] font-normal hover:text-[#3fa5ff]'>
+                    <img src={logo} alt="" className="w-[110px]" />
+                </Link>
             </div>
 
             <ul>
-                <li className='inline-block mr-6'>
-                    <Link to='/dashboard' className='text-white text-[15px] font-normal hover:text-[#3fa5ff]'>Dashboard</Link>
-                </li>
                 <li className='inline-block mr-6'>
                     <Link to='/programacao' className='text-white text-[15px] font-normal hover:text-[#3fa5ff]'>Programação</Link>
                 </li>

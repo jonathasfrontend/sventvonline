@@ -24,7 +24,7 @@ interface CardChannelProps {
     user_id: string;
     user_name: string;
     user_avatar: string;
-  }[]; // Corrigido: Array de objetos
+  }[];
 }
 
 export function CardChannel(props: CardChannelProps) {
@@ -143,7 +143,7 @@ export function CardChannel(props: CardChannelProps) {
         </div>
       </div>
 
-      <div className="w-full absolute left-[230px] top-2 text-xs text-gray-400 flex items-center">
+      <div className="w-full absolute left-[220px] top-2 text-xs text-gray-400 flex items-center">
         {
           props.likedBy.slice(0, 3).map((user) => (
             <img

@@ -17,14 +17,6 @@
   border-radius: 20px;
 }
 
-.bg{
-  background-image: url("../img/bg.jpg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
-}
-
 @layer base {
   :root {
     --background: 240 10% 3.9%;
