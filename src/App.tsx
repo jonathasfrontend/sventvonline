@@ -5,6 +5,8 @@ import SignUp from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import Guia from "./pages/Guia";
 import Favorite from "./pages/Favorite"
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 function App() {
   return (

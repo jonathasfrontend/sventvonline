@@ -52,7 +52,7 @@ export function CardChannel(props: CardChannelProps) {
         const favoritesData = favoritesRes.data.map(
           ({ tv_channels: { id } }: any) => id
         );
-        
+
         localStorage.setItem("favorite_channels", JSON.stringify(favoritesData));
         localStorage.setItem("liked_channels", JSON.stringify(likedData));
 
@@ -130,7 +130,7 @@ export function CardChannel(props: CardChannelProps) {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-3 bg-[#323262] text-white rounded-md shadow-md w-[330px] relative">
+    <div className="w-[300px] p-3 bg-[#323262] rounded-md shadow-md relative">
 
       <ToastContainer
         position="top-right"
@@ -191,7 +191,7 @@ export function CardChannel(props: CardChannelProps) {
               </SelectContent>
             </Select>
           </div>
-          <Link to={props.id} className="w-[100px] text-center text-sm font-medium text-[#323262] px-5 py-2 mt-2 rounded-full bg-white">
+          <Link to={props.id} className="w-[140px] text-center text-sm font-medium text-[#323262] px-5 py-2 mt-2 rounded-full bg-white">
             Acessar
           </Link>
         </div>
