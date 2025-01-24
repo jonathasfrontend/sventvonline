@@ -22,11 +22,7 @@ export function Header() {
 
     const handleSignOut = () => {
         // Limpar os dados do localStorage e dos cookies menos o cached_channels do local storage
-        localStorage.removeItem('avatar');
-        localStorage.removeItem('username');
-        localStorage.removeItem('favorites');
-        localStorage.removeItem('playlists');
-        localStorage.removeItem('id_username');
+        localStorage.clear();
         destroyCookie(null, 'nextauth.token');
         destroyCookie(null, 'nextauth.refreshToken');
         navigate('/');
@@ -41,13 +37,25 @@ export function Header() {
 
             <ul>
                 <li className='inline-block mr-6'>
-                    <Link to='/programacao' className='text-white text-[15px] font-normal hover:text-[#3fa5ff]'>Programação</Link>
+                    {
+                        window.location.pathname === '/programacao' ?
+                            <Link to='/programacao' className='text-[#3fa5ff] text-[15px] font-normal hover:text-[#3fa5ff]'>Guia</Link> :
+                            <Link to='/programacao' className='text-white text-[15px] font-normal hover:text-[#3fa5ff]'>Guia</Link>
+                    }
                 </li>
                 <li className='inline-block mr-6'>
-                    <Link to='/favoritos' className='text-white text-[15px] font-normal hover:text-[#3fa5ff]'>Favoritos</Link>
+                    {
+                        window.location.pathname === '/favoritos' ?
+                            <Link to='/favoritos' className='text-[#3fa5ff] text-[15px] font-normal hover:text-[#3fa5ff]'>Favoritos</Link> :
+                            <Link to='/favoritos' className='text-white text-[15px] font-normal hover:text-[#3fa5ff]'>Favoritos</Link>
+                    }
                 </li>
                 <li className='inline-block mr-6'>
-                    <Link to='/playlists' className='text-white text-[15px] font-normal hover:text-[#3fa5ff]'>Playlists</Link>
+                    {
+                        window.location.pathname === '/playlists' ?
+                            <Link to='/playlists' className='text-[#3fa5ff] text-[15px] font-normal hover:text-[#3fa5ff]'>Playlists</Link> :
+                            <Link to='/playlists' className='text-white text-[15px] font-normal hover:text-[#3fa5ff]'>Playlists</Link>
+                    }
                 </li>
 
             </ul>

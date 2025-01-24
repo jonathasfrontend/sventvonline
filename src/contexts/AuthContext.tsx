@@ -91,7 +91,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     async function signUp({ username, email, avatar, password }: SignUpData) {
         try {
-            await api.post("/auth/signup", { username, email, avatar, password });
+            await api.post("/users/signup", { username, email, avatar, password });
             await signIn({ email, password }); // Autenticar automaticamente após cadastro
         } catch (err: any) {
             toast.error(err.response?.data?.error || "Erro ao cadastrar");

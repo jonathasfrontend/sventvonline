@@ -84,6 +84,7 @@ export default function Dashboard() {
             key={channel.id}
             id={channel.id}
             name={channel.name}
+            url={channel.url}
             description={channel.description}
             image={channel.image}
             likeCount={channel.like_count}
