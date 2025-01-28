@@ -3,8 +3,8 @@ import { useContext, useState } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { Bounce, ToastContainer } from 'react-toastify';
 import { CircleNotch, Eye, EyeSlash } from '@phosphor-icons/react';
-import logo from '../img/logo.svg';
-import background from '../img/background.png';
+import logo from '../img/logo.png';
+import background from '../img/bg1.png';
 import { Link } from 'react-router-dom';
 
 type SignUpData = {

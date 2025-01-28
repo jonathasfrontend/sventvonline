@@ -16,8 +16,50 @@
   border-radius: 20px;
 }
 
-.gradient {
-  background: linear-gradient(0deg, #000000b7 10%, #00000000 100%);
+.gradient-movies {
+  background: linear-gradient(0deg, #121214 2%, #00000027 50%, #00000000 100%);
+}
+
+.gradient-series {
+  background: linear-gradient(0deg, #00000080 50%, #00000000 100%);
+}
+
+.gradient-header {
+  background: linear-gradient(180deg, #121214 2%, #00000000 100%);
+}
+
+.cms-Image {
+  position: absolute;
+  inset: 0px;
+  box-sizing: border-box;
+  padding: 0px;
+  border: none;
+  margin: auto;
+  display: block;
+  width: 0px;
+  height: 0px;
+  min-width: 100%;
+  max-width: 100%;
+  min-height: 100%;
+  max-height: 100%;
+}
+
+.slick-dots li button:before {
+  font-size: 8px !important;
+  width: 15px !important;
+  height: 3px !important;
+  background-color: #ffffff;
+  content: ' ' !important;
+  opacity: .40 !important;
+}
+
+.slick-dots {
+  bottom: 25px !important;
+}
+
+.slick-dots li.slick-active button:before {
+  background-color: #3ca1ff;
+  opacity: 1 !important;
 }
 
 @layer base {

@@ -4,8 +4,8 @@ import { AuthContext } from '../contexts/AuthContext';
 import { Bounce, ToastContainer } from 'react-toastify';
 import { CircleNotch, Eye, EyeSlash } from '@phosphor-icons/react';
 import { Link } from 'react-router-dom';
-import logo from '../img/logo.svg';
-import background from '../img/background.png';
+import logo from '../img/logo.png';
+import background from '../img/bg1.png';
 
 type SignInData = {
   email: string;

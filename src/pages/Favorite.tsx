@@ -51,7 +51,7 @@ export default function Favorite() {
     return (
         <div className="min-h-screen bg-[#121214]">
             <Header />
-            <div className="flex flex-col items-center justify-center">
+            <div className="flex flex-col items-center justify-center pt-10">
                 <h1 className="text-white text-4xl font-bold mt-10">Favoritos</h1>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
                     {favorite.map((item) => (
