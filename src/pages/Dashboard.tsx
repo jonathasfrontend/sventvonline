@@ -9,7 +9,6 @@ import Movies from "@/components/MovieCard";
 import Slider from "react-slick";
 import SampleNextPrevArrow from "@/components/SampleNextPrevArrow";
 import Series from "@/components/SerieCard";
-import { CircleNotch } from "@phosphor-icons/react";
 import logoSolo from '../img/white_solo.png';
 
 interface Movie {
