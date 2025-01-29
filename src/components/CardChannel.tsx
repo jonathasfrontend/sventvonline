@@ -1,6 +1,6 @@
 import { Heart, Star, BookmarkSimple } from "@phosphor-icons/react";
-import { useEffect, useState } from "react";
-import { api } from "../services/api";
+// import { useEffect, useState } from "react";
+// import { api } from "../services/api";
 import { Bounce, ToastContainer } from "react-toastify";
 import { Link } from "react-router-dom";
 // import {
