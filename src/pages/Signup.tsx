@@ -3,9 +3,9 @@ import { useContext, useState } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { Bounce, ToastContainer } from 'react-toastify';
 import { CircleNotch, Eye, EyeSlash } from '@phosphor-icons/react';
-import logo from '../img/logo.png';
-import background from '../img/bg1.png';
 import { Link } from 'react-router-dom';
+import logo from '../img/white_logo.png';
+import background from '../img/white_solo.png';
 
 type SignUpData = {
   username: string;
@@ -49,14 +49,14 @@ export default function Signup() {
       />
 
       <div className='flex-1 flex items-center justify-center bg-cover bg-center max-[1100px]:hidden'>
-        <img src={background} alt="" className='w-[450px] h-auto object-cover' />
+        <img src={background} alt="" className='w-[400px] h-auto object-cover' />
       </div>
 
       <div className='w-[40%] h-screen gap-3 flex-[560px_1_0] min-[1101px]:max-w-[560px] max-[1100px]:flex-1 bg-[#3fa5ff10]'>
         <div className='h-[100dvh] bg-gray-850 p-20 overflow-auto max-[1100px]:h-auto max-[1100px]:min-h-[calc(100dvh-16px)] max-[1100px]:p-7'>
           <div className='flex flex-col'>
             <div className='w-full flex items-center'>
-              <img src={logo} className='w-28' alt="" />
+              <img src={logo} className='w-[120px]' alt="" />
             </div>
             <h2 className="font-bold text-sky-100 text-2xl mt-16 mb-12 max-md:mt-12 max-md:mb-8">
               Cadastre-se gratuitamente

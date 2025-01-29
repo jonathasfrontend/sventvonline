@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import * as Avatar from "@radix-ui/react-avatar";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { Link, useNavigate } from 'react-router-dom';
-import logo from '../img/logo.png'
+import logo from '../img/white_logo.png';
 
 // import { List } from '@phosphor-icons/react'
 
@@ -31,7 +31,7 @@ export function Header() {
         <header className='w-full px-16 py-5 absolute flex items-center justify-between z-50 gradient-header'>
             <div className='flex items-center'>
                 <Link to='/dashboard' className='text-white text-[15px] font-normal hover:text-[#3fa5ff]'>
-                    <img src={logo} alt="" className="w-[110px]" />
+                    <img src={logo} alt="" className="w-[120px]" />
                 </Link>
             </div>
 
