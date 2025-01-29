@@ -10,7 +10,7 @@ import Slider from "react-slick";
 import SampleNextPrevArrow from "@/components/SampleNextPrevArrow";
 import Series from "@/components/SerieCard";
 import { CircleNotch } from "@phosphor-icons/react";
-// import TvCard from "@/components/TvCard";
+import logoSolo from '../img/white_solo.png';
 
 interface Movie {
   id: string;
@@ -52,61 +52,72 @@ interface Serie {
   ]
 }
 
-interface CardChannelProps {
-  id: string;
-  name: string;
-  description: string;
-  image: string;
-  url: string;
-  likeCount: number;
-  likedBy: {
-    user_id: string;
-    user_name: string;
-    user_avatar: string;
-  }[];
-}
-
 export default function Dashboard() {
   const navigate = useNavigate();
-  const [data, setData] = useState({
-    channelsTvAberta: [],
-    channelsFilmes: [],
-    channelsInfantil: [],
-    movies: [],
-    series: [],
-  });
+  const [channelsTvAberta, setChannelsTvAberta] = useState<any[]>([]);
+  const [channelsFilmes, setChannelsFilmes] = useState<any[]>([]);
+  const [channelsInfantil, setChannelsInfantil] = useState<any[]>([]);
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [series, setSeries] = useState<Serie[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchHighlights = async () => {
+      setLoading(true);
       try {
-        const endpoints = [
-          '/metadata/movies',
-          '/liked/channelswithlikes/Tv Aberta',
-          '/liked/channelswithlikes/Filmes',
-          '/liked/channelswithlikes/Infantil',
-          '/metadata/series',
-        ];
-
-        const responses = await Promise.all(endpoints.map(endpoint => api.get(endpoint)));
-
-        setData({
-          movies: responses[0].data.destaques,
-          channelsTvAberta: responses[1].data,
-          channelsFilmes: responses[2].data,
-          channelsInfantil: responses[3].data,
-          series: responses[4].data.destaques,
-        });
+        // Verificar se os dados já estão no localStorage
+        const storedMovies = localStorage.getItem("movies");
+        const storedSeries = localStorage.getItem("series");
+        const storedTvAberta = localStorage.getItem("channelsTvAberta");
+        const storedFilmes = localStorage.getItem("channelsFilmes");
+        const storedInfantil = localStorage.getItem("channelsInfantil");
+  
+        if (storedMovies && storedSeries && storedTvAberta && storedFilmes && storedInfantil) {
+          // Se os dados já estiverem armazenados, utilizamos eles
+          setMovies(JSON.parse(storedMovies));
+          setSeries(JSON.parse(storedSeries));
+          setChannelsTvAberta(JSON.parse(storedTvAberta));
+          setChannelsFilmes(JSON.parse(storedFilmes));
+          setChannelsInfantil(JSON.parse(storedInfantil));
+        } else {
+          // Se não, fazemos a requisição
+          const [
+            moviesResponse,
+            channelsTvAbertaResponse,
+            channelsFilmesResponse,
+            channelsInfantilResponse,
+            seriesResponse,
+          ] = await Promise.all([
+            api.get('/metadata/movies'),
+            api.get("/liked/channelswithlikes/Tv Aberta"),
+            api.get("/liked/channelswithlikes/Filmes"),
+            api.get("/liked/channelswithlikes/Infantil"),
+            api.get('/metadata/series'),
+          ]);
+  
+          // Salvamos os dados no estado
+          setMovies(moviesResponse.data.destaques);
+          setSeries(seriesResponse.data.destaques);
+          setChannelsTvAberta(channelsTvAbertaResponse.data);
+          setChannelsFilmes(channelsFilmesResponse.data);
+          setChannelsInfantil(channelsInfantilResponse.data);
+  
+          // Armazenamos no localStorage
+          localStorage.setItem("movies", JSON.stringify(moviesResponse.data.destaques));
+          localStorage.setItem("series", JSON.stringify(seriesResponse.data.destaques));
+          localStorage.setItem("channelsTvAberta", JSON.stringify(channelsTvAbertaResponse.data));
+          localStorage.setItem("channelsFilmes", JSON.stringify(channelsFilmesResponse.data));
+          localStorage.setItem("channelsInfantil", JSON.stringify(channelsInfantilResponse.data));
+        }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching highlights:', error);
       } finally {
         setLoading(false);
       }
     };
-
-    fetchData();
+  
+    fetchHighlights();
   }, []);
-
 
   useEffect(() => {
     const { "nextauth.token": token } = parseCookies();
@@ -189,7 +200,7 @@ export default function Dashboard() {
   if (loading) {
     return (
       <div className="absolute top-0 left-0 z-50 w-full h-screen bg-[#121214] flex items-center justify-center">
-        <CircleNotch size={32} className="animate-spin" />
+        <img src={logoSolo} className="w-16 animate-bounce" alt="" />
       </div>
     )
   }
@@ -220,26 +231,88 @@ export default function Dashboard() {
         </div>
         <div className="w-full h-full relative">
           <Slider {...carouselSettingsFilmes}>
-            {data.movies.map((movie: Movie) => (
-              <Movies key={movie.id} {...movie} />
+            {movies.map((movie) => (
+              <Movies
+                key={movie.id}
+                id={movie.id}
+                runTime={movie.runTime}
+                title={movie.title}
+                rating={movie.rating}
+                description={movie.description}
+                assets={movie.assets}
+              />
             ))
             }
           </Slider>
         </div>
       </div>
 
-
-
-      {[{ title: "Tv Aberta", channels: data.channelsTvAberta }, { title: "Filmes", channels: data.channelsFilmes }, { title: "Infantil", channels: data.channelsInfantil }].map((section, index) => (
-        <div key={index} className="w-full flex flex-col items-center justify-center">
-          <h1 className="text-white text-xl font-bold">{section.title}</h1>
+      {/* Lista dos canais */}
+      <div className="w-full flex flex-col  items-center justify-center">
+        <h1 className="text-white text-xl font-bold ">
+          Tv Aberta
+        </h1>
+        <div className="w-full gap-5 px-16 py-8">
           <Slider {...carouselSettingsChannel}>
-            {data.channelsInfantil.map((channel: CardChannelProps) =>
-              <CardChannel key={channel.id} {...channel} />
-            )}
+            {channelsTvAberta.map((channel) => (
+              <CardChannel
+                key={channel.id}
+                id={channel.id}
+                name={channel.name}
+                url={channel.url}
+                description={channel.description}
+                image={channel.image}
+                likeCount={channel.like_count}
+                likedBy={channel.liked_by}
+              />
+            ))}
           </Slider>
         </div>
-      ))}
+      </div>
+
+      <div className="w-full flex flex-col  items-center justify-center">
+        <h1 className="text-white text-xl font-bold ">
+          Filmes
+        </h1>
+        <div className="w-full gap-5 px-16 py-8">
+          <Slider {...carouselSettingsChannel}>
+            {channelsFilmes.map((channel) => (
+              <CardChannel
+                key={channel.id}
+                id={channel.id}
+                name={channel.name}
+                url={channel.url}
+                description={channel.description}
+                image={channel.image}
+                likeCount={channel.like_count}
+                likedBy={channel.liked_by}
+              />
+            ))}
+          </Slider>
+        </div>
+      </div>
+
+      <div className="w-full flex flex-col  items-center justify-center">
+        <h1 className="text-white text-xl font-bold ">
+          Infantil
+        </h1>
+        <div className="w-full gap-5 px-16 py-8">
+          <Slider {...carouselSettingsChannel}>
+            {channelsInfantil.map((channel) => (
+              <CardChannel
+                key={channel.id}
+                id={channel.id}
+                name={channel.name}
+                url={channel.url}
+                description={channel.description}
+                image={channel.image}
+                likeCount={channel.like_count}
+                likedBy={channel.liked_by}
+              />
+            ))}
+          </Slider>
+        </div>
+      </div>
 
       <div className="w-full h-auto flex flex-col items-center justify-center">
         <div className="text-center mt-5">
@@ -250,7 +323,7 @@ export default function Dashboard() {
         </div>
         <div className="w-full h-full gap-5 px-16 py-8">
           <Slider {...carouselSettingsChannel}>
-            {data.series.map((serie: Serie) => (
+            {series.map((serie) => (
               <Series
                 key={serie.id}
                 id={serie.id}
@@ -264,7 +337,6 @@ export default function Dashboard() {
           </Slider>
         </div>
       </div>
-
     </div>
   );
 }
