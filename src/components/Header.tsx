@@ -10,14 +10,17 @@ import logo from '../img/white_logo.png';
 export function Header() {
     const [avatar, setAvatar] = useState<string | null>(null);
     const [username, setUsername] = useState<string | null>(null);
+    const [nametag, setNametag] = useState<string | null>(null);
     const navigate = useNavigate();
 
     useEffect(() => {
         // Sincronizar com os dados do localStorage
         const storedAvatar = localStorage.getItem('avatar');
         const storedUsername = localStorage.getItem('username');
+        const storedNametag = localStorage.getItem('tag');  
         if (storedAvatar) setAvatar(storedAvatar);
         if (storedUsername) setUsername(storedUsername);
+        if (storedNametag) setNametag(storedNametag);
     }, []);
 
     const handleSignOut = () => {
@@ -70,7 +73,7 @@ export function Header() {
                                 alt="Avatar"
                             />
                             <Avatar.Fallback
-                                className="leading-1 flex size-full items-center justify-center bg-white text-[15px] font-medium text-violet11"
+                                className="leading-1 flex size-full items-center justify-center bg-white text-[15px] font-medium text-[#121214]"
                                 delayMs={600}
                             >
                                 {username?.charAt(0).toUpperCase()}
@@ -85,7 +88,7 @@ export function Header() {
                         sideOffset={5}
                     >
                         <DropdownMenu.Item className="w-full pl-1 outline-none">
-                            <Link to={'/perfil'} className="flex items-center hover:bg-[#12121445] p-2 rounded-md">
+                            <Link to={`/me/${nametag}`} className="flex items-center hover:bg-[#12121445] p-2 rounded-md">
                                 <Avatar.Root className="size-[35px] select-none items-center justify-center overflow-hidden rounded-xl bg-blackA1 align-middle mr-2">
                                     <Avatar.Image
                                         className="size-full rounded-[inherit] object-cover border-2 border-[#3fa5ff]"
@@ -93,7 +96,7 @@ export function Header() {
                                         alt="Avatar"
                                     />
                                     <Avatar.Fallback
-                                        className="leading-1 flex size-full items-center justify-center bg-white text-[15px] font-medium text-violet11"
+                                        className="leading-1 flex size-full items-center justify-center bg-white text-[15px] font-medium text-[#121214]"
                                         delayMs={600}
                                     >
                                         {username?.charAt(0).toUpperCase()}
@@ -103,7 +106,7 @@ export function Header() {
                             </Link>
                         </DropdownMenu.Item>
 
-                        <DropdownMenu.Separator className="m-[5px] h-px bg-violet6 bg-[#b6b6b643] " />
+                        <DropdownMenu.Separator className="m-[5px] h-px bg-[#b6b6b643] " />
 
                         <DropdownMenu.Item className="w-full h-[27px] pl-4 outline-none">
                             <span className="text-white text-base font-normal">Feedbak</span>
@@ -113,7 +116,7 @@ export function Header() {
                             <span className="text-white text-base font-normal">Ajuda</span>
                         </DropdownMenu.Item>
 
-                        <DropdownMenu.Separator className="m-[5px] h-px bg-violet6 bg-[#b6b6b643]" />
+                        <DropdownMenu.Separator className="m-[5px] h-px bg-[#b6b6b643]" />
 
                         <DropdownMenu.Item className="w-full p-1 outline-none">
                             <button className="text-white rounded-md w-full px-3 py-1 text-left bg-red-600" onClick={handleSignOut}>

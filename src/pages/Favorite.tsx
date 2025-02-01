@@ -2,6 +2,8 @@ import { Header } from "@/components/Header";
 import { useEffect, useState } from "react";
 import { api } from "@/services/api";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
+import { Separator } from "@/components/ui/separator";
 
 interface FavoriteData {
     id: string;
@@ -53,25 +55,35 @@ export default function Favorite() {
             <Header />
             <div className="flex flex-col items-center justify-center pt-10">
                 <h1 className="text-white text-4xl font-bold mt-10">Favoritos</h1>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
-                    {favorite.map((item) => (
-                        <div key={item.id} className="bg-[#202024] rounded-lg p-4">
-                            <img
-                                src={item.image}
-                                alt={item.name}
-                                className="w-full h-48 object-cover rounded-lg"
-                            />
-                            <div className="w-full flex items-center justify-between">
-                                <h2 className="text-white text-xl font-bold mt-4">{item.name}</h2>
-                                <button
-                                    className="px-2 py-2 mt-4 bg-red-500 rounded-md text-sm font-medium"
-                                    onClick={() => handleRemoveFavorite(item.id)} // Passa o ID correto
-                                >
-                                    Remover
-                                </button>
+                <div className="flex items-end md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
+                    {
+                        // Renderiza a lista de favoritos se houver algum item na lista de favoritos mostra a mensagem "Nenhum canal favorito"
+                        favorite.length > 0 ? (
+                            favorite.map((item) => (
+                                <div className="w-full h-[130px] flex items-center">
+                                    <img src={item.image} alt={item.name} className="w-20 h-20 rounded-full" />
+
+                                    <div className="w-full flex flex-col justify-center px-3">
+                                        <h2 className="text-base font-medium">{item.name}</h2>
+                                        <Link to={`/dashboard/${item.id}`} className="w-[140px] text-center text-sm font-semibold text-[#121214] px-5 py-2 mt-2 rounded-full bg-white hover:bg-slate-300">
+                                            Acessar
+                                        </Link>
+                                        <button
+                                            onClick={() => handleRemoveFavorite(item.id)}
+                                            className="w-[140px] text-center text-sm font-semibold text-[#121214] px-5 py-2 mt-2 rounded-full bg-white hover:bg-red-400"
+                                        >
+                                            Excluir
+                                        </button>
+                                    </div>
+                                    <Separator orientation="vertical" className="w-px bg-[#313131a1] " />
+                                </div>
+                            ))
+                        ) : (
+                            <div className="w-full flex items-center text-center">
+                                <h2 className="text-gray-500 font-medium text-base">Você não tem nenhum canal favorito.</h2>
                             </div>
-                        </div>
-                    ))}
+                        )
+                    }
                 </div>
             </div>
         </div>

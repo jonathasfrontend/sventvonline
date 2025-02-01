@@ -56,7 +56,6 @@ export function CardChannel(props: CardChannelProps) {
             <button className="hover:text-yellow-400">
               <Star size={24} weight="regular" />
             </button>
-
             <button className="hover:text-green-400">
               <BookmarkSimple size={24} weight="regular" />
             </button>

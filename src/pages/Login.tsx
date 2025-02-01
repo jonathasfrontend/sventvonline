@@ -2,10 +2,12 @@ import { useForm } from 'react-hook-form';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { Bounce, ToastContainer } from 'react-toastify';
-import { CircleNotch, Eye, EyeSlash } from '@phosphor-icons/react';
+import { CaretRight, CircleNotch, Eye, EyeSlash } from '@phosphor-icons/react';
 import { Link } from 'react-router-dom';
 import logo from '../img/white_logo.png';
-import background from '../img/white_solo.png';
+import background from '../img/white_logo_solo.png';
+import logoVazado from '../img/white_logo_solo_vazado.png'
+import { Separator } from "@/components/ui/separator"
 
 type SignInData = {
   email: string;
@@ -121,11 +123,20 @@ export default function Login() {
               </button>
             </form>
 
-            <div className='w-full flex items-center justify-between mt-6'>
-              <Link to={'/signup'} className='text-white text-sm font-semibold hover:decoration-white ml-1'>
-                Crie uma conta
-              </Link>
-            </div>
+            <Separator className='bg-[#40729e1d] mb-6 mt-16 max-md:mt-12' />
+
+            <Link to={'/signup'} className='text-white text-sm font-semibold hover:decoration-white ml-1'>
+              <div className="w-full flex items-center justify-between px-6 py-4 bg-gray-700 border border-gray-600 hover:brightness-125 transition rounded-md">
+                <div className='flex items-center'>
+                  <img src={logoVazado} alt="" className="w-5 h-auto mr-5 " />
+                  <div className="flex flex-col text-gray-200">
+                    Não tem uma conta?
+                    <span className="text-purpleseat-light font-medium">Se inscreva gratuitamente</span>
+                  </div>
+                </div>
+                <CaretRight className='w-5' />
+              </div>
+            </Link>
           </div>
         </div>
       </div>

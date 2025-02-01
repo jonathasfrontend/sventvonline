@@ -32,16 +32,16 @@ export default function Series(props: Serie) {
                 <h3 className="text-lg font-bold">{props.title}</h3>
                 <p className="text-sm font-semibold text-gray-300 my-5">{props.description.short}</p>
                 {
-                    props.rating.description.includes("18") ? (
-                        <span className="w-[50px] text-center text-white text-sm font-semibold py-1 rounded-sm mt-2 block bg-red-500">18</span>
-                    ) : props.rating.description.includes("16") ? (
+                    props.rating?.description?.includes("16") ? (
                         <span className="w-[50px] text-center text-white text-sm font-semibold py-1 rounded-sm mt-2 block bg-orange-700">16</span>
-                    ) : props.rating.description.includes("14") ? (
+                    ) : props.rating?.description?.includes("14") ? (
                         <span className="w-[50px] text-center text-white text-sm font-semibold py-1 rounded-sm mt-2 block bg-orange-400">14</span>
-                    ) : props.rating.description.includes("12") ? (
+                    ) : props.rating?.description?.includes("12") ? (
                         <span className="w-[50px] text-center text-white text-sm font-semibold py-1 rounded-sm mt-2 block bg-yellow-600">12</span>
-                    ) : props.rating.description.includes("10") ? (
+                    ) : props.rating?.description?.includes("10") ? (
                         <span className="w-[50px] text-center text-white text-sm font-semibold py-1 rounded-sm mt-2 block bg-yellow-500">10</span>
+                    ) : props.rating?.description?.includes("null") ? (
+                        <span className="w-[50px] text-center text-white text-sm font-semibold py-1 rounded-sm mt-2 block bg-green-500">Sem classificação!</span>
                     ) : (
                         <span className="w-[50px] text-center text-white text-sm font-semibold py-1 rounded-sm mt-2 block bg-green-500">Livre</span>
                     )

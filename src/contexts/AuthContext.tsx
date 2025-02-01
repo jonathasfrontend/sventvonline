@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 type User = {
     username: string;
     email: string;
+    tag: string;
     id: string;
     avatar: string;
 };
@@ -45,7 +46,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     async function signIn({ email, password }: SignInData) {
         try {
             const response = await api.post("/auth/login", { email, password });
-            const { token, username, id, avatar } = response.data;
+            const { token, username, tag, id, avatar } = response.data;
 
             // Configuração inicial
             setCookie(undefined, "nextauth.token", token, { maxAge: 60 * 60 * 1 });
@@ -78,10 +79,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
             );
 
             // Atualizar estado
-            setUser({ username, email, id, avatar });
+            setUser({ username, tag, email, id, avatar });
             localStorage.setItem("username", username);
             localStorage.setItem("id_username", id);
             localStorage.setItem("avatar", avatar);
+            localStorage.setItem("tag", tag);
 
             navigate("/dashboard");
         } catch (err: any) {
@@ -97,6 +99,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
             toast.error(err.response?.data?.error || "Erro ao cadastrar");
         }
     }
+
+    
 
     return (
         <AuthContext.Provider value={{ user, isAuthenticated, signIn, setUser, signUp }}>

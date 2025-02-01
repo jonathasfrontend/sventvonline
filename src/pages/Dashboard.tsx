@@ -9,36 +9,33 @@ import Movies from "@/components/MovieCard";
 import Slider from "react-slick";
 import SampleNextPrevArrow from "@/components/SampleNextPrevArrow";
 import Series from "@/components/SerieCard";
-import logoSolo from '../img/white_solo.png';
+import logoSolo from '../img/white_logo_solo_vazado.png';
 
 interface Movie {
   id: string;
-  nowContentId: string;
   title: string;
   rating: {
     description: string;
-  };
+  },
   runTime: string;
   description: {
     short: string;
-  };
+  },
   assets: [
     {
       ratio: string;
       url: string;
       category: string;
     }
-  ];
+  ]
 }
 
 interface Serie {
   id: string,
-  nowContentId: string,
   title: string,
   rating: {
     description: string,
   },
-  runTime: string,
   description: {
     short: string,
   },
@@ -70,7 +67,7 @@ export default function Dashboard() {
         const storedTvAberta = localStorage.getItem("channelsTvAberta");
         const storedFilmes = localStorage.getItem("channelsFilmes");
         const storedInfantil = localStorage.getItem("channelsInfantil");
-  
+
         if (storedMovies && storedSeries && storedTvAberta && storedFilmes && storedInfantil) {
           // Se os dados já estiverem armazenados, utilizamos eles
           setMovies(JSON.parse(storedMovies));
@@ -93,14 +90,14 @@ export default function Dashboard() {
             api.get("/liked/channelswithlikes/Infantil"),
             api.get('/metadata/series'),
           ]);
-  
+
           // Salvamos os dados no estado
           setMovies(moviesResponse.data.destaques);
           setSeries(seriesResponse.data.destaques);
           setChannelsTvAberta(channelsTvAbertaResponse.data);
           setChannelsFilmes(channelsFilmesResponse.data);
           setChannelsInfantil(channelsInfantilResponse.data);
-  
+
           // Armazenamos no localStorage
           localStorage.setItem("movies", JSON.stringify(moviesResponse.data.destaques));
           localStorage.setItem("series", JSON.stringify(seriesResponse.data.destaques));
@@ -114,7 +111,7 @@ export default function Dashboard() {
         setLoading(false);
       }
     };
-  
+
     fetchHighlights();
   }, []);
 
@@ -128,7 +125,6 @@ export default function Dashboard() {
   }, [navigate]);
 
 
-  // Configurações do carrossel
   const carouselSettingsFilmes = {
     dots: true,
     infinite: true,
@@ -199,7 +195,7 @@ export default function Dashboard() {
   if (loading) {
     return (
       <div className="absolute top-0 left-0 z-50 w-full h-screen bg-[#121214] flex items-center justify-center">
-        <img src={logoSolo} className="w-16 animate-bounce" alt="" />
+        <img src={logoSolo} className="w-16 animate-bounce " alt="" />
       </div>
     )
   }

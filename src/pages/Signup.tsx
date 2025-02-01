@@ -5,7 +5,7 @@ import { Bounce, ToastContainer } from 'react-toastify';
 import { CircleNotch, Eye, EyeSlash } from '@phosphor-icons/react';
 import { Link } from 'react-router-dom';
 import logo from '../img/white_logo.png';
-import background from '../img/white_solo.png';
+import background from '../img/white_logo_solo.png';
 
 type SignUpData = {
   username: string;
