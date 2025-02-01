@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react';
-import { parseCookies } from "nookies";
-import { useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
 import { Header } from '../components/Header';
 import { CardChannelGuia } from '../components/CardChannelguia';
@@ -22,17 +20,7 @@ interface GuiaChannel {
 }
 
 export default function Guia() {
-  const navigate = useNavigate();
   const [guia, setGuia] = useState<GuiaChannel[]>([]);
-
-  useEffect(() => {
-    const { "nextauth.token": token } = parseCookies();
-    if (!token) {
-      navigate('/');
-    } else {
-      navigate('/programacao');
-    }
-  }, [navigate]);
 
   useEffect(() => {
     async function getOrders() {

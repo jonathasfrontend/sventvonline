@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { parseCookies } from "nookies";
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { api } from "../services/api";
 import { Header } from '@/components/Header';
 import { Bounce, toast, ToastContainer } from 'react-toastify';
@@ -35,7 +34,6 @@ interface PlaylistData {
 
 export default function Me() {
     const { tag } = useParams();
-    const navigate = useNavigate();
     const [user, setUser] = useState<User | null>(null);
     const [newName, setNewName] = useState("");
     const [oldPassword, setOldPassword] = useState("");
@@ -60,20 +58,12 @@ export default function Me() {
 
 
     useEffect(() => {
-        const { "nextauth.token": token } = parseCookies();
-        if (!token) {
-            navigate('/');
-        } else {
-            api.get(`/users/${tag}`)
-                .then(response => {
-                    setUser(response.data);
-                })
-                .catch(() => {
-                    navigate('/');
-                });
-        }
-    }, [tag, navigate]);
-    
+        api.get(`/users/${tag}`)
+            .then(response => {
+                setUser(response.data);
+            })
+    }, [tag]);
+
 
     const handleChangeName = async () => {
         if (!newName.trim()) return;
@@ -164,7 +154,7 @@ export default function Me() {
             {user && (
                 <div className="w-full mt-20 flex gap-5">
                     <div className='bg-[#1c1c1c] w-[25%] h-[300px] rounded-lg shadow-lg flex flex-col justify-center items-center'>
-                    <Avatar.Root className="w-32 h-32 items-center justify-center overflow-hidden rounded-2xl  ">
+                        <Avatar.Root className="w-32 h-32 items-center justify-center overflow-hidden rounded-2xl  ">
                             <Avatar.Image
                                 className="w-32 h-32 rounded-lg object-cover border-2 border-[#3fa5ff]"
                                 src={user.avatar}

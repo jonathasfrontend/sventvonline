@@ -156,7 +156,7 @@ export default function Signup() {
             </form>
 
             <div className='w-full flex items-center justify-between mt-6'>
-              <Link to={'/'} className='text-white text-sm font-semibold hover:decoration-white ml-1'>
+              <Link to={'/login'} className='text-white text-sm font-semibold hover:decoration-white ml-1'>
                 Já tem uma conta? Faça login
               </Link>
             </div>

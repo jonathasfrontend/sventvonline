@@ -27,19 +27,13 @@ export default function Favorite() {
     // Função para remover um canal favorito
     const handleRemoveFavorite = async (channelId: string) => {
         const userId = localStorage.getItem("id_username");
-
         try {
-            // Remove o canal do backend
             const response = await api.delete(`/favorite/unfavorite/${userId}/${channelId}`);
 
             if (response.status === 200) {
-                // Atualiza o estado local
                 const newFavorite = favorite.filter((item) => item.id !== channelId);
                 setFavorite(newFavorite);
-
-                // Atualiza o localStorage
                 localStorage.setItem("favorites", JSON.stringify(newFavorite));
-
                 toast.success("Canal removido dos favoritos com sucesso!");
             } else {
                 toast.error("Erro ao remover o canal dos favoritos.");
@@ -57,7 +51,6 @@ export default function Favorite() {
                 <h1 className="text-white text-4xl font-bold mt-10">Favoritos</h1>
                 <div className="flex items-end md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
                     {
-                        // Renderiza a lista de favoritos se houver algum item na lista de favoritos mostra a mensagem "Nenhum canal favorito"
                         favorite.length > 0 ? (
                             favorite.map((item) => (
                                 <div className="w-full h-[130px] flex items-center">

@@ -27,13 +27,12 @@ export function Header() {
         // Limpar os dados do localStorage e dos cookies menos o cached_channels do local storage
         localStorage.clear();
         destroyCookie(null, 'nextauth.token');
-        destroyCookie(null, 'nextauth.refreshToken');
-        navigate('/');
+        navigate('/login');
     };
     return (
         <header className='w-full px-16 py-5 absolute flex items-center justify-between z-50 gradient-header'>
             <div className='flex items-center'>
-                <Link to='/dashboard' className='text-white text-[15px] font-normal hover:text-[#3fa5ff]'>
+                <Link to='/' className='text-white text-[15px] font-normal hover:text-[#3fa5ff]'>
                     <img src={logo} alt="" className="w-[120px]" />
                 </Link>
             </div>

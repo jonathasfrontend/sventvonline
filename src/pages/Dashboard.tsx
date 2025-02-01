@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import { parseCookies } from "nookies";
-import { useNavigate } from "react-router-dom";
 import { api } from "../services/api";
 import { Header } from "../components/Header";
 import { CardChannel } from "../components/CardChannel";
@@ -49,7 +47,6 @@ interface Serie {
 }
 
 export default function Dashboard() {
-  const navigate = useNavigate();
   const [channelsTvAberta, setChannelsTvAberta] = useState<any[]>([]);
   const [channelsFilmes, setChannelsFilmes] = useState<any[]>([]);
   const [channelsInfantil, setChannelsInfantil] = useState<any[]>([]);
@@ -114,15 +111,6 @@ export default function Dashboard() {
 
     fetchHighlights();
   }, []);
-
-  useEffect(() => {
-    const { "nextauth.token": token } = parseCookies();
-    if (!token) {
-      navigate("/");
-    } else {
-      navigate("/dashboard");
-    }
-  }, [navigate]);
 
 
   const carouselSettingsFilmes = {

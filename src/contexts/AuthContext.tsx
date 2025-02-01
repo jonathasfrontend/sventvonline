@@ -85,7 +85,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
             localStorage.setItem("avatar", avatar);
             localStorage.setItem("tag", tag);
 
-            navigate("/dashboard");
+            navigate("/");
         } catch (err: any) {
             toast.error(err.response?.data?.error || "Erro ao autenticar");
         }
