@@ -4,6 +4,7 @@ import * as Avatar from "@radix-ui/react-avatar";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../img/white_logo.png';
+import bcrypt from "bcryptjs-react";
 
 // import { List } from '@phosphor-icons/react'
 
@@ -11,20 +12,21 @@ export function Header() {
     const [avatar, setAvatar] = useState<string | null>(null);
     const [username, setUsername] = useState<string | null>(null);
     const [nametag, setNametag] = useState<string | null>(null);
+    const [cargo, setCargo] = useState<string>("");
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Sincronizar com os dados do localStorage
         const storedAvatar = localStorage.getItem('avatar');
         const storedUsername = localStorage.getItem('username');
-        const storedNametag = localStorage.getItem('tag');  
+        const storedNametag = localStorage.getItem('tag');
+        const storedCargo = localStorage.getItem("flag");
         if (storedAvatar) setAvatar(storedAvatar);
         if (storedUsername) setUsername(storedUsername);
         if (storedNametag) setNametag(storedNametag);
+        if (storedCargo) setCargo(storedCargo);
     }, []);
 
     const handleSignOut = () => {
-        // Limpar os dados do localStorage e dos cookies menos o cached_channels do local storage
         localStorage.clear();
         destroyCookie(null, 'nextauth.token');
         navigate('/login');
@@ -106,6 +108,14 @@ export function Header() {
                         </DropdownMenu.Item>
 
                         <DropdownMenu.Separator className="m-[5px] h-px bg-[#b6b6b643] " />
+
+                        <DropdownMenu.Item className="w-full pl-1 outline-none">
+                            { // verificar se o usuário é admin comparando com bcrypt se for admin exibir o botão de admin se não for não exibir
+                                bcrypt.compareSync("admin", cargo) ?
+                                    <Link to="/painelcontrol" className="text-white text-base font-normal flex items-center py-2 px-3 rounded-md hover:bg-[#12121445]">Painel</Link> :
+                                    null
+                            }
+                        </DropdownMenu.Item>
 
                         <DropdownMenu.Item className="w-full h-[27px] pl-4 outline-none">
                             <span className="text-white text-base font-normal">Feedbak</span>

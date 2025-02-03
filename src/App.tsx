@@ -8,7 +8,8 @@ import Favorite from "./pages/Favorite";
 import Playlist from "./pages/Playlist";
 import Me from "./pages/Me";
 import Channel from "./pages/Channel";
-import { ProtectedRoute, PublicRoute } from "./components/RouteMiddleware";
+import Painel from "./pages/Painel";
+import { AdminRoute, ProtectedRoute, PublicRoute } from "./components/RouteMiddleware";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -79,6 +80,14 @@ function App() {
               <ProtectedRoute>
                 <Me />
               </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/painelcontrol"
+            element={
+              <AdminRoute>
+                <Painel />
+              </AdminRoute>
             }
           />
         </Routes>

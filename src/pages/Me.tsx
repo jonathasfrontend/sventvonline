@@ -8,7 +8,7 @@ import Slider from 'react-slick';
 import { Separator } from '@/components/ui/separator';
 import * as Avatar from "@radix-ui/react-avatar";
 
-type User = {
+interface User {
     username: string;
     email: string;
     tag: string;
@@ -23,6 +23,15 @@ interface FavoriteData {
     url: string;
     image: string;
     created_at: string;
+}
+interface LikedData {
+    id: string;
+    url: string;
+    name: string;
+    image: string;
+    categoria: string;
+    created_at: string;
+    description: string;
 }
 
 interface PlaylistData {
@@ -41,6 +50,7 @@ export default function Me() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [favorite, setFavorite] = useState<FavoriteData[]>([]);
     const [playlist, setPlaylist] = useState<PlaylistData[]>([]);
+    const [likedby, setLikedby] = useState<LikedData[]>([]);
 
     useEffect(() => {
         if (favorite.length > 0) return;
@@ -56,6 +66,12 @@ export default function Me() {
         if (cachedPlaylists) setPlaylist(JSON.parse(cachedPlaylists));
     }, []);
 
+    useEffect(() => {
+        if (likedby.length > 0) return;
+        const cachedLiked = localStorage.getItem("likedby");
+        if (cachedLiked) setLikedby(JSON.parse(cachedLiked));
+    }, []);
+
 
     useEffect(() => {
         api.get(`/users/${tag}`)
@@ -63,7 +79,6 @@ export default function Me() {
                 setUser(response.data);
             })
     }, [tag]);
-
 
     const handleChangeName = async () => {
         if (!newName.trim()) return;
@@ -218,6 +233,27 @@ export default function Me() {
                                             </div>
                                         )
                                     }
+                                </Slider>
+                            </div>
+                        </div>
+                        <div className='w-full rounded-lg shadow-lg py-3 px-5 bg-[#1c1c1c]'>
+                            <h1 className='text-lg font-medium mb-2'>Canais Curtidos</h1>
+                            <div className=" gap-2 mt-2 px-5">
+                                <Slider {...carouselSettingsChannel}>
+                                {likedby.length > 0 ? (
+                                        likedby.map((item) => (
+                                            <div key={item.id} className="w-[200px] flex flex-col py-2 bg-gray-700 border border-gray-600 hover:brightness-125 transition rounded-md">
+                                                <Link to={`/dashboard/${item.id}`} className="flex items-center justify-center">
+                                                    <img src={item.image} alt={item.name} className="w-16 h-16 rounded-full" />
+                                                </Link>
+                                                <Separator orientation="vertical" className="w-px bg-[#313131a1]" />
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <div className="w-full flex items-center text-center">
+                                            <h2 className="text-gray-500 font-medium text-base">Você não curtiu nenhum canal.</h2>
+                                        </div>
+                                    )}
                                 </Slider>
                             </div>
                         </div>

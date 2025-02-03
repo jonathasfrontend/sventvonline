@@ -3,11 +3,13 @@ import { setCookie } from "nookies";
 import { useNavigate } from "react-router-dom";
 import { api } from "../services/api";
 import { toast } from "react-toastify";
+import bcrypt from "bcryptjs-react";
 
 type User = {
     username: string;
     email: string;
     tag: string;
+    cargo: string;
     id: string;
     avatar: string;
 };
@@ -46,16 +48,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
     async function signIn({ email, password }: SignInData) {
         try {
             const response = await api.post("/auth/login", { email, password });
-            const { token, username, tag, id, avatar } = response.data;
+            const { token, username, tag, cargo, id, avatar } = response.data;
 
             // Configuração inicial
             setCookie(undefined, "nextauth.token", token, { maxAge: 60 * 60 * 1 });
             api.defaults.headers["Authorization"] = `Bearer ${token}`;
 
             // Requisições paralelas
-            const [playlists, favorites] = await Promise.all([
+            const [playlists, favorites, likedby] = await Promise.all([
                 api.get(`/playlists/listplaylist/${id}`),
                 api.get(`/favorite/favorites/${id}`),
+                api.get(`/liked/liked/${id}`),
             ]);
 
             // Processamento de playlists e favoritos
@@ -78,12 +81,27 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 )
             );
 
+            localStorage.setItem(
+                "likedby",
+                JSON.stringify(
+                    likedby.data.map(({ tv_channels: { id, url, description, name, image, created_at } }: any) => ({
+                        id,
+                        url,
+                        description,
+                        name,
+                        image,
+                        created_at,
+                    }))
+                )
+            );
+
             // Atualizar estado
-            setUser({ username, tag, email, id, avatar });
+            setUser({ username, tag, cargo, email, id, avatar });
             localStorage.setItem("username", username);
             localStorage.setItem("id_username", id);
             localStorage.setItem("avatar", avatar);
             localStorage.setItem("tag", tag);
+            localStorage.setItem("flag", bcrypt.hashSync(cargo, 10));
 
             navigate("/");
         } catch (err: any) {
@@ -93,7 +111,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     async function signUp({ username, email, avatar, password }: SignUpData) {
         try {
-            await api.post("/users/signup", { username, email, avatar, password });
+            await api.post("/users/signup", { username, email, cargo: "membro", avatar, password });
             await signIn({ email, password }); // Autenticar automaticamente após cadastro
         } catch (err: any) {
             toast.error(err.response?.data?.error || "Erro ao cadastrar");
