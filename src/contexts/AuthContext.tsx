@@ -26,11 +26,28 @@ type SignUpData = {
     password: string;
 };
 
+type AddChannelData = {
+    name: string;
+    categoria: string;
+    image: string;
+};
+type DeleteChannelData = {
+    id: string;
+};
+
+type DeleteAllChannelData = {
+    id: string;
+    password: string;
+};
+
 type AuthContextType = {
     isAuthenticated: boolean;
     user: User | null;
     signIn: (data: SignInData) => Promise<void>;
     signUp: (data: SignUpData) => Promise<void>;
+    addChannel: (data: AddChannelData) => Promise<void>;
+    deleteChannel: (data: DeleteChannelData) => Promise<void>;
+    deleteAllChannels: (data: DeleteAllChannelData) => Promise<void>;
     setUser: React.Dispatch<React.SetStateAction<User | null>>;
 };
 
@@ -61,7 +78,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 api.get(`/liked/liked/${id}`),
             ]);
 
-            // Processamento de playlists e favoritos
             localStorage.setItem(
                 "playlists",
                 JSON.stringify(playlists.data.map(({ id, user_id, name, created_at }: any) => ({ id, user_id, name, created_at })))
@@ -118,10 +134,35 @@ export function AuthProvider({ children }: AuthProviderProps) {
         }
     }
 
-    
+    async function addChannel({ name, categoria, image }: AddChannelData) {
+        try {
+            await api.post("/channels", { name, categoria, image });
+            toast.success("Canal adicionado com sucesso!");
+        } catch (err: any) {
+            toast.error(err.response?.data?.error || "Erro ao cadastrar");
+        }
+    }
+
+    async function deleteChannel({ id }: DeleteChannelData) {
+        try {
+            await api.delete(`/channels/${id}`);
+            toast.success("Canal deletado com sucesso!");
+        } catch (err: any) {
+            toast.error(err.response?.data?.error || "Erro ao deletar");
+        }
+    }
+
+    async function deleteAllChannels({ password, id }: DeleteAllChannelData) {
+        try {
+            await api.delete("/channels/delete-all", { data: { password, id } });
+            toast.success("Todos os canais foram deletados com sucesso!");
+        } catch (err: any) {
+            toast.error(err.response?.data?.error || "Erro ao deletar");
+        }
+    }
 
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated, signIn, setUser, signUp }}>
+        <AuthContext.Provider value={{ user, isAuthenticated, signIn, setUser, signUp, addChannel, deleteChannel, deleteAllChannels }}>
             {children}
         </AuthContext.Provider>
     );

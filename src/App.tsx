@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
+import { AdminRoute, ProtectedRoute, PublicRoute } from "./contexts/Middleware";
 import Login from "./pages/Login";
 import SignUp from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
@@ -9,7 +10,6 @@ import Playlist from "./pages/Playlist";
 import Me from "./pages/Me";
 import Channel from "./pages/Channel";
 import Painel from "./pages/Painel";
-import { AdminRoute, ProtectedRoute, PublicRoute } from "./components/RouteMiddleware";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 

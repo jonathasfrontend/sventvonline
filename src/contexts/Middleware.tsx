@@ -7,10 +7,6 @@ type RouteMiddlewareProps = {
   children: JSX.Element;
 };
 
-/**
- * Componente para rotas protegidas.
- * Se o token não estiver presente, redireciona para "/login".
- */
 export const ProtectedRoute = ({ children }: RouteMiddlewareProps) => {
   const navigate = useNavigate();
   const [isVerified, setIsVerified] = useState(false);
@@ -28,10 +24,6 @@ export const ProtectedRoute = ({ children }: RouteMiddlewareProps) => {
   return children;
 };
 
-/**
- * Componente para rotas públicas.
- * Se o token existir, redireciona para a página principal.
- */
 export const PublicRoute = ({ children }: RouteMiddlewareProps) => {
   const navigate = useNavigate();
   const [isVerified, setIsVerified] = useState(false);
@@ -49,11 +41,6 @@ export const PublicRoute = ({ children }: RouteMiddlewareProps) => {
   return children;
 };
 
-/**
- * Componente para rotas de admin.
- * Verifica se o cargo salvo no localStorage é "admin".  
- * Se for, permite o acesso; caso contrário, redireciona para a Dashboard.
- */
 export const AdminRoute = ({ children }: RouteMiddlewareProps) => {
   const navigate = useNavigate();
   const [isVerified, setIsVerified] = useState(false);
@@ -70,5 +57,3 @@ export const AdminRoute = ({ children }: RouteMiddlewareProps) => {
   if (!isVerified) return null;
   return children;
 };
-
-      // if (){

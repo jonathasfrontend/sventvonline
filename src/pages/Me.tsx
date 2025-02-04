@@ -11,9 +11,10 @@ import * as Avatar from "@radix-ui/react-avatar";
 interface User {
     username: string;
     email: string;
-    tag: string;
+    nametag: string;
     id: string;
     avatar: string;
+    createdAt: string;
 };
 
 interface FavoriteData {
@@ -150,8 +151,16 @@ export default function Me() {
         ],
     };
 
+    function formatData(data: string) {
+        const date = new Date(data);
+        const day = date.getDate().toString().padStart(2, "0");
+        const month = (date.getMonth() + 1).toString().padStart(2, "0");
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    }
+
     return (
-        <div className="w-full h-screen px-16 bg-[#121214] flex flex-col items-center">
+        <div className="w-full h-full px-16 bg-[#121214] flex flex-col items-center">
             <ToastContainer
                 position="top-right"
                 autoClose={5000}
@@ -168,8 +177,8 @@ export default function Me() {
             <Header />
             {user && (
                 <div className="w-full mt-20 flex gap-5">
-                    <div className='bg-[#1c1c1c] w-[25%] h-[300px] rounded-lg shadow-lg flex flex-col justify-center items-center'>
-                        <Avatar.Root className="w-32 h-32 items-center justify-center overflow-hidden rounded-2xl  ">
+                    <div className='bg-[#1c1c1c] sticky w-[25%] h-[300px] rounded-lg shadow-lg flex flex-col justify-center items-center border'>
+                        <Avatar.Root className="w-32 h-32 items-center justify-center overflow-hidden rounded-2xl sticky top-20 ">
                             <Avatar.Image
                                 className="w-32 h-32 rounded-lg object-cover border-2 border-[#3fa5ff]"
                                 src={user.avatar}
@@ -182,13 +191,16 @@ export default function Me() {
                                 {user.username?.charAt(0).toUpperCase()}
                             </Avatar.Fallback>
                         </Avatar.Root>
-                        {/* <img src={user.avatar} alt={user.username} className="w-32 h-32 rounded-full border-4 border-gray-700" /> */}
                         <h1 className="text-2xl font-bold mt-4">{user.username}</h1>
                         <h2 className="text-gray-400 text-sm">{user.email}</h2>
-                        <h3 className="text-xs px-3 py-1 rounded-lg mt-2">@{user.tag}</h3>
+                        <h3 className="text-xs px-3 py-1 rounded-lg my-2">@{user.nametag}</h3>
+                        <Separator orientation="horizontal"/>
+                        <h3 className="text-xs text-gray-500 py-1 rounded-lg mt-2">
+                            Desde: {formatData(user.createdAt)}
+                        </h3>
                     </div>
-                    <div className='w-[75%] h-full flex flex-col gap-3'>
-                        <div className='w-full rounded-lg shadow-lg py-3 px-5 bg-[#1c1c1c]'>
+                    <div className='w-[75%] flex pb-5 flex-col gap-3 h-[calc(100vh-80px)] overflow-y-auto'>
+                        <div className='w-full rounded-lg shadow-lg py-3 px-5 bg-[#1c1c1c] border'>
                             <h1 className='text-lg font-medium mb-2'>Suas Playlists</h1>
                             <div className='flex items-center gap-2'>
                                 {
@@ -213,7 +225,7 @@ export default function Me() {
                             </div>
                         </div>
 
-                        <div className='w-full rounded-lg shadow-lg py-3 px-5 bg-[#1c1c1c]'>
+                        <div className='w-full rounded-lg shadow-lg py-3 px-5 bg-[#1c1c1c] border'>
                             <h1 className='text-lg font-medium mb-2'>Seus Favoritos</h1>
                             <div className=" gap-2 mt-2 px-5">
                                 <Slider {...carouselSettingsChannel}>
@@ -236,7 +248,7 @@ export default function Me() {
                                 </Slider>
                             </div>
                         </div>
-                        <div className='w-full rounded-lg shadow-lg py-3 px-5 bg-[#1c1c1c]'>
+                        <div className='w-full rounded-lg shadow-lg py-3 px-5 bg-[#1c1c1c] border'>
                             <h1 className='text-lg font-medium mb-2'>Canais Curtidos</h1>
                             <div className=" gap-2 mt-2 px-5">
                                 <Slider {...carouselSettingsChannel}>
@@ -259,7 +271,7 @@ export default function Me() {
                         </div>
 
                         <div className='flex justify-between gap-3'>
-                            <div className="w-full rounded-lg shadow-lg py-3 px-5 bg-[#1c1c1c]">
+                            <form className="w-full rounded-lg shadow-lg py-3 px-5 bg-[#1c1c1c] border">
                                 <h2 className="text-lg font-semibold">Alterar Nome</h2>
                                 <input
                                     type="text"
@@ -274,9 +286,9 @@ export default function Me() {
                                 >
                                     Atualizar Nome
                                 </button>
-                            </div>
+                            </form>
 
-                            <div className="w-full rounded-lg shadow-lg py-3 px-5 bg-[#1c1c1c]">
+                            <div className="w-full rounded-lg shadow-lg py-3 px-5 bg-[#1c1c1c] border">
                                 <h2 className="text-lg font-semibold">Alterar Senha</h2>
                                 <input
                                     type="password"
