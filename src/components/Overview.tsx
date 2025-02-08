@@ -1,238 +1,542 @@
 import { api } from "@/services/api";
 import { useEffect, useState } from "react";
-import * as Avatar from "@radix-ui/react-avatar";
-import { Skeleton } from "@/components/ui/skeleton"
-import { ScrollArea } from "@/components/ui/scroll-area"
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { TabsContent } from "@/components/ui/tabs";
+import { Heart, Star, TelevisionSimple, TrendUp, Users } from "@phosphor-icons/react";
+import CardScrollArea from "./CardScrollArea";
+import CardData from "./CardData";
+import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts"
 import {
-    TabsContent
-} from "@/components/ui/tabs";
-import { Card } from "@/components/ui/card"
-import { Heart, Star, TelevisionSimple, Users } from "@phosphor-icons/react";
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart"
+
+const chartConfig = {
+  desktop: {
+    label: "Desktop",
+    color: "#2563eb",
+  },
+  mobile: {
+    label: "Mobile",
+    color: "#60a5fa",
+  },
+} satisfies ChartConfig
 
 type User = {
-    username: string;
-    email: string;
-    tag: string;
-    cargo: string;
-    id: string;
-    avatar: string;
-    createdAt: string;
+  username: string;
+  email: string;
+  tag: string;
+  cargo: string;
+  id: string;
+  avatar: string;
+  createdAt: string;
+  error?: string;
 };
 
 interface CardChannel {
-    id: string;
-    name: string;
-    description: string;
-    image: string;
-    url: string;
-    category: string;
+  id: string;
+  name: string;
+  description: string;
+  image: string;
+  url: string;
+  category: string;
+  error?: string;
 }
+
 interface CardChannelLiked {
-    id: string,
-    name: string,
-    description: string,
-    categoria: string,
-    url: string,
-    image: string,
+  id: string;
+  name: string;
+  description: string;
+  categoria: string;
+  url: string;
+  image: string;
+  error?: string;
+}
+
+interface EvolutionRegisterUsersData {
+  month: string;
+  registrations: number;
+}
+interface PopularCategories {
+  categoria: string;
+  likes: number;
+  favorites: number;
+  channelsCount: number;
+  total: number;
+}
+interface PerformanceChannelData {
+  id: string;
+  name: string;
+  likeCount: number;
+  favoriteCount: number;
 }
 
 export default function Overview() {
+  const [user, setUser] = useState<User[]>([]);
+  const [channels, setChannels] = useState<CardChannel[]>([]);
+  const [mostfavorited, setMostfavorited] = useState<CardChannelLiked[]>([]);
+  const [mostliked, setMostliked] = useState<CardChannel[]>([]);
+  const [registerUsersData, setRegisterUserData] = useState<EvolutionRegisterUsersData[]>([]);
+  const [popularCategories, setPopularCategories] = useState<PopularCategories[]>([]);
+  const [performanceChannelData, setPerformanceChannelData] = useState<PerformanceChannelData[]>([]);
 
-    const [user, setUser] = useState<User[]>([]);
-    const [channels, setChannels] = useState<CardChannel[]>([]);
-    const [mostfavorited, setMostfavorited] = useState<CardChannelLiked[]>([]);
-    const [mostliked, setMostliked] = useState<CardChannel[]>([]);
+  async function getMostFavorited() {
+    const results = await Promise.allSettled([
+      api.get("/liked/mostliked"),
+      api.get("/favorite/mostfavorited"),
+    ]);
 
-    async function loadData() {
-        const [
-            userdata,
-            channelsdata,
-            mostlikeddata,
-            mostfavoriteddata,
-        ] = await Promise.all([
-            api.get("/users"),
-            api.get("/channels"),
-            api.get("/metadata/mostliked"),
-            api.get("/metadata/mostfavorited"),
-        ]);
-
-        setUser(userdata.data.reverse());
-        setChannels(channelsdata.data);
-        setMostliked(
-            Array.isArray(mostlikeddata.data)
-                ? mostlikeddata.data
-                : [mostlikeddata.data]
-        );
-        setMostfavorited(
-            Array.isArray(mostfavoriteddata.data)
-                ? mostfavoriteddata.data
-                : [mostfavoriteddata.data]
-        );
-    }
-    useEffect(() => {
-        // executa o loadData(); a cada 5 segundos
-        const interval = setInterval(() => {
-            loadData();
-        }, 5000); // a cada 5 segundos
-        return () => clearInterval(interval); // limpa o intervalo
-    }, []);
-
-    // função para formatar data e horario do createdAt
-    function formatData(data: string) {
-        const date = new Date(data);
-        const day = date.getDate().toString().padStart(2, "0");
-        const month = (date.getMonth() + 1).toString().padStart(2, "0");
-        const year = date.getFullYear();
-        const hours = date.getHours().toString().padStart(2, "0");
-        const minutes = date.getMinutes().toString().padStart(2, "0");
-        return `${day}/${month}/${year} | ${hours}:${minutes}`;
+    if (results[0].status === "fulfilled") {
+      const data = results[0].value.data;
+      setMostliked(Array.isArray(data) ? data : [data]);
+    } else {
+      setMostliked([{ error: results[0].reason.response?.data?.error || "Nenhum like encontrado" } as CardChannel]);
     }
 
-    return (
-        <TabsContent value="overviewdata" className="w-full flex flex-col gap-3">
-            <div className="w-full h-full flex items-start gap-3 ">
-                {
-                    // mostra a quantidade de contas de usuarios
-                    user?.length > 0 ? (
-                        <Card className="w-full h-[143px] bg-background p-5">
-                            <div className="w-full flex items-center justify-between pb-5">
-                                <span className="text-sm font-medium">Total de usuarios</span>
-                                <Users className="w-5 h-5" />
-                            </div>
-                            <div className="w-full flex flex-col ">
-                                <p className="text-4xl font-bold">+{user?.length}</p>
-                                <span className="text-xs text-gray-500 mt-2">Usuarios cadastrados.</span>
-                            </div>
-                        </Card>
-                    ) : (
-                        <Skeleton className="w-full h-[147x] rounded-lg" />
-                    )
-                }
-                {
-                    // mostra a quantidade de canais
-                    channels?.length > 0 ? (
-                        <Card className="w-full h-[143px] bg-background p-5">
-                            <div className="w-full flex items-center justify-between pb-5">
-                                <span className="text-sm font-medium">Total de canais</span>
-                                <TelevisionSimple className="w-5 h-5" />
-                            </div>
-                            <div className="w-full flex flex-col ">
-                                <p className="text-4xl font-bold">+{channels?.length}</p>
-                                <span className="text-xs text-gray-500 mt-2">Canais cadastrados.</span>
-                            </div>
-                        </Card>
-                    ) : (
-                        <Skeleton className="w-full h-[147x] rounded-lg" />
-                    )
-                }
-                {
-                    // mostra o canal mais curtido
-                    mostliked?.length > 0 ? (
-                        <Card className="w-full h-[143px] bg-background p-5">
-                            <div className="w-full flex items-center justify-between pb-5">
-                                <span className="text-sm font-medium">Canal mais curtido</span>
-                                <Heart className="w-5 h-5" />
-                            </div>
-                            <div className="w-full flex flex-col ">
-                                <p className="text-3xl font-bold">{mostliked[0].name}</p>
-                                <span className="text-xs text-gray-500 mt-2">Canal mais curtido.</span>
-                            </div>
-                        </Card>
-                    ) : (
-                        <Skeleton className="w-full h-[147x] rounded-lg" />
-                    )
-                }
-                {
-                    // mostra o canal mais favoritado
-                    mostfavorited?.length > 0 ? (
-                        <Card className="w-full h-[143px] bg-background p-5">
-                            <div className="w-full flex items-center justify-between pb-5">
-                                <span className="text-sm font-medium">Canal mais favoritado</span>
-                                <Star className="w-5 h-5" />
-                            </div>
-                            <div className="w-full flex flex-col ">
-                                <p className="text-3xl font-bold">{mostfavorited[0].name}</p>
-                                <span className="text-xs text-gray-500 mt-2">Canal mais favoritado.</span>
-                            </div>
-                        </Card>
-                    ) : (
-                        <Skeleton className="w-full h-[147x] rounded-lg" />
-                    )
-                }
+    if (results[1].status === "fulfilled") {
+      const data = results[1].value.data;
+      setMostfavorited(Array.isArray(data) ? data : [data]);
+    } else {
+      setMostfavorited([{ error: results[1].reason.response?.data?.error || "Nenhum favorito encontrado" } as CardChannelLiked]);
+    }
+  }
+
+  async function getPromisesDataUsers() {
+    try {
+      const response = await api.get("/users");
+      setUser(response.data.reverse());
+    } catch (error) {
+      console.error("Erro ao buscar usuários:", error);
+    }
+  }
+
+  async function getPromisesData() {
+    try {
+      const response = await api.get("/channels");
+      setChannels(response.data);
+    } catch (error) {
+      console.error("Erro ao buscar canais:", error);
+    }
+  }
+
+  async function getEvolutionRegistersUsersData() {
+    try {
+      const response = await api.get("/analytics/registrations-evolution");
+
+      function getMonthName(month: string) {
+        const monthNumber = parseInt(month.split("-")[1]);
+        const monthNames = [
+          "Janeiro",
+          "Fevereiro",
+          "Março",
+          "Abril",
+          "Maio",
+          "Junho",
+          "Julho",
+          "Agosto",
+          "Setembro",
+          "Outubro",
+          "Novembro",
+          "Dezembro",
+        ];
+        return monthNames[monthNumber - 1];
+      }
+
+      const evolutionData = response.data.map((item: any) => {
+        return {
+          month: getMonthName(item.month),
+          registrations: item.registrations,
+        };
+      });
+
+      setRegisterUserData(evolutionData);
+
+    } catch (error) {
+      console.error("Erro ao buscar evolução:", error);
+    }
+  }
+
+  async function getPopularCategories() {
+    try {
+      const response = await api.get("/analytics/popular-categories");
+
+      const popularCategories = response.data.map((item: any) => {
+        return {
+          categoria: item.categoria,
+          likes: item.likes,
+          favorites: item.favorites,
+          channelsCount: item.channelsCount,
+          total: item.total,
+        };
+      });
+
+      setPopularCategories(popularCategories);
+
+    } catch (error) {
+      console.error("Erro ao buscar categorias populares:", error);
+    }
+  }
+
+  async function getPerformanceChannelData() {
+    try {
+      const response = await api.get("/analytics/channel-performance");
+
+      const performanceData = response.data.map((item: any) => {
+        return {
+          id: item.id,
+          name: item.name,
+          likeCount: item.likeCount,
+          favoriteCount: item.favoriteCount,
+        };
+      });
+
+      setPerformanceChannelData(performanceData);
+
+    } catch (error) {
+      console.error("Erro ao buscar dados de performance:", error);
+    }
+  }
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      getPromisesData();
+      getMostFavorited();
+      getPromisesDataUsers();
+      getEvolutionRegistersUsersData();
+      getPopularCategories();
+      getPerformanceChannelData();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <TabsContent value="overviewdata" className="w-full flex flex-col gap-3">
+      <div className="w-full h-full flex items-center gap-3">
+        {/* Card com total de usuários */}
+        {user?.length > 0 ? (
+          <CardData
+            title="Total de usuários"
+            icon={<Users className="w-5 h-5" />}
+            value={user.length}
+            description="Usuários cadastrados."
+          />
+        ) : (
+          <CardData
+            title="Total de usuários"
+            icon={<Users className="w-5 h-5" />}
+            value={"Carregando..."}
+            description="Usuários cadastrados."
+          />
+        )}
+
+        {/* Card com total de canais */}
+        {channels?.length > 0 ? (
+          <CardData
+            title="Total de canais"
+            icon={<TelevisionSimple className="w-5 h-5" />}
+            value={channels.length}
+            description="Canais cadastrados."
+          />
+        ) : (
+          <CardData
+            title="Total de canais"
+            icon={<TelevisionSimple className="w-5 h-5" />}
+            value={"Carregando..."}
+            description="Canais cadastrados."
+          />
+        )}
+
+        {/* Card do canal mais curtido */}
+        {mostliked?.length > 0 ? (
+          <CardData
+            title="Canal mais curtido"
+            icon={<Heart className="w-5 h-5" />}
+            value={
+              mostliked[0].error ? (
+                <p className="text-lg font-bold">{mostliked[0].error}</p>
+              ) : (
+                <p className="text-3xl font-bold">{mostliked[0].name}</p>
+              )
+            }
+            description="Canal mais curtido."
+          />
+        ) : (
+          <CardData
+            title="Canal mais curtido"
+            icon={<Heart className="w-5 h-5" />}
+            value={"Carregando..."}
+            description="Canal mais curtido."
+          />
+        )}
+
+        {/* Card do canal mais favoritado */}
+        {mostfavorited?.length > 0 ? (
+          <CardData
+            title="Canal mais favoritado"
+            icon={<Star className="w-5 h-5" />}
+            value={
+              mostfavorited[0].error ? (
+                <p className="text-lg font-bold">{mostfavorited[0].error}</p>
+              ) : (
+                <p className="text-3xl font-bold">{mostfavorited[0].name}</p>
+              )
+            }
+            description="Canal mais favoritado."
+          />
+        ) : (
+          <CardData
+            title="Canal mais favoritado"
+            icon={<Star className="w-5 h-5" />}
+            value={"Carregando..."}
+            description="Canal mais favoritado."
+          />
+        )}
+      </div>
+
+      <div className="w-full h-[515px] flex items-center gap-3">
+        <div className="w-1/2 ">
+          <Card className=" bg-background">
+            <CardHeader>
+              <CardTitle>Evolução de novos usuarios</CardTitle>
+              <CardDescription>Total de novos usuarios nos últimos meses</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ChartContainer config={chartConfig} className="w-full h-full">
+                <BarChart
+                  accessibilityLayer
+                  data={registerUsersData}
+                  margin={{ top: 30 }}
+                >
+                  <CartesianGrid vertical={false} />
+                  <XAxis
+                    dataKey="month"
+                    tickLine={false}
+                    tickMargin={10}
+                    axisLine={false}
+                  />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <ChartLegend content={<ChartLegendContent />} />
+                  <Bar dataKey="registrations" fill="#ffffff" radius={4}>
+                    <LabelList
+                      position="top"
+                      offset={12}
+                      className="fill-foreground"
+                      fontSize={12}
+                    />
+                  </Bar>
+                </BarChart>
+              </ChartContainer>
+            </CardContent>
+            <CardFooter className="flex-col items-start gap-2 text-sm">
+              <div className="flex gap-2 font-medium leading-none">
+                <TrendUp className="w-4 h-4" />
+                <span className="text-primary">Novos registros</span>
+              </div>
+              <div className="leading-none text-muted-foreground">
+                Total de novos usuarios nos últimos meses
+              </div>
+            </CardFooter>
+          </Card>
+        </div>
+
+        <div className="w-1/2 h-full grid grid-cols-2 gap-3 overflow-hidden">
+          <div className="w-full h-full border rounded-xl p-5 bg-background">
+            <div className="w-full pb-3">
+              <h1 className="text-lg font-bold">Todos os canais</h1>
+              <p className="text-xs text-gray-500 mt-1">Todos os canais</p>
             </div>
-            <div className="w-full h-full flex items-center gap-3 overflow-hidden">
-                <div className="w-1/2 h-[420px] border rounded-xl p-5 bg-background">
-                    <div className="w-full pb-3">
-                        <h1 className="text-lg font-bold">Todos os canais</h1>
-                        <p className="text-xs text-gray-500 mt-1">Todos os canais</p>
-                    </div>
-                    <ScrollArea className="w-full h-full pb-8">
-                        {
-                            // lista todos os canais só com nome e categoria
-                            channels?.map((channel: CardChannel) => (
-                                <div key={channel.id} className="w-full my-5">
-                                    <div className='flex items-center justify-between w-full h-full gap-5'>
-                                        <div className="flex items-center gap-5">
-                                            <Avatar.Root className="w-12 h-12 items-center justify-center overflow-hidden rounded-full  ">
-                                                <Avatar.Image
-                                                    className="w-12 h-12 rounded-full object-cover border-2 border-[#3fa5ff]"
-                                                    src={channel.image}
-                                                    alt={channel.name}
-                                                />
-                                                <Avatar.Fallback
-                                                    className="leading-1 flex w-12 h-12 items-center justify-center bg-white text-[25px] font-medium text-[#121214]"
-                                                    delayMs={600}
-                                                >
-                                                    {channel.name?.charAt(0).toUpperCase()}
-                                                </Avatar.Fallback>
-                                            </Avatar.Root>
-                                            <h1 className="text-base font-bold ">{channel.name}</h1>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))
-                        }
-                    </ScrollArea>
+            <ScrollArea className="w-full h-full pb-8">
+              {channels.length > 0 ? (
+                channels.map((channel: CardChannel) => (
+                  <CardScrollArea
+                    key={channel.id}
+                    id={channel.id}
+                    name={channel.name}
+                    image={channel.image}
+                  />
+                ))
+              ) : (
+                <div className="w-full h-full flex items-center justify-center">
+                  <p className="text-sm text-gray-500">Nenhum canal cadastrado.</p>
                 </div>
-                <div className="w-1/2 h-[420px] border rounded-xl p-5 bg-background overflow-hidden">
-                    <div className="w-full pb-3">
-                        <h1 className="text-lg font-bold">Todos os usuarios</h1>
-                        <p className="text-xs text-gray-500 mt-1">Ultimo usuario cadastrado</p>
-                    </div>
-                    <ScrollArea className="h-full w-full pb-5">
-                        {
-                            // lista todos os usuarios só com avatar e username
-                            user?.map((user: User) => (
-                                <div key={user.id} className="w-full my-5">
-                                    <div className='flex items-center justify-between w-full h-full gap-5'>
-                                        <div className="flex items-center gap-5">
-                                            <Avatar.Root className="w-12 h-12 items-center justify-center overflow-hidden rounded-2xl  ">
-                                                <Avatar.Image
-                                                    className="w-12 h-12 rounded-2xl object-cover border-2 border-[#3fa5ff]"
-                                                    src={user.avatar}
-                                                    alt={user.username}
-                                                />
-                                                <Avatar.Fallback
-                                                    className="leading-1 flex w-12 h-12 items-center justify-center bg-white text-[25px] font-medium text-[#121214]"
-                                                    delayMs={600}
-                                                >
-                                                    {user.username?.charAt(0).toUpperCase()}
-                                                </Avatar.Fallback>
-                                            </Avatar.Root>
-                                            <h1 className="text-base font-bold ">{user.username}</h1>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                            <p className="text-xs text-gray-400">
-                                                {formatData(user.createdAt)}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))
-                        }
-                    </ScrollArea>
-                </div>
+              )}
+            </ScrollArea>
+          </div>
+          <div className="w-full h-full border rounded-xl p-5 bg-background overflow-hidden">
+            <div className="w-full pb-3">
+              <h1 className="text-lg font-bold">Todos os usuários</h1>
+              <p className="text-xs text-gray-500 mt-1">Último usuário cadastrado</p>
             </div>
-        </TabsContent>
-    );
+            <ScrollArea className="h-full w-full pb-5">
+              {user.length > 0 ? (
+                user.map((userItem: User) => (
+                  <CardScrollArea
+                    key={userItem.id}
+                    id={userItem.id}
+                    name={userItem.username}
+                    image={userItem.avatar}
+                  />
+                ))
+              ) : (
+                <div className="w-full h-full flex items-center justify-center">
+                  <p className="text-sm text-gray-500">Nenhum usuário cadastrado.</p>
+                </div>
+              )}
+            </ScrollArea>
+          </div>
+        </div>
+      </div>
+
+      <div className="w-full h-full flex items-center gap-3">
+        <div className="w-1/2">
+          <Card className="w-full bg-background p-5">
+            <CardHeader>
+              <CardTitle>
+                Canais mais populares
+              </CardTitle>
+              <CardDescription>
+                Categorias de canais mais populares
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ChartContainer config={chartConfig} className="w-full h-full">
+                <BarChart
+                  accessibilityLayer
+                  data={popularCategories}
+                  margin={{ top: 30 }}
+                >
+                  <CartesianGrid vertical={false} />
+                  <XAxis
+                    dataKey="categoria"
+                    tickLine={false}
+                    tickMargin={10}
+                    axisLine={false}
+                  />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <ChartLegend content={<ChartLegendContent />} />
+                  <Bar dataKey="likes" name="Likes" fill="#ffffff" radius={4} >
+                    <LabelList
+                      position="top"
+                      offset={12}
+                      className="fill-foreground"
+                      fontSize={12}
+                    />
+                  </Bar>
+                  <Bar dataKey="favorites" name="Favoritos" fill="#ffffff" radius={4} >
+                    <LabelList
+                      position="top"
+                      offset={12}
+                      className="fill-foreground"
+                      fontSize={12}
+                    />
+                  </Bar>
+                  <Bar dataKey="channelsCount" name="Canais" fill="#ffffff" radius={4} >
+                    <LabelList
+                      position="top"
+                      offset={12}
+                      className="fill-foreground"
+                      fontSize={12}
+                    />
+                  </Bar>
+                  <Bar dataKey="total" name="Popularidade" fill="#ffffff" radius={4} >
+                    <LabelList
+                      position="top"
+                      offset={12}
+                      className="fill-foreground"
+                      fontSize={12}
+                    />
+                  </Bar>
+                </BarChart>
+              </ChartContainer>
+            </CardContent>
+            <CardFooter className="flex-col items-start gap-2 text-sm">
+              <div className="flex gap-2 font-medium leading-none">
+                <TrendUp className="w-4 h-4" />
+                <span className="text-primary">
+                  Canais mais populares
+                </span>
+              </div>
+              <div className="leading-none text-muted-foreground">
+                Dados de canais populares por categoria dos canais 
+              </div>
+            </CardFooter>
+          </Card>
+        </div>
+
+        <div className="w-1/2">
+          <Card className="w-full bg-background p-5">
+            <CardHeader>
+              <CardTitle>
+                Desempenho de canais
+              </CardTitle>
+              <CardDescription>
+                Desenpenho de cada canal por likes e favoritos
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ChartContainer config={chartConfig} className="w-full h-full">
+                <BarChart
+                  accessibilityLayer
+                  data={performanceChannelData}
+                  margin={{ top: 30 }}
+                >
+                  <CartesianGrid vertical={false} />
+                  <XAxis
+                    dataKey="name"
+                    tickLine={false}
+                    tickMargin={10}
+                    axisLine={false}
+                  />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <ChartLegend content={<ChartLegendContent />} />
+                  <Bar dataKey="likeCount" name="Likes" fill="#ffffff" radius={4} >
+                    <LabelList
+                      position="top"
+                      offset={12}
+                      className="fill-foreground"
+                      fontSize={12}
+                    />
+                  </Bar>
+                  <Bar dataKey="favoriteCount" name="Favoritos" fill="#ffffff" radius={4} >
+                    <LabelList
+                      position="top"
+                      offset={12}
+                      className="fill-foreground"
+                      fontSize={12}
+                    />
+                  </Bar>
+                </BarChart>
+              </ChartContainer>
+            </CardContent>
+            <CardFooter className="flex-col items-start gap-2 text-sm">
+              <div className="flex gap-2 font-medium leading-none">
+                <TrendUp className="w-4 h-4" />
+                <span className="text-primary">
+                  Desempenho de canais
+                </span>
+              </div>
+              <div className="leading-none text-muted-foreground">
+                Dados de desempenho de canais por likes e favoritos
+              </div>
+            </CardFooter>
+          </Card>
+        </div>
+      </div>
+
+    </TabsContent>
+  );
 }

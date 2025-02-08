@@ -154,7 +154,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     async function deleteAllChannels({ password, id }: DeleteAllChannelData) {
         try {
-            await api.delete("/channels/delete-all", { data: { password, id } });
+            await api.delete(`/channels/deleteAll/${id}`, { data: { password } });
             toast.success("Todos os canais foram deletados com sucesso!");
         } catch (err: any) {
             toast.error(err.response?.data?.error || "Erro ao deletar");

@@ -7,10 +7,11 @@ import {
     TabsTrigger,
 } from "@/components/ui/tabs";
 import { Bounce, ToastContainer } from "react-toastify";
+import Users from "@/components/Users";
 
 export default function Painel() {
     return (
-        <div className="w-full h-screen bg-[#121214] ">
+        <div className="w-full h-full bg-[#121214] ">
             <ToastContainer
                 position="top-right"
                 autoClose={5000}
@@ -35,6 +36,7 @@ export default function Painel() {
                     </TabsList>
                     <Overview />
                     <Channel />
+                    <Users />
                 </Tabs>
 
             </div>

@@ -76,16 +76,16 @@ export default function Dashboard() {
           // Se não, fazemos a requisição
           const [
             moviesResponse,
+            seriesResponse,
             channelsTvAbertaResponse,
             channelsFilmesResponse,
             channelsInfantilResponse,
-            seriesResponse,
           ] = await Promise.all([
             api.get('/metadata/movies'),
+            api.get('/metadata/series'),
             api.get("/liked/channelswithlikes/Tv Aberta"),
             api.get("/liked/channelswithlikes/Filmes"),
             api.get("/liked/channelswithlikes/Infantil"),
-            api.get('/metadata/series'),
           ]);
 
           // Salvamos os dados no estado
@@ -94,6 +94,7 @@ export default function Dashboard() {
           setChannelsTvAberta(channelsTvAbertaResponse.data);
           setChannelsFilmes(channelsFilmesResponse.data);
           setChannelsInfantil(channelsInfantilResponse.data);
+          console.log(channelsTvAbertaResponse.data);
 
           // Armazenamos no localStorage
           localStorage.setItem("movies", JSON.stringify(moviesResponse.data.destaques));
