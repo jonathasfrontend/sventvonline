@@ -5,12 +5,10 @@ import { TabsContent } from "@/components/ui/tabs";
 import { Heart, Star, TelevisionSimple, TrendUp, Users } from "@phosphor-icons/react";
 import CardScrollArea from "./CardScrollArea";
 import CardData from "./CardData";
-import { Bar, BarChart, CartesianGrid, Label, LabelList, PolarGrid, PolarRadiusAxis, RadialBar, RadialBarChart, XAxis } from "recharts"
+import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts"
 import {
   Card,
-  CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
