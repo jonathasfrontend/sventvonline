@@ -5,7 +5,7 @@ import { TabsContent } from "@/components/ui/tabs";
 import { Heart, Star, TelevisionSimple, TrendUp, Users } from "@phosphor-icons/react";
 import CardScrollArea from "./CardScrollArea";
 import CardData from "./CardData";
-import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts"
+import { Bar, BarChart, CartesianGrid, Label, LabelList, PolarGrid, PolarRadiusAxis, RadialBar, RadialBarChart, XAxis } from "recharts"
 import {
   Card,
   CardContent,
@@ -83,6 +83,10 @@ interface PerformanceChannelData {
   likeCount: number;
   favoriteCount: number;
 }
+interface EvolutionLikesData {
+  month: string;
+  likes: number;
+}
 
 export default function Overview() {
   const [user, setUser] = useState<User[]>([]);
@@ -92,6 +96,26 @@ export default function Overview() {
   const [registerUsersData, setRegisterUserData] = useState<EvolutionRegisterUsersData[]>([]);
   const [popularCategories, setPopularCategories] = useState<PopularCategories[]>([]);
   const [performanceChannelData, setPerformanceChannelData] = useState<PerformanceChannelData[]>([]);
+  const [likesEvolutionData, setLikesEvolutionData] = useState<EvolutionLikesData[]>([]);
+
+  function getMonthName(month: string) {
+    const monthNumber = parseInt(month.split("-")[1]);
+    const monthNames = [
+      "Janeiro",
+      "Fevereiro",
+      "Março",
+      "Abril",
+      "Maio",
+      "Junho",
+      "Julho",
+      "Agosto",
+      "Setembro",
+      "Outubro",
+      "Novembro",
+      "Dezembro",
+    ];
+    return monthNames[monthNumber - 1];
+  }
 
   async function getMostFavorited() {
     const results = await Promise.allSettled([
@@ -135,25 +159,6 @@ export default function Overview() {
   async function getEvolutionRegistersUsersData() {
     try {
       const response = await api.get("/analytics/registrations-evolution");
-
-      function getMonthName(month: string) {
-        const monthNumber = parseInt(month.split("-")[1]);
-        const monthNames = [
-          "Janeiro",
-          "Fevereiro",
-          "Março",
-          "Abril",
-          "Maio",
-          "Junho",
-          "Julho",
-          "Agosto",
-          "Setembro",
-          "Outubro",
-          "Novembro",
-          "Dezembro",
-        ];
-        return monthNames[monthNumber - 1];
-      }
 
       const evolutionData = response.data.map((item: any) => {
         return {
@@ -210,6 +215,24 @@ export default function Overview() {
     }
   }
 
+  async function getaLikesEvolution() {
+    try {
+      const response = await api.get("/analytics/likes-evolution");
+
+      const evolutionData = response.data.map((item: any) => {
+        return {
+          month: getMonthName(item.month),
+          likes: item.likes,
+        };
+      });
+
+      setLikesEvolutionData(evolutionData);
+
+    } catch (error) {
+      console.error("Erro ao buscar evolução de likes:", error);
+    }
+  }
+
   useEffect(() => {
     const interval = setInterval(() => {
       getPromisesData();
@@ -218,6 +241,7 @@ export default function Overview() {
       getEvolutionRegistersUsersData();
       getPopularCategories();
       getPerformanceChannelData();
+      getaLikesEvolution();
     }, 5000);
 
     return () => clearInterval(interval);
@@ -226,7 +250,6 @@ export default function Overview() {
   return (
     <TabsContent value="overviewdata" className="w-full flex flex-col gap-3">
       <div className="w-full h-full flex items-center gap-3">
-        {/* Card com total de usuários */}
         {user?.length > 0 ? (
           <CardData
             title="Total de usuários"
@@ -307,49 +330,41 @@ export default function Overview() {
         )}
       </div>
 
-      <div className="w-full h-[515px] flex items-center gap-3">
+      <div className="w-full h-[465px] flex items-center gap-3">
         <div className="w-1/2 ">
-          <Card className=" bg-background">
+          <Card className="pb-3 bg-background">
             <CardHeader>
-              <CardTitle>Evolução de novos usuarios</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <TrendUp className="w-4 h-4" />
+                Evolução de novos usuarios
+              </CardTitle>
               <CardDescription>Total de novos usuarios nos últimos meses</CardDescription>
             </CardHeader>
-            <CardContent>
-              <ChartContainer config={chartConfig} className="w-full h-full">
-                <BarChart
-                  accessibilityLayer
-                  data={registerUsersData}
-                  margin={{ top: 30 }}
-                >
-                  <CartesianGrid vertical={false} />
-                  <XAxis
-                    dataKey="month"
-                    tickLine={false}
-                    tickMargin={10}
-                    axisLine={false}
+            <ChartContainer config={chartConfig} className="w-full h-full">
+              <BarChart
+                accessibilityLayer
+                data={registerUsersData}
+                margin={{ top: 30 }}
+              >
+                <CartesianGrid vertical={false} />
+                <XAxis
+                  dataKey="month"
+                  tickLine={false}
+                  tickMargin={10}
+                  axisLine={false}
+                />
+                <ChartTooltip content={<ChartTooltipContent />} />
+                <ChartLegend content={<ChartLegendContent />} />
+                <Bar dataKey="registrations" fill="#ffffff" radius={4}>
+                  <LabelList
+                    position="top"
+                    offset={12}
+                    className="fill-foreground"
+                    fontSize={12}
                   />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <ChartLegend content={<ChartLegendContent />} />
-                  <Bar dataKey="registrations" fill="#ffffff" radius={4}>
-                    <LabelList
-                      position="top"
-                      offset={12}
-                      className="fill-foreground"
-                      fontSize={12}
-                    />
-                  </Bar>
-                </BarChart>
-              </ChartContainer>
-            </CardContent>
-            <CardFooter className="flex-col items-start gap-2 text-sm">
-              <div className="flex gap-2 font-medium leading-none">
-                <TrendUp className="w-4 h-4" />
-                <span className="text-primary">Novos registros</span>
-              </div>
-              <div className="leading-none text-muted-foreground">
-                Total de novos usuarios nos últimos meses
-              </div>
-            </CardFooter>
+                </Bar>
+              </BarChart>
+            </ChartContainer>
           </Card>
         </div>
 
@@ -401,142 +416,158 @@ export default function Overview() {
         </div>
       </div>
 
-      <div className="w-full h-full flex items-center gap-3">
-        <div className="w-1/2">
-          <Card className="w-full bg-background p-5">
-            <CardHeader>
-              <CardTitle>
-                Canais mais populares
-              </CardTitle>
-              <CardDescription>
-                Categorias de canais mais populares
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ChartContainer config={chartConfig} className="w-full h-full">
-                <BarChart
-                  accessibilityLayer
-                  data={popularCategories}
-                  margin={{ top: 30 }}
-                >
-                  <CartesianGrid vertical={false} />
-                  <XAxis
-                    dataKey="categoria"
-                    tickLine={false}
-                    tickMargin={10}
-                    axisLine={false}
-                  />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <ChartLegend content={<ChartLegendContent />} />
-                  <Bar dataKey="likes" name="Likes" fill="#ffffff" radius={4} >
-                    <LabelList
-                      position="top"
-                      offset={12}
-                      className="fill-foreground"
-                      fontSize={12}
-                    />
-                  </Bar>
-                  <Bar dataKey="favorites" name="Favoritos" fill="#ffffff" radius={4} >
-                    <LabelList
-                      position="top"
-                      offset={12}
-                      className="fill-foreground"
-                      fontSize={12}
-                    />
-                  </Bar>
-                  <Bar dataKey="channelsCount" name="Canais" fill="#ffffff" radius={4} >
-                    <LabelList
-                      position="top"
-                      offset={12}
-                      className="fill-foreground"
-                      fontSize={12}
-                    />
-                  </Bar>
-                  <Bar dataKey="total" name="Popularidade" fill="#ffffff" radius={4} >
-                    <LabelList
-                      position="top"
-                      offset={12}
-                      className="fill-foreground"
-                      fontSize={12}
-                    />
-                  </Bar>
-                </BarChart>
-              </ChartContainer>
-            </CardContent>
-            <CardFooter className="flex-col items-start gap-2 text-sm">
-              <div className="flex gap-2 font-medium leading-none">
-                <TrendUp className="w-4 h-4" />
-                <span className="text-primary">
-                  Canais mais populares
-                </span>
-              </div>
-              <div className="leading-none text-muted-foreground">
-                Dados de canais populares por categoria dos canais 
-              </div>
-            </CardFooter>
-          </Card>
-        </div>
+      <div className="w-full h-full flex flex-col items-center gap-3 relativ">
 
-        <div className="w-1/2">
-          <Card className="w-full bg-background p-5">
-            <CardHeader>
-              <CardTitle>
-                Desempenho de canais
-              </CardTitle>
-              <CardDescription>
-                Desenpenho de cada canal por likes e favoritos
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ChartContainer config={chartConfig} className="w-full h-full">
-                <BarChart
-                  accessibilityLayer
-                  data={performanceChannelData}
-                  margin={{ top: 30 }}
-                >
-                  <CartesianGrid vertical={false} />
-                  <XAxis
-                    dataKey="name"
-                    tickLine={false}
-                    tickMargin={10}
-                    axisLine={false}
-                  />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <ChartLegend content={<ChartLegendContent />} />
-                  <Bar dataKey="likeCount" name="Likes" fill="#ffffff" radius={4} >
-                    <LabelList
-                      position="top"
-                      offset={12}
-                      className="fill-foreground"
-                      fontSize={12}
-                    />
-                  </Bar>
-                  <Bar dataKey="favoriteCount" name="Favoritos" fill="#ffffff" radius={4} >
-                    <LabelList
-                      position="top"
-                      offset={12}
-                      className="fill-foreground"
-                      fontSize={12}
-                    />
-                  </Bar>
-                </BarChart>
-              </ChartContainer>
-            </CardContent>
-            <CardFooter className="flex-col items-start gap-2 text-sm">
-              <div className="flex gap-2 font-medium leading-none">
-                <TrendUp className="w-4 h-4" />
-                <span className="text-primary">
-                  Desempenho de canais
-                </span>
-              </div>
-              <div className="leading-none text-muted-foreground">
-                Dados de desempenho de canais por likes e favoritos
-              </div>
-            </CardFooter>
-          </Card>
-        </div>
+        <Card className="w-full pb-3 bg-background ">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <TrendUp className="w-4 h-4" />
+              Canais mais populares
+            </CardTitle>
+            <CardDescription>
+              Canais mais populares por categoria dos canais.
+            </CardDescription>
+          </CardHeader>
+          <ChartContainer config={chartConfig} className="h-[200px] w-full">
+            <BarChart
+              accessibilityLayer
+              data={popularCategories}
+              margin={{ top: 30 }}
+            >
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="categoria"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+              />
+              <ChartTooltip content={<ChartTooltipContent />} />
+              <ChartLegend content={<ChartLegendContent />} />
+              <Bar dataKey="likes" name="Likes" fill="#ffffff" radius={4} >
+                <LabelList
+                  position="top"
+                  offset={12}
+                  className="fill-foreground"
+                  fontSize={12}
+                />
+              </Bar>
+              <Bar dataKey="favorites" name="Favoritos" fill="#ffffff" radius={4} >
+                <LabelList
+                  position="top"
+                  offset={12}
+                  className="fill-foreground"
+                  fontSize={12}
+                />
+              </Bar>
+              <Bar dataKey="channelsCount" name="Canais" fill="#ffffff" radius={4} >
+                <LabelList
+                  position="top"
+                  offset={12}
+                  className="fill-foreground"
+                  fontSize={12}
+                />
+              </Bar>
+              <Bar dataKey="total" name="Popularidade" fill="#ffffff" radius={4} >
+                <LabelList
+                  position="top"
+                  offset={12}
+                  className="fill-foreground"
+                  fontSize={12}
+                />
+              </Bar>
+            </BarChart>
+          </ChartContainer>
+        </Card>
+
+        <Card className="w-full pb-3 bg-background ">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <TrendUp className="w-4 h-4" />
+              Desempenho de canais
+            </CardTitle>
+            <CardDescription>
+              Desenpenho de cada canal por likes e favoritos
+            </CardDescription>
+          </CardHeader>
+          <ChartContainer config={chartConfig} className="h-[200px] w-full">
+            <BarChart
+              accessibilityLayer
+              data={performanceChannelData}
+              margin={{ top: 30 }}
+            >
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="name"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+              />
+              <ChartTooltip content={<ChartTooltipContent />} />
+              <ChartLegend content={<ChartLegendContent />} />
+              <Bar dataKey="likeCount" name="Likes" fill="#ffffff" radius={4} >
+                <LabelList
+                  position="top"
+                  offset={12}
+                  className="fill-foreground"
+                  fontSize={12}
+                />
+              </Bar>
+              <Bar dataKey="favoriteCount" name="Favoritos" fill="#ffffff" radius={4} >
+                <LabelList
+                  position="top"
+                  offset={12}
+                  className="fill-foreground"
+                  fontSize={12}
+                />
+              </Bar>
+            </BarChart>
+          </ChartContainer>
+        </Card>
       </div>
 
+      <div className="w-full h-full flex items-center gap-3">
+        <div className="w-1/2">
+          <Card className="w-full h-full pb-3 bg-background ">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <TrendUp className="w-4 h-4" />
+                Evolução de likes
+              </CardTitle>
+              <CardDescription>
+                Evolução de likes de cada mes
+              </CardDescription>
+            </CardHeader>
+            {/* likesEvolutionData */}
+            {/* likes , month */}
+            <ChartContainer config={chartConfig} className="h-[200px] w-full">
+              <BarChart
+                accessibilityLayer
+                data={likesEvolutionData}
+                margin={{ top: 30 }}
+              >
+                <CartesianGrid vertical={false} />
+                <XAxis
+                  dataKey={'month'}
+                  tickLine={false}
+                  tickMargin={10}
+                  axisLine={false}
+                />
+                <ChartTooltip content={<ChartTooltipContent hideLabel />} />
+                <ChartLegend content={<ChartLegendContent />} />
+                <Bar dataKey="likes" name="Likes" fill="#ffffff" radius={4} >
+                  <LabelList
+                    position="top"
+                    offset={12}
+                    className="fill-foreground"
+                    fontSize={12}
+                  />
+                </Bar>
+              </BarChart>
+            </ChartContainer>
+          </Card>
+        </div>
+        <div className="w-1/2"></div>
+      </div>
     </TabsContent>
   );
 }
