@@ -83,7 +83,10 @@ export function Header() {
                     </button>
                     <input
                         type="search"
-                        placeholder="Pesquisar"
+                        placeholder="Pesquisar canal"
+                        autoCapitalize="off"
+                        autoCorrect="off"
+                        autoComplete="off"
                         // value={searchQuery}
                         // onChange={(e) => setSearchQuery(e.target.value)}
                         className='bg-transparent w-full h-[30px] outline-none text-[#121214] text-sm font-medium px-2 placeholder:text-[#121214] placeholder:text-sm'

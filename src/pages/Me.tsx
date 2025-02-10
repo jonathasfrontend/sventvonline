@@ -232,7 +232,7 @@ export default function Me() {
                                     {
                                         favorite.length > 0 ? (
                                             favorite.map((item) => (
-                                                <div className="w-[200px !important] flex flex-col py-2 bg-gray-700 border border-gray-600 hover:brightness-125 transition rounded-md">
+                                                <div className="w-[200px] flex flex-col py-2 bg-gray-700 border border-gray-600 hover:brightness-125 transition rounded-md">
                                                     <Link to={`/dashboard/${item.id}`} className="flex items-center justify-center">
                                                         <img src={item.image} alt={item.name} className="w-16 h-16 rounded-full" />
                                                     </Link>

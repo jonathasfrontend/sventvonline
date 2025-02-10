@@ -54,62 +54,60 @@ export default function Dashboard() {
   const [series, setSeries] = useState<Serie[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchHighlights = async () => {
-      setLoading(true);
-      try {
-        // Verificar se os dados já estão no localStorage
-        const storedMovies = localStorage.getItem("movies");
-        const storedSeries = localStorage.getItem("series");
-        const storedTvAberta = localStorage.getItem("channelsTvAberta");
-        const storedFilmes = localStorage.getItem("channelsFilmes");
-        const storedInfantil = localStorage.getItem("channelsInfantil");
+  async function fetchHighlights() {
+    setLoading(true);
+    try {
+      // Verificar se os dados já estão no localStorage
+      const storedMovies = localStorage.getItem("movies");
+      const storedSeries = localStorage.getItem("series");
+      const storedTvAberta = localStorage.getItem("channelsTvAberta");
+      const storedFilmes = localStorage.getItem("channelsFilmes");
+      const storedInfantil = localStorage.getItem("channelsInfantil");
 
-        if (storedMovies && storedSeries && storedTvAberta && storedFilmes && storedInfantil) {
-          // Se os dados já estiverem armazenados, utilizamos eles
-          setMovies(JSON.parse(storedMovies));
-          setSeries(JSON.parse(storedSeries));
-          setChannelsTvAberta(JSON.parse(storedTvAberta));
-          setChannelsFilmes(JSON.parse(storedFilmes));
-          setChannelsInfantil(JSON.parse(storedInfantil));
-        } else {
-          // Se não, fazemos a requisição
-          const [
-            moviesResponse,
-            seriesResponse,
-            channelsTvAbertaResponse,
-            channelsFilmesResponse,
-            channelsInfantilResponse,
-          ] = await Promise.all([
-            api.get('/metadata/movies'),
-            api.get('/metadata/series'),
-            api.get("/liked/channelswithlikes/Tv Aberta"),
-            api.get("/liked/channelswithlikes/Filmes"),
-            api.get("/liked/channelswithlikes/Infantil"),
-          ]);
+      if (storedMovies && storedSeries && storedTvAberta && storedFilmes && storedInfantil) {
+        // Se os dados já estiverem armazenados, utilizamos eles
+        setMovies(JSON.parse(storedMovies));
+        setSeries(JSON.parse(storedSeries));
+        setChannelsTvAberta(JSON.parse(storedTvAberta));
+        setChannelsFilmes(JSON.parse(storedFilmes));
+        setChannelsInfantil(JSON.parse(storedInfantil));
+      } else {
+        // Se não, fazemos a requisição
+        const [
+          moviesResponse,
+          seriesResponse,
+          channelsTvAbertaResponse,
+          channelsFilmesResponse,
+          channelsInfantilResponse,
+        ] = await Promise.all([
+          api.get('/metadata/movies'),
+          api.get('/metadata/series'),
+          api.get("/liked/channelswithlikes/Tv Aberta"),
+          api.get("/liked/channelswithlikes/Filmes"),
+          api.get("/liked/channelswithlikes/Infantil"),
+        ]);
 
-          // Salvamos os dados no estado
-          setMovies(moviesResponse.data.destaques);
-          setSeries(seriesResponse.data.destaques);
-          setChannelsTvAberta(channelsTvAbertaResponse.data);
-          setChannelsFilmes(channelsFilmesResponse.data);
-          setChannelsInfantil(channelsInfantilResponse.data);
-          console.log(channelsTvAbertaResponse.data);
+        // Salvamos os dados no estado
+        setMovies(moviesResponse.data.destaques);
+        setSeries(seriesResponse.data.destaques);
+        setChannelsTvAberta(channelsTvAbertaResponse.data);
+        setChannelsFilmes(channelsFilmesResponse.data);
+        setChannelsInfantil(channelsInfantilResponse.data);
 
-          // Armazenamos no localStorage
-          localStorage.setItem("movies", JSON.stringify(moviesResponse.data.destaques));
-          localStorage.setItem("series", JSON.stringify(seriesResponse.data.destaques));
-          localStorage.setItem("channelsTvAberta", JSON.stringify(channelsTvAbertaResponse.data));
-          localStorage.setItem("channelsFilmes", JSON.stringify(channelsFilmesResponse.data));
-          localStorage.setItem("channelsInfantil", JSON.stringify(channelsInfantilResponse.data));
-        }
-      } catch (error) {
-        console.error('Error fetching highlights:', error);
-      } finally {
-        setLoading(false);
+        // Armazenamos no localStorage
+        localStorage.setItem("movies", JSON.stringify(moviesResponse.data.destaques));
+        localStorage.setItem("series", JSON.stringify(seriesResponse.data.destaques));
+        localStorage.setItem("channelsTvAberta", JSON.stringify(channelsTvAbertaResponse.data));
+        localStorage.setItem("channelsFilmes", JSON.stringify(channelsFilmesResponse.data));
+        localStorage.setItem("channelsInfantil", JSON.stringify(channelsInfantilResponse.data));
       }
-    };
-
+    } catch (error) {
+      console.error('Error fetching highlights:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
     fetchHighlights();
   }, []);
 

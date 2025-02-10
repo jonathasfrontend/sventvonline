@@ -86,6 +86,13 @@ interface EvolutionLikesData {
   likes: number;
 }
 
+interface TopUsersLikes {
+  username: string;
+  avatar: string;
+  likes: number;
+  likesGiven: number;
+}
+
 export default function Overview() {
   const [user, setUser] = useState<User[]>([]);
   const [channels, setChannels] = useState<CardChannel[]>([]);
@@ -95,6 +102,7 @@ export default function Overview() {
   const [popularCategories, setPopularCategories] = useState<PopularCategories[]>([]);
   const [performanceChannelData, setPerformanceChannelData] = useState<PerformanceChannelData[]>([]);
   const [likesEvolutionData, setLikesEvolutionData] = useState<EvolutionLikesData[]>([]);
+  const [topUsersLikes, setTopUsersLikes] = useState<TopUsersLikes[]>([]);
 
   function getMonthName(month: string) {
     const monthNumber = parseInt(month.split("-")[1]);
@@ -231,6 +239,26 @@ export default function Overview() {
     }
   }
 
+  async function getTopUsersLikes() {
+    try {
+      const response = await api.get("/analytics/top-users-likes");
+
+      const topUsers = response.data.map((item: any) => {
+        return {
+          username: item.username,
+          avatar: item.avatar,
+          likes: item.likes,
+          likesGiven: item.likesGiven,
+        };
+      });
+
+      setTopUsersLikes(topUsers);
+
+    } catch (error) {
+      console.error("Erro ao buscar top users likes:", error);
+    }
+  }
+
   useEffect(() => {
     const interval = setInterval(() => {
       getPromisesData();
@@ -240,6 +268,7 @@ export default function Overview() {
       getPopularCategories();
       getPerformanceChannelData();
       getaLikesEvolution();
+      getTopUsersLikes()
     }, 5000);
 
     return () => clearInterval(interval);
@@ -414,7 +443,7 @@ export default function Overview() {
         </div>
       </div>
 
-      <div className="w-full h-full flex flex-col items-center gap-3 relativ">
+      <div className="w-full h-full flex flex-col items-center gap-3 relative">
 
         <Card className="w-full pb-3 bg-background ">
           <CardHeader>
@@ -465,7 +494,7 @@ export default function Overview() {
                   fontSize={12}
                 />
               </Bar>
-              <Bar dataKey="total" name="Popularidade" fill="#ffffff" radius={4} >
+              <Bar dataKey="total" name="Total" fill="#ffffff" radius={4} >
                 <LabelList
                   position="top"
                   offset={12}
@@ -535,8 +564,6 @@ export default function Overview() {
                 Evolução de likes de cada mes
               </CardDescription>
             </CardHeader>
-            {/* likesEvolutionData */}
-            {/* likes , month */}
             <ChartContainer config={chartConfig} className="h-[200px] w-full">
               <BarChart
                 accessibilityLayer
@@ -564,7 +591,44 @@ export default function Overview() {
             </ChartContainer>
           </Card>
         </div>
-        <div className="w-1/2"></div>
+        <div className="w-1/2">
+          <Card className="w-full h-full pb-3 bg-background ">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <TrendUp className="w-4 h-4" />
+                Top usuários likes
+              </CardTitle>
+              <CardDescription>
+                Top usuários que mais deram likes
+              </CardDescription>
+            </CardHeader>
+            <ChartContainer config={chartConfig} className="h-[200px] w-full">
+              <BarChart
+                accessibilityLayer
+                data={topUsersLikes}
+                margin={{ top: 30 }}
+              >
+                <CartesianGrid vertical={false} />
+                <XAxis
+                  dataKey="username"
+                  tickLine={false}
+                  tickMargin={10}
+                  axisLine={false}
+                />
+                <ChartTooltip content={<ChartTooltipContent />} />
+                <ChartLegend content={<ChartLegendContent />} />
+                <Bar dataKey="likesGiven" name="Likes dados" fill="#ffffff" radius={4} >
+                  <LabelList
+                    position="top"
+                    offset={12}
+                    className="fill-foreground"
+                    fontSize={12}
+                  />
+                </Bar>
+              </BarChart>
+            </ChartContainer>
+          </Card>
+        </div>
       </div>
     </TabsContent>
   );

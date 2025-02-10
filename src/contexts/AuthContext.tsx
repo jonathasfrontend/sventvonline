@@ -40,6 +40,17 @@ type DeleteAllChannelData = {
     password: string;
 };
 
+type UpdateChannelData = {
+    id: string;
+    name: string;
+    categoria: string;
+    image: string;
+};
+
+type RemoveUserData = {
+    id: string;
+};
+
 type AuthContextType = {
     isAuthenticated: boolean;
     user: User | null;
@@ -48,6 +59,8 @@ type AuthContextType = {
     addChannel: (data: AddChannelData) => Promise<void>;
     deleteChannel: (data: DeleteChannelData) => Promise<void>;
     deleteAllChannels: (data: DeleteAllChannelData) => Promise<void>;
+    updateChannel: (data: UpdateChannelData) => Promise<void>;
+    removeUser: (data: RemoveUserData) => Promise<void>;
     setUser: React.Dispatch<React.SetStateAction<User | null>>;
 };
 
@@ -161,8 +174,26 @@ export function AuthProvider({ children }: AuthProviderProps) {
         }
     }
 
+    async function updateChannel({ id, name, categoria, image }: UpdateChannelData) {
+        try {
+            await api.put(`/channels/${id}`, { name, categoria, image });
+            toast.success("Canal atualizado com sucesso!");
+        } catch (err: any) {
+            toast.error(err.response?.data?.error || "Erro ao atualizar");
+        }
+    }
+
+    async function removeUser({ id }: DeleteChannelData) {
+        try {
+            await api.delete(`/users/${id}`);
+            toast.success("Usuario deletado com sucesso!");
+        } catch (err: any) {
+            toast.error(err.response?.data?.error || "Erro ao deletar");
+        }
+    }
+
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated, signIn, setUser, signUp, addChannel, deleteChannel, deleteAllChannels }}>
+        <AuthContext.Provider value={{ user, isAuthenticated, signIn, setUser, signUp, addChannel, deleteChannel, deleteAllChannels, updateChannel, removeUser }}>
             {children}
         </AuthContext.Provider>
     );
