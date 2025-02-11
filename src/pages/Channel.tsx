@@ -25,8 +25,6 @@ export default function Channel() {
             .catch(err => console.error(err));
     }, [id]);
 
-    const namechannel = channel?.name.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
-
     return (
         <div className="w-full h-screen bg-[#121214] text-white relative">
             <Header />
@@ -34,7 +32,7 @@ export default function Channel() {
                 <div className="w-full h-full">
                     <div className="w-full h-full absolute top-0 left-0">
                         <iframe
-                            src={`https://reidoscanais.tv/embed/?id=${namechannel}`}
+                            src={channel.url}
                             allow="encrypted-media"
                             allowFullScreen
                             scrolling="no"

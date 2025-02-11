@@ -357,45 +357,32 @@ export default function Overview() {
         )}
       </div>
 
-      <div className="w-full h-[465px] flex items-center gap-3">
-        <div className="w-1/2 ">
-          <Card className="pb-3 bg-background">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <TrendUp className="w-4 h-4" />
-                Evolução de novos usuarios
-              </CardTitle>
-              <CardDescription>Total de novos usuarios nos últimos meses</CardDescription>
-            </CardHeader>
-            <ChartContainer config={chartConfig} className="w-full h-full">
-              <BarChart
-                accessibilityLayer
-                data={registerUsersData}
-                margin={{ top: 30 }}
-              >
-                <CartesianGrid vertical={false} />
-                <XAxis
-                  dataKey="month"
-                  tickLine={false}
-                  tickMargin={10}
-                  axisLine={false}
-                />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <ChartLegend content={<ChartLegendContent />} />
-                <Bar dataKey="registrations" fill="#ffffff" radius={4}>
-                  <LabelList
-                    position="top"
-                    offset={12}
-                    className="fill-foreground"
-                    fontSize={12}
+      <div className="w-full h-full flex items-center gap-3">
+        <div className="w-1/2 h-[465px] overflow-hidden">
+          <div className="w-full h-full border rounded-xl p-5 bg-background">
+            <div className="w-full pb-3">
+              <h1 className="text-lg font-bold">Todos os usuários</h1>
+              <p className="text-xs text-gray-500 mt-1">Último usuário cadastrado</p>
+            </div>
+            <div className="h-full w-full pb-5">
+              {user.length > 0 ? (
+                user.map((userItem: User) => (
+                  <CardScrollArea
+                    key={userItem.id}
+                    id={userItem.id}
+                    name={userItem.username}
+                    image={userItem.avatar}
                   />
-                </Bar>
-              </BarChart>
-            </ChartContainer>
-          </Card>
+                ))
+              ) : (
+                <div className="w-full h-full flex items-center justify-center">
+                  <p className="text-sm text-gray-500">Nenhum usuário cadastrado.</p>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
-
-        <div className="w-1/2 h-full grid grid-cols-2 gap-3 overflow-hidden">
+        <div className="w-1/2 h-[465px] overflow-hidden">
           <div className="w-full h-full border rounded-xl p-5 bg-background">
             <div className="w-full pb-3">
               <h1 className="text-lg font-bold">Todos os canais</h1>
@@ -418,33 +405,49 @@ export default function Overview() {
               )}
             </ScrollArea>
           </div>
-          <div className="w-full h-full border rounded-xl p-5 bg-background overflow-hidden">
-            <div className="w-full pb-3">
-              <h1 className="text-lg font-bold">Todos os usuários</h1>
-              <p className="text-xs text-gray-500 mt-1">Último usuário cadastrado</p>
-            </div>
-            <ScrollArea className="h-full w-full pb-5">
-              {user.length > 0 ? (
-                user.map((userItem: User) => (
-                  <CardScrollArea
-                    key={userItem.id}
-                    id={userItem.id}
-                    name={userItem.username}
-                    image={userItem.avatar}
-                  />
-                ))
-              ) : (
-                <div className="w-full h-full flex items-center justify-center">
-                  <p className="text-sm text-gray-500">Nenhum usuário cadastrado.</p>
-                </div>
-              )}
-            </ScrollArea>
-          </div>
         </div>
       </div>
 
-      <div className="w-full h-full flex flex-col items-center gap-3 relative">
+      <div className="w-full h-full flex items-center gap-3">
+        <Card className="w-full pb-3 bg-background">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <TrendUp className="w-4 h-4" />
+              Evolução de novos usuarios
+            </CardTitle>
+            <CardDescription>Total de novos usuarios nos últimos meses</CardDescription>
+          </CardHeader>
+          <ChartContainer config={chartConfig} className="w-full h-[200px]">
+            <BarChart
+              accessibilityLayer
+              data={registerUsersData}
+              margin={{ top: 30 }}
+            >
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="month"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+              />
+              <ChartTooltip content={<ChartTooltipContent />} />
+              <ChartLegend content={<ChartLegendContent />} />
+              <Bar dataKey="registrations" name="Cadastros" fill="#ffffff" radius={4}>
+                <LabelList
+                  position="top"
+                  offset={12}
+                  className="fill-foreground"
+                  fontSize={12}
+                />
+              </Bar>
+            </BarChart>
+          </ChartContainer>
+        </Card>
 
+
+      </div>
+
+      <div className="w-full h-full flex items-center gap-3">
         <Card className="w-full pb-3 bg-background ">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -455,7 +458,7 @@ export default function Overview() {
               Canais mais populares por categoria dos canais.
             </CardDescription>
           </CardHeader>
-          <ChartContainer config={chartConfig} className="h-[200px] w-full">
+          <ChartContainer config={chartConfig} className="h-[150px] w-full">
             <BarChart
               accessibilityLayer
               data={popularCategories}
@@ -505,15 +508,17 @@ export default function Overview() {
             </BarChart>
           </ChartContainer>
         </Card>
+      </div>
 
+      <div className="w-full h-full flex items-center gap-3">
         <Card className="w-full pb-3 bg-background ">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <TrendUp className="w-4 h-4" />
-              Desempenho de canais
+              Desempenho dos canais por like
             </CardTitle>
             <CardDescription>
-              Desenpenho de cada canal por likes e favoritos
+              Desenpenho de cada canal por likes
             </CardDescription>
           </CardHeader>
           <ChartContainer config={chartConfig} className="h-[200px] w-full">
@@ -539,6 +544,37 @@ export default function Overview() {
                   fontSize={12}
                 />
               </Bar>
+            </BarChart>
+          </ChartContainer>
+        </Card>
+      </div>
+
+      <div className="w-full h-full flex items-center gap-3">
+        <Card className="w-full pb-3 bg-background ">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <TrendUp className="w-4 h-4" />
+              Desempenho de canais favoritos
+            </CardTitle>
+            <CardDescription>
+              Desenpenho de cada canal por favoritos
+            </CardDescription>
+          </CardHeader>
+          <ChartContainer config={chartConfig} className="h-[200px] w-full">
+            <BarChart
+              accessibilityLayer
+              data={performanceChannelData}
+              margin={{ top: 30 }}
+            >
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="name"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+              />
+              <ChartTooltip content={<ChartTooltipContent />} />
+              <ChartLegend content={<ChartLegendContent />} />
               <Bar dataKey="favoriteCount" name="Favoritos" fill="#ffffff" radius={4} >
                 <LabelList
                   position="top"
@@ -564,7 +600,7 @@ export default function Overview() {
                 Evolução de likes de cada mes
               </CardDescription>
             </CardHeader>
-            <ChartContainer config={chartConfig} className="h-[200px] w-full">
+            <ChartContainer config={chartConfig} className="h-[150px] w-full">
               <BarChart
                 accessibilityLayer
                 data={likesEvolutionData}
@@ -602,7 +638,7 @@ export default function Overview() {
                 Top usuários que mais deram likes
               </CardDescription>
             </CardHeader>
-            <ChartContainer config={chartConfig} className="h-[200px] w-full">
+            <ChartContainer config={chartConfig} className="h-[150px] w-full">
               <BarChart
                 accessibilityLayer
                 data={topUsersLikes}
@@ -630,6 +666,6 @@ export default function Overview() {
           </Card>
         </div>
       </div>
-    </TabsContent>
+    </TabsContent >
   );
 }

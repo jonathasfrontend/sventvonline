@@ -29,6 +29,7 @@ type SignUpData = {
 type AddChannelData = {
     name: string;
     categoria: string;
+    url: string;
     image: string;
 };
 type DeleteChannelData = {
@@ -147,9 +148,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
         }
     }
 
-    async function addChannel({ name, categoria, image }: AddChannelData) {
+    async function addChannel({ name, categoria, image, url }: AddChannelData) {
         try {
-            await api.post("/channels", { name, categoria, image });
+            await api.post("/channels", { name, categoria, image, url });
             toast.success("Canal adicionado com sucesso!");
         } catch (err: any) {
             toast.error(err.response?.data?.error || "Erro ao cadastrar");

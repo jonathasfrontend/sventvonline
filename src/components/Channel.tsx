@@ -52,6 +52,7 @@ interface CardChannel {
 type AddChannelData = {
     name: string;
     categoria: string;
+    url: string;
     image: string;
 };
 type deleteChannelData = {
@@ -125,6 +126,7 @@ export default function Channel() {
         try {
             await addChannel(data);
             loadData()
+            getPerformanceChannelData();
         } catch (err: any) {
             console.error(err);
         } finally {
@@ -175,10 +177,10 @@ export default function Channel() {
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
                             <TrendUp className="w-4 h-4" />
-                            Desempenho de canais
+                            Desempenho dos canais por like
                         </CardTitle>
                         <CardDescription>
-                            Desenpenho de cada canal por likes e favoritos
+                            Desenpenho de cada canal por likes
                         </CardDescription>
                     </CardHeader>
                     <ChartContainer config={chartConfig} className="h-[200px] w-full">
@@ -204,6 +206,34 @@ export default function Channel() {
                                     fontSize={12}
                                 />
                             </Bar>
+                        </BarChart>
+                    </ChartContainer>
+                </Card>
+                <Card className="w-full pb-3 bg-background ">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                            <TrendUp className="w-4 h-4" />
+                            Desempenho de canais favoritos
+                        </CardTitle>
+                        <CardDescription>
+                            Desenpenho de cada canal por favoritos
+                        </CardDescription>
+                    </CardHeader>
+                    <ChartContainer config={chartConfig} className="h-[200px] w-full">
+                        <BarChart
+                            accessibilityLayer
+                            data={performanceChannelData}
+                            margin={{ top: 30 }}
+                        >
+                            <CartesianGrid vertical={false} />
+                            <XAxis
+                                dataKey="name"
+                                tickLine={false}
+                                tickMargin={10}
+                                axisLine={false}
+                            />
+                            <ChartTooltip content={<ChartTooltipContent />} />
+                            <ChartLegend content={<ChartLegendContent />} />
                             <Bar dataKey="favoriteCount" name="Favoritos" fill="#ffffff" radius={4} >
                                 <LabelList
                                     position="top"
@@ -261,6 +291,16 @@ export default function Channel() {
                                         className="outline-none border-none w-full h-full text-gray-100 text-base font-normal bg-transparent placeholder:text-gray-400 transition-colors"
                                     />
                                 </div>
+                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-[#3fa5ff2f] box-border transition-opacity focus-within:border-purpleseat-base'>
+                                    <input
+                                        {...registerChannel('url')}
+                                        type="text"
+                                        placeholder="Url da TV"
+                                        id="url"
+                                        name="url"
+                                        className="outline-none border-none w-full h-full text-gray-100 text-base font-normal bg-transparent placeholder:text-gray-400 transition-colors"
+                                    />
+                                </div>
                                 <button
                                     type="submit"
                                     className="relative inline-flex bg-[#3fa6ff] hover:bg-[#318ad7] flex-shrink-0 justify-center items-center gap-2 rounded transition-colors ease-in-out duration-200 font-semibold disabled:opacity-50 disabled:cursor-not-allowed disabled:select-none border-none cursor-pointer overflow-hidden bg-purpleseat-dark hover:enabled:bg-purpleseat-base text-white px-4 py-3 [&_svg]:size-6 text-md leading-6"
@@ -271,6 +311,11 @@ export default function Channel() {
                                     ) : (
                                         'Adicionar Canal'
                                     )}
+                                </button>
+                                <button
+                                    type="reset"
+                                    className="relative inline-flex bg-[#3fa6ff] hover:bg-[#318ad7] flex-shrink-0 justify-center items-center gap-2 rounded transition-colors ease-in-out duration-200 font-semibold disabled:opacity-50 disabled:cursor-not-allowed disabled:select-none border-none cursor-pointer overflow-hidden bg-purpleseat-dark hover:enabled:bg-purpleseat-base text-white px-4 py-3 [&_svg]:size-6 text-md leading-6">
+                                    Limpar
                                 </button>
                             </form>
                         </TabsContent>
@@ -331,6 +376,11 @@ export default function Channel() {
                                     ) : (
                                         'Atualizar Canal'
                                     )}
+                                </button>
+                                <button
+                                    type="reset"
+                                    className="relative inline-flex bg-[#3fa6ff] hover:bg-[#318ad7] flex-shrink-0 justify-center items-center gap-2 rounded transition-colors ease-in-out duration-200 font-semibold disabled:opacity-50 disabled:cursor-not-allowed disabled:select-none border-none cursor-pointer overflow-hidden bg-purpleseat-dark hover:enabled:bg-purpleseat-base text-white px-4 py-3 [&_svg]:size-6 text-md leading-6">
+                                    Limpar
                                 </button>
                             </form>
                         </TabsContent>

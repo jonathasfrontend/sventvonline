@@ -192,9 +192,14 @@ export default function Users() {
     }
 
     useEffect(() => {
+        
+    const interval = setInterval(() => {
         loadData();
         getDetalhesUsers();
         getEvolutionRegistersUsersData()
+    }, 5000);
+
+    return () => clearInterval(interval);
     }, []);
 
     async function handleDeleteUser(data: RemoveUserData) {

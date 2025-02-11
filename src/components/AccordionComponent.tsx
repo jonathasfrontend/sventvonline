@@ -112,10 +112,10 @@ export default function AccordionComponent(props: DetailsUsersData) {
                     <div className="w-auto flex flex-col">
                         <p className="text-sm text-gray-400">Tag: @{props.nametag}</p>
                         <p className="text-sm my-2 text-gray-400">E-mail: {props.email}</p>
-                        <p className="text-xs text-gray-400">Senha: {props.password}</p>
+                        <p className="text-xs text-white">Senha: <span className="bg-slate-700 text-neutral-300 p-1 rounded-sm">{props.password}</span></p>
                         <div>
                             <h1 className="text-lg mt-3 font-bold">Playlists</h1>
-                            <ul className="flex flex-col py-3 gap-2">
+                            <div className="flex flex-col py-3 gap-2">
                                 {
                                     props.playlists.length > 0 ? (
                                         props.playlists.map((playlist) => (
@@ -127,16 +127,20 @@ export default function AccordionComponent(props: DetailsUsersData) {
                                                     </span>
                                                 </div>
                                                 {
-                                                    playlist.channels.map((channel) => (
-                                                        <div className="w-[200px] flex flex-col items-center my-2 bg-gray-700 border border-gray-600 hover:brightness-125 transition rounded-md">
-                                                            <div key={channel.id} className="flex items-center justify-center p-3">
-                                                                <img src={channel.image} alt={channel.name} className="w-16 h-16 rounded-full" />
+                                                    playlist.channels.length > 0 ? (
+                                                        playlist.channels.map((channel) => (
+                                                            <div className="w-[200px] flex flex-col items-center my-2 bg-gray-700 border border-gray-600 hover:brightness-125 transition rounded-md">
+                                                                <div key={channel.id} className="flex items-center justify-center p-3">
+                                                                    <img src={channel.image} alt={channel.name} className="w-16 h-16 rounded-full" />
+                                                                </div>
+                                                                <div className="flex flex-col p-2">
+                                                                    <p className="text-sm font-bold">{channel.name}</p>
+                                                                </div>
                                                             </div>
-                                                            <div className="flex flex-col p-2">
-                                                                <p className="text-sm font-bold">{channel.name}</p>
-                                                            </div>
-                                                        </div>
-                                                    ))
+                                                        ))
+                                                    ) : (
+                                                        <p className="text-sm text-gray-400">Nenhum canal nessa playlist</p>
+                                                    )
                                                 }
                                             </div>
                                         ))
@@ -144,9 +148,9 @@ export default function AccordionComponent(props: DetailsUsersData) {
                                         <p className="text-sm text-gray-400">Nenhuma playlist criada</p>
                                     )
                                 }
-                            </ul>
+                            </div>
                             <h1 className="text-lg font-bold">Favoritos</h1>
-                            <ul className="flex items-center gap-2">
+                            <div className="flex items-center gap-2">
                                 {
                                     props.favoritedChannels.length > 0 ? (
                                         props.favoritedChannels.map((channel) => (
@@ -163,9 +167,9 @@ export default function AccordionComponent(props: DetailsUsersData) {
                                         <p className="text-sm text-gray-400">Nenhum canal favoritado</p>
                                     )
                                 }
-                            </ul>
+                            </div>
                             <h1 className="text-lg font-bold">Curtidos</h1>
-                            <ul className="flex items-center gap-2">
+                            <div className="flex items-center gap-2">
                                 {
                                     props.likedChannels.length > 0 ? (
                                         props.likedChannels.map((channel) => (
@@ -182,7 +186,7 @@ export default function AccordionComponent(props: DetailsUsersData) {
                                         <p className="text-sm text-gray-400">Nenhum canal curtido</p>
                                     )
                                 }
-                            </ul>
+                            </div>
                         </div>
                     </div>
                 </AccordionContent>
