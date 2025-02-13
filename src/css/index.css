@@ -17,7 +17,7 @@
 }
 
 .gradient-movies {
-  background: linear-gradient(0deg, #121214 2%, #0000006d 40%, #00000000 50%, #00000000 100%);
+  background: linear-gradient(0deg, #09090b 2%, #09090b6d 40%, #09090b00 50%, #09090b00 100%);
 }
 
 .gradient-series {
@@ -48,43 +48,69 @@
 
 @layer base {
   :root {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    --background: #09090b;
+    --foreground: #fafafa;
+    --card:  #121214;
+    --card-foreground: #fafafa;
+    --popover: #09090b;
+    --popover-foreground: #fafafa;
+    --primary: #fafafa;
+    --primary-foreground: #18181b;
+    --secondary:  #27272a;
+    --secondary-foreground: #fafafa;
+    --muted:  #27272a;
+    --muted-foreground: #a1a1aa;
+    --accent:  #27272a;
+    --accent-foreground: #fafafa;
+    --destructive: #7f1d1d;
+    --destructive-foreground: #fafafa;
+    --border: #27272a;
+    --input: #1c1c1c;
+    --ring: #d4d4d8;
+    --hover: #41414165;
+    --chart-1: #2662d9;
+    --chart-2: #2eb88a;
+    --chart-3: #e88c30;
+    --chart-4: #af57db;
+    --chart-5: #e23670;
     --radius: 0.5rem;
   }
-}
-/* .d{
-  background-color: ;
-} */
 
+}
+.d {
+  /* background-color: #09090b; */
+  /* background-color: #fafafa; */
+  /* background-color: #121212; */
+  /* background-color: #fafafa; */
+  /* background-color: #09090b; */
+  /* background-color: #fafafa; */
+  /* background-color: #fafafa; */
+  /* background-color: #18181b; */
+  /* background-color: #27272a; */
+  /* background-color: #fafafa; */
+  /* background-color: #27272a; */
+  /* background-color: #a1a1aa; */
+  /* background-color: #27272a; */
+  /* background-color: #fafafa; */
+  /* background-color: #7f1d1d; */
+  /* background-color: #fafafa; */
+  /* background-color: #27272a; */
+  /* background-color: #27272a; */
+  /* background-color: #d4d4d8; */
+  /* background-color: #2662d9; */
+  /* background-color: #2eb88a; */
+  /* background-color: #e88c30; */
+  /* background-color: #af57db; */
+  /* background-color: #e23670; */
+  /* 0.5rem; */
+  
+}
 @layer base {
   * {
     @apply border-border;
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background;
   }
 }

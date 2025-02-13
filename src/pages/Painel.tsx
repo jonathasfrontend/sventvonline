@@ -11,7 +11,7 @@ import Users from "@/components/Users";
 
 export default function Painel() {
     return (
-        <div className="w-full h-full bg-[#121214] ">
+        <div className="w-full h-full bg-background ">
             <ToastContainer
                 position="top-right"
                 autoClose={5000}

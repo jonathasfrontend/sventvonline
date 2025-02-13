@@ -26,7 +26,7 @@ export default function Channel() {
     }, [id]);
 
     return (
-        <div className="w-full h-screen bg-[#121214] text-white relative">
+        <div className="w-full h-screen bg-background text-white relative">
             <Header />
             {channel && (
                 <div className="w-full h-full">

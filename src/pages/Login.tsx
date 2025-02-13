@@ -31,7 +31,7 @@ export default function Login() {
     }
   }
   return (
-    <div className="relative min-h-screen flex items-stretch bg-[#121214]">
+    <div className="relative min-h-screen flex items-stretch bg-[#3fa5ff10]">
 
       <ToastContainer
         position="top-right"
@@ -51,7 +51,7 @@ export default function Login() {
         <img src={background} alt="" className='w-[400px] h-auto object-cover' />
       </div>
 
-      <div className='w-[40%] h-screen gap-3 flex-[560px_1_0] min-[1101px]:max-w-[560px] max-[1100px]:flex-1 bg-[#3fa5ff10]'>
+      <div className='w-[40%] h-screen gap-3 flex-[560px_1_0] min-[1101px]:max-w-[560px] max-[1100px]:flex-1 bg-background'>
         <div className='h-[100dvh] bg-gray-850 p-20 overflow-auto max-[1100px]:h-auto max-[1100px]:min-h-[calc(100dvh-16px)] max-[1100px]:p-7'>
           <div className='flex flex-col'>
             <div className='w-full flex items-center'>
@@ -65,7 +65,7 @@ export default function Login() {
                 <label htmlFor="email-address">
                   E-mail
                 </label>
-                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-[#3fa5ff2f] box-border transition-opacity focus-within:border-purpleseat-base'>
+                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-input border transition-opacity'>
                   <input
                     {...register('email')}
                     id="email-address"
@@ -84,7 +84,7 @@ export default function Login() {
                   <label htmlFor="password">
                     Senha
                   </label>
-                  <div className="flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-[#3fa5ff2f] box-border transition-opacity focus-within:border-purpleseat-base">
+                  <div className="flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-input border transition-opacity">
                     <input
                       {...register('password')}
                       id="password"

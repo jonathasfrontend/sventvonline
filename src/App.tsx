@@ -10,6 +10,8 @@ import Playlist from "./pages/Playlist";
 import Me from "./pages/Me";
 import Channel from "./pages/Channel";
 import Painel from "./pages/Painel";
+import Movies from "./pages/Movies";
+import Infantil from "./pages/Infantil";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -71,6 +73,22 @@ function App() {
             element={
               <ProtectedRoute>
                 <Playlist />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/filmes"
+            element={
+              <ProtectedRoute>
+                <Movies />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/infantil"
+            element={
+              <ProtectedRoute>
+                <Infantil />
               </ProtectedRoute>
             }
           />

@@ -73,7 +73,7 @@ export default function AccordionComponent(props: DetailsUsersData) {
 
     return (
         <Accordion type="single" collapsible>
-            <AccordionItem value={props.id} key={props.id} className="w-full my-3 px-5 bg-background rounded-lg">
+            <AccordionItem value={props.id} key={props.id} className="w-full my-3 px-5 bg-card border rounded-lg">
                 <AccordionTrigger className="w-full flex justify-between">
                     <div className="w-full flex items-center justify-between pr-3">
                         <div className="w-full flex items-center gap-3">
@@ -91,7 +91,7 @@ export default function AccordionComponent(props: DetailsUsersData) {
                                 </Avatar.Fallback>
                             </Avatar.Root>
                             <div>
-                                <h1 className="text-base font-bold">{props.username}</h1>
+                                <h1 className="text-base text-foreground font-bold">{props.username}</h1>
                                 <p className="text-[10px] text-gray-400">{formatData(props.created_at)}</p>
                             </div>
                         </div>
@@ -112,9 +112,9 @@ export default function AccordionComponent(props: DetailsUsersData) {
                     <div className="w-auto flex flex-col">
                         <p className="text-sm text-gray-400">Tag: @{props.nametag}</p>
                         <p className="text-sm my-2 text-gray-400">E-mail: {props.email}</p>
-                        <p className="text-xs text-white">Senha: <span className="bg-slate-700 text-neutral-300 p-1 rounded-sm">{props.password}</span></p>
+                        <p className="text-xs text-foreground">Senha: <span className="bg-slate-700 text-neutral-300 p-1 rounded-sm">{props.password}</span></p>
                         <div>
-                            <h1 className="text-lg mt-3 font-bold">Playlists</h1>
+                            <h1 className="text-lg mt-3 text-foreground font-bold">Playlists</h1>
                             <div className="flex flex-col py-3 gap-2">
                                 {
                                     props.playlists.length > 0 ? (
@@ -149,7 +149,7 @@ export default function AccordionComponent(props: DetailsUsersData) {
                                     )
                                 }
                             </div>
-                            <h1 className="text-lg font-bold">Favoritos</h1>
+                            <h1 className="text-lg text-foreground font-bold">Favoritos</h1>
                             <div className="flex items-center gap-2">
                                 {
                                     props.favoritedChannels.length > 0 ? (
@@ -168,7 +168,7 @@ export default function AccordionComponent(props: DetailsUsersData) {
                                     )
                                 }
                             </div>
-                            <h1 className="text-lg font-bold">Curtidos</h1>
+                            <h1 className="text-lg text-foreground font-bold">Curtidos</h1>
                             <div className="flex items-center gap-2">
                                 {
                                     props.likedChannels.length > 0 ? (

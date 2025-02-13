@@ -1,14 +1,6 @@
 import { Heart, Star, BookmarkSimple } from "@phosphor-icons/react";
-// import { useEffect, useState } from "react";
-// import { api } from "../services/api";
 import { Bounce, ToastContainer } from "react-toastify";
 import { Link } from "react-router-dom";
-// import {
-//   Select,
-//   SelectContent,
-//   SelectItem,
-//   SelectTrigger,
-// } from "./ui/select";
 
 interface CardChannelProps {
   id: string;
@@ -28,7 +20,6 @@ export function CardChannel(props: CardChannelProps) {
 
   return (
     <div className="w-[300px] p-3 bg-[#323262] rounded-md shadow-md relative">
-
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -47,17 +38,17 @@ export function CardChannel(props: CardChannelProps) {
         <img src={props.image} alt={props.name} className="w-28 h-28 rounded-full" />
 
         <div className="w-full flex flex-col justify-center ml-5">
-          <h2 className="text-lg font-bold">{props.name}</h2>
+          <h2 className="text-lg text-foreground font-bold">{props.name}</h2>
           <p className="text-xs text-gray-300 mb-1">{props.description}</p>
           <div className="w-full flex items-center justify-between">
             <button className="hover:text-red-400">
-              <Heart size={24} weight="regular" />
+              <Heart weight="regular" className="w-6 h-6 text-foreground" />
             </button>
             <button className="hover:text-yellow-400">
-              <Star size={24} weight="regular" />
+              <Star weight="regular" className="w-6 h-6 text-foreground" />
             </button>
             <button className="hover:text-green-400">
-              <BookmarkSimple size={24} weight="regular" />
+              <BookmarkSimple weight="regular" className="w-6 h-6 text-foreground" />
             </button>
           </div>
           <Link to={props.id} className="w-[140px] text-center text-sm font-medium text-[#323262] px-5 py-2 mt-2 rounded-full bg-white">

@@ -9,7 +9,7 @@ interface UserCardDataProps {
 
 export default function CardData(props: UserCardDataProps) {
     return (
-        <Card className="w-full h-[143px] bg-background p-5">
+        <Card className="w-full h-[143px] bg-card p-5">
             <div className="w-full flex items-center justify-between pb-5">
                 <span className="text-sm font-medium">{props.title}</span>
                 {props.icon}

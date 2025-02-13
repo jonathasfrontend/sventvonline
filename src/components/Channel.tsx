@@ -173,7 +173,7 @@ export default function Channel() {
     return (
         <TabsContent value="channel" className="w-full flex flex-col gap-3 overflow-hidden">
             <div className="w-full h-full flex flex-col items-center gap-3 relative">
-                <Card className="w-full pb-3 bg-background ">
+                <Card className="w-full pb-3 bg-card ">
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
                             <TrendUp className="w-4 h-4" />
@@ -189,7 +189,7 @@ export default function Channel() {
                             data={performanceChannelData}
                             margin={{ top: 30 }}
                         >
-                            <CartesianGrid vertical={false} />
+                            <CartesianGrid vertical={false} stroke="var(--border)" />
                             <XAxis
                                 dataKey="name"
                                 tickLine={false}
@@ -198,7 +198,7 @@ export default function Channel() {
                             />
                             <ChartTooltip content={<ChartTooltipContent />} />
                             <ChartLegend content={<ChartLegendContent />} />
-                            <Bar dataKey="likeCount" name="Likes" fill="#ffffff" radius={4} >
+                            <Bar dataKey="likeCount" name="Likes" fill="fill-foreground" radius={4} >
                                 <LabelList
                                     position="top"
                                     offset={12}
@@ -209,7 +209,7 @@ export default function Channel() {
                         </BarChart>
                     </ChartContainer>
                 </Card>
-                <Card className="w-full pb-3 bg-background ">
+                <Card className="w-full pb-3 bg-card ">
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
                             <TrendUp className="w-4 h-4" />
@@ -225,7 +225,7 @@ export default function Channel() {
                             data={performanceChannelData}
                             margin={{ top: 30 }}
                         >
-                            <CartesianGrid vertical={false} />
+                            <CartesianGrid vertical={false} stroke="var(--border)" />
                             <XAxis
                                 dataKey="name"
                                 tickLine={false}
@@ -234,7 +234,7 @@ export default function Channel() {
                             />
                             <ChartTooltip content={<ChartTooltipContent />} />
                             <ChartLegend content={<ChartLegendContent />} />
-                            <Bar dataKey="favoriteCount" name="Favoritos" fill="#ffffff" radius={4} >
+                            <Bar dataKey="favoriteCount" name="Favoritos" fill="var(--foreground)" radius={4} >
                                 <LabelList
                                     position="top"
                                     offset={12}
@@ -256,12 +256,12 @@ export default function Channel() {
                         </TabsList>
 
                         <TabsContent value="addChannel" className="w-full h-full flex flex-col gap-3">
-                            <form className="w-full flex flex-col gap-5 rounded-lg shadow-lg p-5 bg-background border" onSubmit={handleSubmitAddChannel(handleAddChannel)}>
+                            <form className="w-full flex flex-col gap-5 rounded-lg shadow-lg p-5 bg-card border" onSubmit={handleSubmitAddChannel(handleAddChannel)}>
                                 <div className="w-full pb-3">
-                                    <h1 className="text-lg font-bold">Cadastrar Canal</h1>
+                                    <h1 className="text-lg text-foreground font-bold">Cadastrar Canal</h1>
                                     <p className="text-xs text-gray-500 mt-1">Adicione um novo canal a sua lista</p>
                                 </div>
-                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-[#3fa5ff2f] box-border transition-opacity focus-within:border-purpleseat-base'>
+                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-input box-border transition-opacity focus-within:border-purpleseat-base'>
                                     <input
                                         {...registerChannel('name')}
                                         type="text"
@@ -271,7 +271,7 @@ export default function Channel() {
                                         className="outline-none border-none w-full h-full text-gray-100 text-base font-normal bg-transparent placeholder:text-gray-400 transition-colors"
                                     />
                                 </div>
-                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-[#3fa5ff2f] box-border transition-opacity focus-within:border-purpleseat-base'>
+                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-input box-border transition-opacity focus-within:border-purpleseat-base'>
                                     <input
                                         {...registerChannel('categoria')}
                                         type="text"
@@ -281,7 +281,7 @@ export default function Channel() {
                                         className="outline-none border-none w-full h-full text-gray-100 text-base font-normal bg-transparent placeholder:text-gray-400 transition-colors"
                                     />
                                 </div>
-                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-[#3fa5ff2f] box-border transition-opacity focus-within:border-purpleseat-base'>
+                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-input box-border transition-opacity focus-within:border-purpleseat-base'>
                                     <input
                                         {...registerChannel('image')}
                                         type="text"
@@ -291,7 +291,7 @@ export default function Channel() {
                                         className="outline-none border-none w-full h-full text-gray-100 text-base font-normal bg-transparent placeholder:text-gray-400 transition-colors"
                                     />
                                 </div>
-                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-[#3fa5ff2f] box-border transition-opacity focus-within:border-purpleseat-base'>
+                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-input box-border transition-opacity focus-within:border-purpleseat-base'>
                                     <input
                                         {...registerChannel('url')}
                                         type="text"
@@ -312,21 +312,16 @@ export default function Channel() {
                                         'Adicionar Canal'
                                     )}
                                 </button>
-                                <button
-                                    type="reset"
-                                    className="relative inline-flex bg-[#3fa6ff] hover:bg-[#318ad7] flex-shrink-0 justify-center items-center gap-2 rounded transition-colors ease-in-out duration-200 font-semibold disabled:opacity-50 disabled:cursor-not-allowed disabled:select-none border-none cursor-pointer overflow-hidden bg-purpleseat-dark hover:enabled:bg-purpleseat-base text-white px-4 py-3 [&_svg]:size-6 text-md leading-6">
-                                    Limpar
-                                </button>
                             </form>
                         </TabsContent>
 
                         <TabsContent value="updateChannel" className="w-full h-full flex flex-col gap-3">
-                            <form className="w-full flex flex-col gap-5 rounded-lg shadow-lg p-5 bg-background border" onSubmit={handleSubmitUpdateChannel(handleUpdateChannel)}>
+                            <form className="w-full flex flex-col gap-5 rounded-lg shadow-lg p-5 bg-card border" onSubmit={handleSubmitUpdateChannel(handleUpdateChannel)}>
                                 <div className="w-full pb-3">
-                                    <h1 className="text-lg font-bold">Atualizar Canal</h1>
+                                    <h1 className="text-lg text-foreground font-bold">Atualizar Canal</h1>
                                     <p className="text-xs text-gray-500 mt-1">Atualize um canal da sua lista</p>
                                 </div>
-                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-[#3fa5ff2f] box-border transition-opacity focus-within:border-purpleseat-base'>
+                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-input box-border transition-opacity focus-within:border-purpleseat-base'>
                                     <input
                                         {...registerUpdateChannel('id')}
                                         type="text"
@@ -336,7 +331,7 @@ export default function Channel() {
                                         className="outline-none border-none w-full h-full text-gray-100 text-base font-normal bg-transparent placeholder:text-gray-400 transition-colors"
                                     />
                                 </div>
-                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-[#3fa5ff2f] box-border transition-opacity focus-within:border-purpleseat-base'>
+                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-input box-border transition-opacity focus-within:border-purpleseat-base'>
                                     <input
                                         {...registerUpdateChannel('name')}
                                         type="text"
@@ -346,7 +341,7 @@ export default function Channel() {
                                         className="outline-none border-none w-full h-full text-gray-100 text-base font-normal bg-transparent placeholder:text-gray-400 transition-colors"
                                     />
                                 </div>
-                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-[#3fa5ff2f] box-border transition-opacity focus-within:border-purpleseat-base'>
+                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-input box-border transition-opacity focus-within:border-purpleseat-base'>
                                     <input
                                         {...registerUpdateChannel('categoria')}
                                         type="text"
@@ -356,7 +351,7 @@ export default function Channel() {
                                         className="outline-none border-none w-full h-full text-gray-100 text-base font-normal bg-transparent placeholder:text-gray-400 transition-colors"
                                     />
                                 </div>
-                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-[#3fa5ff2f] box-border transition-opacity focus-within:border-purpleseat-base'>
+                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-input box-border transition-opacity focus-within:border-purpleseat-base'>
                                     <input
                                         {...registerUpdateChannel('image')}
                                         type="text"
@@ -386,12 +381,12 @@ export default function Channel() {
                         </TabsContent>
 
                         <TabsContent value="deletChannel" className="w-full h-full flex justify-between gap-3">
-                            <form className="w-full flex flex-col gap-5 rounded-lg shadow-lg p-5 bg-background border" onSubmit={handleSubmitremoveChannel(handleDeleteChannel)}>
+                            <form className="w-full flex flex-col gap-5 rounded-lg shadow-lg p-5 bg-card border" onSubmit={handleSubmitremoveChannel(handleDeleteChannel)}>
                                 <div className="w-full pb-3">
-                                    <h1 className="text-lg font-bold">Deletar Canal</h1>
+                                    <h1 className="text-lg text-foreground font-bold">Deletar Canal</h1>
                                     <p className="text-xs text-gray-500 mt-1">Remova um canal da sua lista</p>
                                 </div>
-                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-[#3fa5ff2f] box-border transition-opacity focus-within:border-purpleseat-base'>
+                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-input box-border transition-opacity focus-within:border-purpleseat-base'>
                                     <input
                                         {...registerDeleteChannel('id')}
                                         type="text"
@@ -413,12 +408,12 @@ export default function Channel() {
                                     )}
                                 </button>
                             </form>
-                            <form className="w-full flex flex-col gap-5 rounded-lg shadow-lg p-5 bg-background border" onSubmit={handleSubmitremoveAllChannel(handleDeleteAllChannels)}>
+                            <form className="w-full flex flex-col gap-5 rounded-lg shadow-lg p-5 bg-card border" onSubmit={handleSubmitremoveAllChannel(handleDeleteAllChannels)}>
                                 <div className="w-full pb-3">
-                                    <h1 className="text-lg font-bold">Deletar Todos os Canais</h1>
+                                    <h1 className="text-lg text-foreground font-bold">Deletar Todos os Canais</h1>
                                     <p className="text-xs text-gray-500 mt-1">Remova todos os canais da sua lista</p>
                                 </div>
-                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-[#3fa5ff2f] box-border transition-opacity focus-within:border-purpleseat-base'>
+                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-input box-border transition-opacity focus-within:border-purpleseat-base'>
                                     <input
                                         {...registerDeleteAllChannel('id')}
                                         type="text"
@@ -429,7 +424,7 @@ export default function Channel() {
                                         className="outline-none border-none w-full h-full text-gray-100 text-base font-normal bg-transparent placeholder:text-gray-400 transition-colors"
                                     />
                                 </div>
-                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-[#3fa5ff2f] box-border transition-opacity focus-within:border-purpleseat-base'>
+                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-input box-border transition-opacity focus-within:border-purpleseat-base'>
                                     <input
                                         {...registerDeleteAllChannel('password')}
                                         type="password"
@@ -452,9 +447,9 @@ export default function Channel() {
                         </TabsContent>
                     </Tabs>
                 </div>
-                <div className="w-1/2 h-[560px] border rounded-xl p-5 bg-background overflow-hidden">
+                <div className="w-1/2 h-[560px] border rounded-xl p-5 bg-card overflow-hidden">
                     <div className="w-full pb-3">
-                        <h1 className="text-lg font-bold">Todos os canais</h1>
+                        <h1 className="text-lg text-foreground font-bold">Todos os canais</h1>
                         <p className="text-xs text-gray-500 mt-1">Todos os canais</p>
                     </div>
                     <ScrollArea className="w-full h-full pb-8">
@@ -478,7 +473,7 @@ export default function Channel() {
                                                         {channel.name?.charAt(0).toUpperCase()}
                                                     </Avatar.Fallback>
                                                 </Avatar.Root>
-                                                <h1 className="text-base font-bold ">{channel.name}</h1>
+                                                <h1 className="text-base text-foreground font-bold ">{channel.name}</h1>
                                                 <p className="text-sm text-left text-gray-500">{channel.categoria}</p>
                                             </div>
                                             <div className="flex items-center gap-5">

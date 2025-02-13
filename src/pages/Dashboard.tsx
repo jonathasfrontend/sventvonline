@@ -156,6 +156,7 @@ export default function Dashboard() {
       setLoading(false);
     }
   };
+  
   useEffect(() => {
     const interval = setInterval(() => {
       fetchHighlights();
@@ -164,7 +165,6 @@ export default function Dashboard() {
 
     return () => clearInterval(interval);
   }, []);
-
 
   const carouselSettingsFilmes = {
     dots: true,
@@ -235,35 +235,24 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className="absolute top-0 left-0 z-50 w-full h-screen bg-[#121214] flex items-center justify-center">
+      <div className="absolute top-0 left-0 z-50 w-full h-screen bg-background flex items-center justify-center">
         <img src={logoSolo} className="w-16 animate-bounce " alt="" />
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-[#121214]">
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-        transition={Bounce}
-      />
+    <div className="h-full bg-background">
+      <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" transition={Bounce}/>
 
       <Header />
+
       <div className="w-full h-screen flex flex-col items-center justify-center">
         <div className="absolute bottom-[70px] text-center mt-5 z-20">
-          <h1 className="text-white text-2xl font-bold ">
+          <span className="text-sm text-gray-500 font-medium">No SvenTv você tem conteúdo de cinema em casa.</span>
+          <h1 className="text-foreground font-semibold text-xl">
             Confira o Top 10 filmes mais assistidos na Sventv
           </h1>
-          <span className="text-sm">No SvenTv você tem conteúdo de cinema em casa.</span>
         </div>
         <div className="w-full h-full relative">
           <Slider {...carouselSettingsFilmes}>
@@ -282,7 +271,7 @@ export default function Dashboard() {
                 ))
               ) : (
                 <div className="w-full h-full flex items-center justify-center">
-                  <h1 className="text-white text-2xl font-bold ">Nenhum filme encontrado</h1>
+                  <h1 className="text-gray-500 font-medium text-base">Nenhum filme encontrado</h1>
                 </div>
               )
             }
@@ -291,7 +280,7 @@ export default function Dashboard() {
       </div>
 
       <div className="w-full flex flex-col  items-center justify-center">
-        <h1 className="text-white text-xl font-bold ">
+        <h1 className="text-foreground text-xl font-bold ">
           Tv Aberta
         </h1>
         <div className="w-full gap-5 px-16 py-8">
@@ -312,7 +301,7 @@ export default function Dashboard() {
                 ))
               ) : (
                 <div className="w-full h-full flex items-center justify-center">
-                  <h1 className="text-white text-2xl font-bold ">Nenhum canal encontrado</h1>
+                  <h1 className="text-gray-500 font-medium text-base">Nenhum canal encontrado</h1>
                 </div>
               )
             }
@@ -321,7 +310,7 @@ export default function Dashboard() {
       </div>
 
       <div className="w-full flex flex-col  items-center justify-center">
-        <h1 className="text-white text-xl font-bold ">
+        <h1 className="text-foreground text-xl font-bold ">
           Noticias
         </h1>
         <div className="w-full gap-5 px-16 py-8">
@@ -342,7 +331,7 @@ export default function Dashboard() {
                 ))
               ) : (
                 <div className="w-full h-full flex items-center justify-center">
-                  <h1 className="text-white text-2xl font-bold ">Nenhum canal encontrado</h1>
+                  <h1 className="text-gray-500 font-medium text-base">Nenhum canal encontrado</h1>
                 </div>
               )
             }
@@ -351,7 +340,7 @@ export default function Dashboard() {
       </div>
 
       <div className="w-full flex flex-col  items-center justify-center">
-        <h1 className="text-white text-xl font-bold ">
+        <h1 className="text-foreground text-xl font-bold ">
           Filmes
         </h1>
         <div className="w-full gap-5 px-16 py-8">
@@ -372,7 +361,7 @@ export default function Dashboard() {
                 ))
               ) : (
                 <div className="w-full h-full flex items-center justify-center">
-                  <h1 className="text-white text-2xl font-bold ">Nenhum canal encontrado</h1>
+                  <h1 className="text-gray-500 font-medium text-base">Nenhum canal encontrado</h1>
                 </div>
               )
             }
@@ -381,7 +370,7 @@ export default function Dashboard() {
       </div>
 
       <div className="w-full flex flex-col  items-center justify-center">
-        <h1 className="text-white text-xl font-bold ">
+        <h1 className="text-foreground text-xl font-bold ">
           Infantil
         </h1>
         <div className="w-full gap-5 px-16 py-8">
@@ -402,7 +391,7 @@ export default function Dashboard() {
                 ))
               ) : (
                 <div className="w-full h-full flex items-center justify-center">
-                  <h1 className="text-white text-2xl font-bold ">Nenhum canal encontrado</h1>
+                  <h1 className="text-gray-500 font-medium text-base">Nenhum canal encontrado</h1>
                 </div>
               )
             }
@@ -411,7 +400,7 @@ export default function Dashboard() {
       </div>
 
       <div className="w-full flex flex-col  items-center justify-center">
-        <h1 className="text-white text-xl font-bold ">
+        <h1 className="text-foreground text-xl font-bold ">
           Variedades
         </h1>
         <div className="w-full gap-5 px-16 py-8">
@@ -432,7 +421,7 @@ export default function Dashboard() {
                 ))
               ) : (
                 <div className="w-full h-full flex items-center justify-center">
-                  <h1 className="text-white text-2xl font-bold ">Nenhum canal encontrado</h1>
+                  <h1 className="text-gray-500 font-medium text-base">Nenhum canal encontrado</h1>
                 </div>
               )
             }
@@ -441,7 +430,7 @@ export default function Dashboard() {
       </div>
 
       <div className="w-full flex flex-col  items-center justify-center">
-        <h1 className="text-white text-xl font-bold ">
+        <h1 className="text-foreground text-xl font-bold ">
           Documentário
         </h1>
         <div className="w-full gap-5 px-16 py-8">
@@ -462,7 +451,7 @@ export default function Dashboard() {
                 ))
               ) : (
                 <div className="w-full h-full flex items-center justify-center">
-                  <h1 className="text-white text-2xl font-bold ">Nenhum canal encontrado</h1>
+                  <h1 className="text-gray-500 font-medium text-base">Nenhum canal encontrado</h1>
                 </div>
               )
             }
@@ -471,7 +460,7 @@ export default function Dashboard() {
       </div>
 
       <div className="w-full flex flex-col  items-center justify-center">
-        <h1 className="text-white text-xl font-bold ">
+        <h1 className="text-foreground text-xl font-bold ">
           Esportes
         </h1>
         <div className="w-full gap-5 px-16 py-8">
@@ -492,7 +481,7 @@ export default function Dashboard() {
                 ))
               ) : (
                 <div className="w-full h-full flex items-center justify-center">
-                  <h1 className="text-white text-2xl font-bold ">Nenhum canal encontrado</h1>
+                  <h1 className="text-gray-500 font-medium text-base">Nenhum canal encontrado</h1>
                 </div>
               )
             }
@@ -502,10 +491,10 @@ export default function Dashboard() {
 
       <div className="w-full h-auto flex flex-col items-center justify-center">
         <div className="text-center mt-5">
-          <h1 className="text-white text-2xl font-bold ">
+          <h1 className="text-foreground font-semibold text-xl">
             Confira as séries mais assistidas no SvenTv
           </h1>
-          <span className="text-sm">As melhores séries e desenhos em um só lugar.</span>
+          <span className="text-sm text-gray-500 font-medium">As melhores séries e desenhos em um só lugar.</span>
         </div>
         <div className="w-full h-full gap-5 px-16 py-8">
           <Slider {...carouselSettingsChannel}>

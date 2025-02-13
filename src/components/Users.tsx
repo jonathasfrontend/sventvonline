@@ -192,14 +192,14 @@ export default function Users() {
     }
 
     useEffect(() => {
-        
-    const interval = setInterval(() => {
-        loadData();
-        getDetalhesUsers();
-        getEvolutionRegistersUsersData()
-    }, 5000);
 
-    return () => clearInterval(interval);
+        const interval = setInterval(() => {
+            loadData();
+            getDetalhesUsers();
+            getEvolutionRegistersUsersData()
+        }, 5000);
+
+        return () => clearInterval(interval);
     }, []);
 
     async function handleDeleteUser(data: RemoveUserData) {
@@ -228,7 +228,7 @@ export default function Users() {
     return (
         <TabsContent value="users" className="w-full flex flex-col gap-3 overflow-hidden">
             <div className="w-full h-full flex flex-col items-center gap-3 relative">
-                <Card className="w-full pb-3 bg-background ">
+                <Card className="w-full pb-3 bg-card ">
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
                             <TrendUp className="w-4 h-4" />
@@ -242,7 +242,7 @@ export default function Users() {
                             data={registerUsersData}
                             margin={{ top: 30 }}
                         >
-                            <CartesianGrid vertical={false} />
+                            <CartesianGrid vertical={false} stroke="var(--border)" />
                             <XAxis
                                 dataKey="month"
                                 tickLine={false}
@@ -251,7 +251,7 @@ export default function Users() {
                             />
                             <ChartTooltip content={<ChartTooltipContent />} />
                             <ChartLegend content={<ChartLegendContent />} />
-                            <Bar dataKey="registrations" fill="#ffffff" radius={4}>
+                            <Bar dataKey="registrations" fill="var(--foreground)" radius={4}>
                                 <LabelList
                                     position="top"
                                     offset={12}
@@ -263,6 +263,7 @@ export default function Users() {
                     </ChartContainer>
                 </Card>
             </div>
+            
             <div className="w-full h-full flex gap-3 pb-5">
                 <div className="w-full h-full">
                     <Tabs defaultValue="users" className="w-full">
@@ -296,9 +297,9 @@ export default function Users() {
 
                         <TabsContent value="deleteUsers" className="w-full flex justify-between gap-3">
                             <div className="w-1/2">
-                                <form className="w-full flex flex-col gap-5 rounded-lg shadow-lg p-5 bg-background border" onSubmit={handleSubmitRemoveUser(handleDeleteUser)}>
+                                <form className="w-full flex flex-col gap-5 rounded-lg shadow-lg p-5 bg-card border" onSubmit={handleSubmitRemoveUser(handleDeleteUser)}>
                                     <div className="w-full pb-3">
-                                        <h1 className="text-lg font-bold">Remover Usuario</h1>
+                                        <h1 className="text-lg text-foreground font-bold">Remover Usuario</h1>
                                         <p className="text-xs text-gray-500 mt-1">Remova a conta de um usuario</p>
                                     </div>
                                     <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-[#3fa5ff2f] box-border transition-opacity focus-within:border-purpleseat-base'>
@@ -325,9 +326,9 @@ export default function Users() {
                                 </form>
                             </div>
                             <div className="w-1/2">
-                                <div className="w-full h-[560px] border rounded-xl p-5 bg-background overflow-hidden">
+                                <div className="w-full h-[560px] border rounded-xl p-5 bg-card overflow-hidden">
                                     <div className="w-full pb-3">
-                                        <h1 className="text-lg font-bold">Todos os usuarios</h1>
+                                        <h1 className="text-lg text-foreground font-bold">Todos os usuarios</h1>
                                         <p className="text-xs text-gray-500 mt-1">Dados completos dos usuarios</p>
                                     </div>
                                     <ScrollArea className="w-full h-full pb-8">
@@ -351,7 +352,7 @@ export default function Users() {
                                                             </Avatar.Root>
                                                             <div className="w-auto flex flex-col">
                                                                 <div className="flex items-center gap-2">
-                                                                    <h1 className="text-base font-bold">{user.username}</h1>
+                                                                    <h1 className="text-base text-foreground font-bold">{user.username}</h1>
                                                                     <p className="text-sm text-gray-400">@{user.nametag}</p>
                                                                 </div>
                                                                 <p className="text-xs py-1 text-gray-400">{user.email}</p>
@@ -361,12 +362,12 @@ export default function Users() {
                                                         <div className="flex items-center gap-2">
                                                             {
                                                                 user.cargo === "admin" ? (
-                                                                    <div className="flex items-center gap-2 bg-[#3fa5ff2f] px-2 py-1 rounded-lg">
-                                                                        <p className="text-xs text-[#3fa5ff] font-semibold">Admin</p>
+                                                                    <div className="flex items-center gap-2 bg-[#3fff592f] px-2 py-1 rounded-lg">
+                                                                        <p className="text-xs text-[#3fff3f] font-semibold">Admin</p>
                                                                     </div>
                                                                 ) : (
-                                                                    <div className="flex items-center gap-2 bg-[#ff3f3f2f] px-2 py-1 rounded-lg">
-                                                                        <p className="text-xs text-[#ff3f3f] font-semibold">User</p>
+                                                                    <div className="flex items-center gap-2 bg-[#3f8cff2f] px-2 py-1 rounded-lg">
+                                                                        <p className="text-xs text-[#3fb9ff] font-semibold">Membro</p>
                                                                     </div>
                                                                 )
                                                             }

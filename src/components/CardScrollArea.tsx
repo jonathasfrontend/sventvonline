@@ -24,7 +24,7 @@ export default function CardScrollArea(props: CardScrollAreaProps) {
                             {props.name?.charAt(0).toUpperCase()}
                         </Avatar.Fallback>
                     </Avatar.Root>
-                    <h1 className="text-base font-bold">{props.name}</h1>
+                    <h1 className="text-base text-foreground font-bold">{props.name}</h1>
                 </div>
             </div>
         </div>

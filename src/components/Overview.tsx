@@ -359,9 +359,9 @@ export default function Overview() {
 
       <div className="w-full h-full flex items-center gap-3">
         <div className="w-1/2 h-[465px] overflow-hidden">
-          <div className="w-full h-full border rounded-xl p-5 bg-background">
+          <div className="w-full h-full border rounded-xl p-5 bg-card">
             <div className="w-full pb-3">
-              <h1 className="text-lg font-bold">Todos os usuários</h1>
+              <h1 className="text-lg text-foreground font-bold">Todos os usuários</h1>
               <p className="text-xs text-gray-500 mt-1">Último usuário cadastrado</p>
             </div>
             <div className="h-full w-full pb-5">
@@ -383,9 +383,9 @@ export default function Overview() {
           </div>
         </div>
         <div className="w-1/2 h-[465px] overflow-hidden">
-          <div className="w-full h-full border rounded-xl p-5 bg-background">
+          <div className="w-full h-full border rounded-xl p-5 bg-card">
             <div className="w-full pb-3">
-              <h1 className="text-lg font-bold">Todos os canais</h1>
+              <h1 className="text-lg text-foreground font-bold">Todos os canais</h1>
               <p className="text-xs text-gray-500 mt-1">Todos os canais</p>
             </div>
             <ScrollArea className="w-full h-full pb-8">
@@ -409,7 +409,7 @@ export default function Overview() {
       </div>
 
       <div className="w-full h-full flex items-center gap-3">
-        <Card className="w-full pb-3 bg-background">
+        <Card className="w-full pb-3 bg-card">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <TrendUp className="w-4 h-4" />
@@ -423,7 +423,7 @@ export default function Overview() {
               data={registerUsersData}
               margin={{ top: 30 }}
             >
-              <CartesianGrid vertical={false} />
+              <CartesianGrid vertical={false} stroke="var(--border)" />
               <XAxis
                 dataKey="month"
                 tickLine={false}
@@ -432,7 +432,7 @@ export default function Overview() {
               />
               <ChartTooltip content={<ChartTooltipContent />} />
               <ChartLegend content={<ChartLegendContent />} />
-              <Bar dataKey="registrations" name="Cadastros" fill="#ffffff" radius={4}>
+              <Bar dataKey="registrations" name="Cadastros" fill="var(--foreground)" radius={4}>
                 <LabelList
                   position="top"
                   offset={12}
@@ -448,7 +448,7 @@ export default function Overview() {
       </div>
 
       <div className="w-full h-full flex items-center gap-3">
-        <Card className="w-full pb-3 bg-background ">
+        <Card className="w-full pb-3 bg-card ">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <TrendUp className="w-4 h-4" />
@@ -464,7 +464,7 @@ export default function Overview() {
               data={popularCategories}
               margin={{ top: 30 }}
             >
-              <CartesianGrid vertical={false} />
+              <CartesianGrid vertical={false} stroke="var(--border)" />
               <XAxis
                 dataKey="categoria"
                 tickLine={false}
@@ -511,7 +511,7 @@ export default function Overview() {
       </div>
 
       <div className="w-full h-full flex items-center gap-3">
-        <Card className="w-full pb-3 bg-background ">
+        <Card className="w-full pb-3 bg-card ">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <TrendUp className="w-4 h-4" />
@@ -527,7 +527,7 @@ export default function Overview() {
               data={performanceChannelData}
               margin={{ top: 30 }}
             >
-              <CartesianGrid vertical={false} />
+              <CartesianGrid vertical={false} stroke="var(--border)" />
               <XAxis
                 dataKey="name"
                 tickLine={false}
@@ -550,7 +550,7 @@ export default function Overview() {
       </div>
 
       <div className="w-full h-full flex items-center gap-3">
-        <Card className="w-full pb-3 bg-background ">
+        <Card className="w-full pb-3 bg-card ">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <TrendUp className="w-4 h-4" />
@@ -566,7 +566,7 @@ export default function Overview() {
               data={performanceChannelData}
               margin={{ top: 30 }}
             >
-              <CartesianGrid vertical={false} />
+              <CartesianGrid vertical={false} stroke="var(--border)" />
               <XAxis
                 dataKey="name"
                 tickLine={false}
@@ -590,7 +590,7 @@ export default function Overview() {
 
       <div className="w-full h-full flex items-center gap-3">
         <div className="w-1/2">
-          <Card className="w-full h-full pb-3 bg-background ">
+          <Card className="w-full h-full pb-3 bg-card ">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <TrendUp className="w-4 h-4" />
@@ -606,7 +606,7 @@ export default function Overview() {
                 data={likesEvolutionData}
                 margin={{ top: 30 }}
               >
-                <CartesianGrid vertical={false} />
+                <CartesianGrid vertical={false} stroke="var(--border)" />
                 <XAxis
                   dataKey={'month'}
                   tickLine={false}
@@ -628,7 +628,7 @@ export default function Overview() {
           </Card>
         </div>
         <div className="w-1/2">
-          <Card className="w-full h-full pb-3 bg-background ">
+          <Card className="w-full h-full pb-3 bg-card ">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <TrendUp className="w-4 h-4" />
@@ -644,7 +644,7 @@ export default function Overview() {
                 data={topUsersLikes}
                 margin={{ top: 30 }}
               >
-                <CartesianGrid vertical={false} />
+                <CartesianGrid vertical={false} stroke="var(--border)" />
                 <XAxis
                   dataKey="username"
                   tickLine={false}

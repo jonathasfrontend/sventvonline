@@ -35,7 +35,7 @@ export default function Guia() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#121214]">
+    <div className="min-h-screen bg-background">
       <Header />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-clos-5 gap-4 p-8">

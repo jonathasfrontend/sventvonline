@@ -45,10 +45,10 @@ export default function Favorite() {
     };
 
     return (
-        <div className="min-h-screen bg-[#121214]">
+        <div className="min-h-screen bg-background">
             <Header />
             <div className="flex flex-col items-center justify-center pt-10">
-                <h1 className="text-white text-4xl font-bold mt-10">Favoritos</h1>
+                <h1 className="text-foreground text-4xl font-bold mt-10">Favoritos</h1>
                 <div className="flex items-end md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
                     {
                         favorite.length > 0 ? (
@@ -58,17 +58,17 @@ export default function Favorite() {
 
                                     <div className="w-full flex flex-col justify-center px-3">
                                         <h2 className="text-base font-medium">{item.name}</h2>
-                                        <Link to={`/dashboard/${item.id}`} className="w-[140px] text-center text-sm font-semibold text-[#121214] px-5 py-2 mt-2 rounded-full bg-white hover:bg-slate-300">
+                                        <Link to={`/dashboard/${item.id}`} className="w-[140px] text-center text-sm font-semibold text-background px-5 py-2 mt-2 rounded-full bg-white hover:bg-slate-300">
                                             Acessar
                                         </Link>
                                         <button
                                             onClick={() => handleRemoveFavorite(item.id)}
-                                            className="w-[140px] text-center text-sm font-semibold text-[#121214] px-5 py-2 mt-2 rounded-full bg-white hover:bg-red-400"
+                                            className="w-[140px] text-center text-sm font-semibold text-background px-5 py-2 mt-2 rounded-full bg-white hover:bg-red-400"
                                         >
                                             Excluir
                                         </button>
                                     </div>
-                                    <Separator orientation="vertical" className="w-px bg-[#313131a1] " />
+                                    <Separator orientation="vertical" className="w-px bg-foreground " />
                                 </div>
                             ))
                         ) : (

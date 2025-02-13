@@ -36,7 +36,7 @@ export function CardChannelGuia(props: CardChannelsGuiaProps) {
   );
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 bg-[#323262] gap-3 text-white rounded-md shadow-lg w-full">
+    <div className="flex flex-col items-center justify-center p-4 bg-[#323262] gap-3 text-foreground rounded-md shadow-lg w-full">
       {/* Imagem do canal */}
       <div className="w-full flex items-center mb-4">
         <img
@@ -46,25 +46,25 @@ export function CardChannelGuia(props: CardChannelsGuiaProps) {
         />
         <div className="ml-4">
           <h2 className="text-lg font-bold">{props.nome}</h2>
-          <p className="text-sm text-gray-300">{props.programacao_atual.titulo}</p>
+          <p className="text-sm text-foreground">{props.programacao_atual.titulo}</p>
         </div>
       </div>
 
       {/* Slider de progresso */}
       <div className="w-full">
-        <div className="flex justify-between text-xs text-gray-400 mb-1">
+        <div className="flex justify-between text-xs text-foreground mb-1">
           <span>{new Date(props.programacao_atual.inicio).toLocaleTimeString()}</span>
           <span>{new Date(props.programacao_atual.fim).toLocaleTimeString()}</span>
         </div>
           <Slider defaultValue={[progress]} max={100} step={1} />
-        <p className="text-right text-xs text-gray-300 mt-1">
+        <p className="text-right text-xs text-foreground mt-1">
           {progress}% concluído
         </p>
       </div>
 
       {/* Próxima programação */}
       <div className="w-full mt-4">
-        <p className="text-sm text-gray-400">A seguir:</p>
+        <p className="text-sm text-foreground">A seguir:</p>
         <p className="text-sm font-medium">{props.programacao_proximas.titulo}</p>
       </div>
     </div>
