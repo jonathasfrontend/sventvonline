@@ -349,17 +349,17 @@ export default function Me() {
                                 placeholder="id"
                                 value={user.id}
                                 disabled
-                                // hidden
-                                className="w-full px-4 py-2 mt-2 rounded-lg bg-input text-secondary outline-none"
+                                hidden
+                                className="w-full px-4 py-2 text-base mt-2 rounded-sm bg-input text-secondary outline-none placeholder:text-ring"
                             />
                             <input
                                 {...createPlaylist("name")}
                                 type="text"
                                 placeholder="Nome da playlist"
-                                className="w-full px-4 py-2 mt-2 rounded-lg bg-input text-foreground outline-none"
+                                className="w-full px-4 py-2 text-base mt-2 rounded-sm bg-input text-foreground outline-none placeholder:text-ring"
                             />
                             <button
-                                className="w-full text-foreground outline-none bg-input hover:bg-hover transition duration-300 py-2 mt-3 rounded-lg font-semibold"
+                                className="w-full text-foreground outline-none bg-input hover:bg-hover transition duration-300 py-2 mt-3 rounded-sm font-semibold"
                             >
                                 Criar
                             </button>

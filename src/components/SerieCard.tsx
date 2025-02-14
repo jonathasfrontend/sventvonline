@@ -1,4 +1,4 @@
-import { Img } from "./Img";
+// import { img } from "./Img";
 
 interface Serie {
     id: string,
@@ -21,7 +21,7 @@ export default function Series(props: Serie) {
     return (
         <div className="w-[300px] h-[400px] bg-gray-800 relative overflow-hidden rounded-lg ">
             <div className="absolute top-0 left-0  w-full h-full gradient-series z-20"></div>
-            <Img
+            <img
                 src={
                     props.assets.find((asset) => asset.ratio === "3:4" && asset.category === "Iconic")?.url
                 }

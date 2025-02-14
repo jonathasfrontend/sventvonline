@@ -17,7 +17,7 @@
 }
 
 .gradient-movies {
-  background: linear-gradient(0deg, #09090b 2%, #09090b6d 40%, #09090b00 50%, #09090b00 100%);
+  background: linear-gradient(0deg, #121214 2%, #09090b6d 40%, #09090b00 50%, #09090b00 100%);
 }
 
 .gradient-series {
@@ -48,11 +48,11 @@
 
 @layer base {
   :root {
-    --background: #121214;
+    --background: #0f0f0f;
     --foreground: #fafafa;
     --card:  #1c1c1c;
     --card-foreground: #fafafa;
-    --popover: #121214;
+    --popover: #0f0f0f;
     --popover-foreground: #fafafa;
     --primary: #fafafa;
     --primary-foreground: #18181b;
@@ -65,7 +65,7 @@
     --destructive: #7f1d1d;
     --destructive-foreground: #fafafa;
     --border: #27272a;
-    --input: #09090b;
+    --input: #0f0f0f;
     --ring: #d4d4d8;
     --hover: #41414165;
     --chart-1: #2662d9;
