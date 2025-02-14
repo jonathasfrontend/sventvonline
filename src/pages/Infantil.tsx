@@ -52,7 +52,7 @@ export default function Infantil() {
                             ))
                         ) : (
                             <div className="w-full h-full flex justify-center items-center">
-                                <h1 className="text-gray-500 font-medium text-base">Nenhum canal encontrado</h1>
+                                <h1 className="text-gray-500 font-medium text-base">Carregando...</h1>
                             </div>
                         )
                     }

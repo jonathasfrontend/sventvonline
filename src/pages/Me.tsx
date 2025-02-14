@@ -3,11 +3,12 @@ import { Link, useParams } from 'react-router-dom';
 import { api } from "../services/api";
 import { Header } from '@/components/Header';
 import { Bounce, toast, ToastContainer } from 'react-toastify';
-import { CaretRight, Gear } from '@phosphor-icons/react';
+import { Gear } from '@phosphor-icons/react';
 import Slider from 'react-slick';
 import { Separator } from '@/components/ui/separator';
 import * as Avatar from "@radix-ui/react-avatar";
 import { Card } from '@/components/ui/card';
+import { useForm } from "react-hook-form";
 import {
     Sheet,
     SheetContent,
@@ -51,17 +52,19 @@ interface PlaylistData {
     description: string;
     created_at: string;
 }
+interface PlaylistCreateData {
+    userId: string;
+    name: string;
+    error: string;
+}
 
 export default function Me() {
     const { tag } = useParams();
     const [user, setUser] = useState<User | null>(null);
-    const [newName, setNewName] = useState("");
-    const [oldPassword, setOldPassword] = useState("");
-    const [newPassword, setNewPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
     const [favorite, setFavorite] = useState<FavoriteData[]>([]);
     const [playlist, setPlaylist] = useState<PlaylistData[]>([]);
     const [likedby, setLikedby] = useState<LikedData[]>([]);
+    const { register: createPlaylist, handleSubmit: handleSubmitCreatePlaylist } = useForm<PlaylistCreateData>();
 
     useEffect(() => {
         if (favorite.length > 0) return;
@@ -69,8 +72,6 @@ export default function Me() {
         if (cachedPlaylists) setFavorite(JSON.parse(cachedPlaylists));
     }, []);
 
-
-    // Carregar favoritos do localStorage
     useEffect(() => {
         if (playlist.length > 0) return;
         const cachedPlaylists = localStorage.getItem("playlists");
@@ -83,7 +84,6 @@ export default function Me() {
         if (cachedLiked) setLikedby(JSON.parse(cachedLiked));
     }, []);
 
-
     useEffect(() => {
         api.get(`/users/${tag}`)
             .then(response => {
@@ -91,42 +91,17 @@ export default function Me() {
             })
     }, [tag]);
 
-    const handleChangeName = async () => {
-        if (!newName.trim()) return;
+
+    async function handleCreatePlaylist(data: PlaylistCreateData) {
         try {
-            const updateName = await api.put(`/update-userdata/${user?.id}`, { username: newName });
-            toast.success(updateName.data.message);
-            setNewName("");
-
-            // Atualiza o nome do usuário fazzendo uma nova requisição na rota /users/${tag} e atualizando o estado do usuário e o localStorage
-            const response = await api.get(`/users/${tag}`);
-            setUser(response.data);
-            localStorage.setItem("username", response.data.username);
-
-        } catch (error) {
-            console.log(error);
-            toast.error("Erro ao alterar o nome!");
+            const response = await api.post('/playlists/createplaylist', data);
+            setPlaylist([...playlist, response.data]);
+            localStorage.setItem("playlists", JSON.stringify([...playlist, response.data]));
+            toast.success("Playlist criada com sucesso!");
+        } catch (error: any) {
+            toast.error(error.response.data.error || 'Erro ao criar playlist');
         }
-    };
-
-    const handleChangePassword = async () => {
-        if (newPassword !== confirmPassword) {
-            toast.error("As senhas não coincidem!");
-            return;
-        }
-        try {
-            await api.put(`/users/${user?.id}`, {
-                oldPassword,
-                newPassword
-            });
-            toast.success("Senha alterada com sucesso!");
-            setOldPassword("");
-            setNewPassword("");
-            setConfirmPassword("");
-        } catch (error) {
-            toast.error("Erro ao alterar a senha!");
-        }
-    };
+    }
 
     const carouselSettingsChannel = {
         dots: false,
@@ -205,83 +180,83 @@ export default function Me() {
                                     <SheetTitle className='outline-none'>Configurações</SheetTitle>
                                     <SheetDescription className='outline-none'>
                                         <ScrollArea className="w-full flex flex-col gap-3 h-[calc(100vh-80px)]">
-                                            <form className="w-full rounded-lg py-3 px-5 bg-card border mb-3">
+                                            <form className="w-full rounded-sm py-3 px-5 bg-card border mb-3">
                                                 <h2 className="text-lg text-foreground font-semibold">Alterar Nome</h2>
                                                 <input
                                                     type="text"
                                                     placeholder="Novo nome"
-                                                    value={newName}
-                                                    onChange={(e) => setNewName(e.target.value)}
-                                                    className="w-full px-4 py-2 mt-2 rounded-lg bg-input text-foreground outline-none"
+                                                    // value={newName}
+                                                    // onChange={(e) => setNewName(e.target.value)}
+                                                    className="w-full px-4 py-2 mt-2 rounded-sm bg-input text-foreground outline-none"
                                                 />
                                                 <button
-                                                    onClick={handleChangeName}
-                                                    className="w-full text-foreground outline-none bg-input hover:bg-hover transition duration-300 py-2 mt-3 rounded-lg font-semibold"
+                                                    // onClick={handleChangeName}
+                                                    className="w-full text-foreground outline-none bg-input hover:bg-hover transition duration-300 py-2 mt-3 rounded-sm font-semibold"
                                                 >
                                                     Atualizar Nome
                                                 </button>
                                             </form>
 
-                                            <form className="w-full rounded-lg py-3 px-5 bg-card border mb-3">
+                                            <form className="w-full rounded-sm py-3 px-5 bg-card border mb-3">
                                                 <h2 className="text-lg text-foreground font-semibold">Alterar Senha</h2>
                                                 <input
                                                     type="password"
                                                     placeholder="Senha antiga"
-                                                    value={oldPassword}
-                                                    onChange={(e) => setOldPassword(e.target.value)}
-                                                    className="w-full px-4 py-2 mt-2 rounded-lg bg-input placeholder:text-gray-400 text-foreground outline-none"
+                                                    // value={oldPassword}
+                                                    // onChange={(e) => setOldPassword(e.target.value)}
+                                                    className="w-full px-4 py-2 mt-2 rounded-sm bg-input placeholder:text-gray-400 text-foreground outline-none"
                                                 />
                                                 <input
                                                     type="password"
                                                     placeholder="Nova senha"
-                                                    value={newPassword}
-                                                    onChange={(e) => setNewPassword(e.target.value)}
-                                                    className="w-full px-4 py-2 mt-2 rounded-lg bg-input placeholder:text-gray-400 text-foreground outline-none"
+                                                    // value={newPassword}
+                                                    // onChange={(e) => setNewPassword(e.target.value)}
+                                                    className="w-full px-4 py-2 mt-2 rounded-sm bg-input placeholder:text-gray-400 text-foreground outline-none"
                                                 />
                                                 <input
                                                     type="password"
                                                     placeholder="Confirmar nova senha"
-                                                    value={confirmPassword}
-                                                    onChange={(e) => setConfirmPassword(e.target.value)}
-                                                    className="w-full px-4 py-2 mt-2 rounded-lg bg-input placeholder:text-gray-400 text-foreground outline-none"
+                                                    // value={confirmPassword}
+                                                    // onChange={(e) => setConfirmPassword(e.target.value)}
+                                                    className="w-full px-4 py-2 mt-2 rounded-sm bg-input placeholder:text-gray-400 text-foreground outline-none"
                                                 />
                                                 <button
-                                                    onClick={handleChangePassword}
-                                                    className="w-full text-foreground outline-none bg-input hover:bg-hover transition duration-300 py-2 mt-3 rounded-lg font-semibold"
+                                                    // onClick={handleChangePassword}
+                                                    className="w-full text-foreground outline-none bg-input hover:bg-hover transition duration-300 py-2 mt-3 rounded-sm font-semibold"
                                                 >
                                                     Atualizar Senha
                                                 </button>
                                             </form>
 
-                                            <form className="w-full rounded-lg py-3 px-5 bg-card border mb-3">
+                                            <form className="w-full rounded-sm py-3 px-5 bg-card border mb-3">
                                                 <h2 className="text-lg text-foreground font-semibold">Alterar Avatar</h2>
                                                 <input
                                                     type="text"
                                                     placeholder="Url da imagem"
-                                                    value={newName}
-                                                    onChange={(e) => setNewName(e.target.value)}
-                                                    className="w-full px-4 py-2 mt-2 rounded-lg bg-input text-foreground outline-none"
+                                                    // value={newName}
+                                                    // onChange={(e) => setNewName(e.target.value)}
+                                                    className="w-full px-4 py-2 mt-2 rounded-sm bg-input text-foreground outline-none"
                                                 />
                                                 <button
-                                                    onClick={handleChangeName}
-                                                    className="w-full text-foreground outline-none bg-input hover:bg-hover transition duration-300 py-2 mt-3 rounded-lg font-semibold"
+                                                    // onClick={handleChangeName}
+                                                    className="w-full text-foreground outline-none bg-input hover:bg-hover transition duration-300 py-2 mt-3 rounded-sm font-semibold"
                                                 >
                                                     Atualizar Avatar
                                                 </button>
                                             </form>
 
-                                            <form className="w-full rounded-lg py-3 px-5 bg-card border mb-3">
+                                            <form className="w-full rounded-sm py-3 px-5 bg-card border mb-3">
                                                 <h2 className="text-lg text-foreground font-semibold">Alterar E-mail</h2>
                                                 <input
                                                     type="text"
                                                     placeholder="E-mail"
-                                                    value={newName}
-                                                    onChange={(e) => setNewName(e.target.value)}
-                                                    className="w-full px-4 py-2 mt-2 rounded-lg bg-input text-foreground outline-none"
+                                                    // value={newName}
+                                                    // onChange={(e) => setNewName(e.target.value)}
+                                                    className="w-full px-4 py-2 mt-2 rounded-sm bg-input text-foreground outline-none"
                                                 />
                                                 <button
-                                                    onClick={handleChangeName}
-                                                    className="w-full text-foreground outline-none bg-input hover:bg-hover transition duration-300 py-2 mt-3 rounded-lg font-semibold"
+                                                    // onClick={handleChangeName}
+                                                    className="w-full text-foreground outline-none bg-input hover:bg-hover transition duration-300 py-2 mt-3 rounded-sm font-semibold"
                                                 >
                                                     Atualizar E-mail
                                                 </button>
@@ -300,12 +275,12 @@ export default function Me() {
                                 <Slider {...carouselSettingsChannel}>
                                     {
                                         playlist.length > 0 ? (
-                                            playlist.map((item) => (
+                                            playlist.map((item: PlaylistData) => (
                                                 <Link to={`/playlist/${item.id}`} >
-                                                    <div key={item.id} className="w-[200px] flex flex-col py-2 bg-gray-700 border border-gray-600 hover:brightness-125 transition rounded-md">
+                                                    <div key={item.id} className="w-[200px] flex flex-col py-2 bg-card border hover:brightness-125 transition rounded-md">
                                                         <div className="w-full flex items-center justify-between">
-                                                            <h3 className="text-foreground text-sm font-semibold">{item.name}</h3>
-                                                            <CaretRight className='w-5 ml-5' />
+                                                            <h3 className="text-foreground px-5 text-sm font-semibold">{item.name}</h3>
+                                                            <h3 className="text-gray-500 px-5 text-xs font-medium">{formatData(item.created_at)}</h3>
                                                         </div>
                                                     </div>
                                                 </Link>
@@ -366,17 +341,24 @@ export default function Me() {
                             </div>
                         </Card>
 
-                        <form className="w-full rounded-lg py-3 px-5 bg-card border mb-3">
+                        <form className="w-full rounded-lg py-3 px-5 bg-card border mb-3" onSubmit={handleSubmitCreatePlaylist(handleCreatePlaylist)}>
                             <h2 className="text-lg text-foreground font-semibold">Criar uma nova playlist</h2>
                             <input
+                                {...createPlaylist("userId")}
+                                type="text"
+                                placeholder="id"
+                                value={user.id}
+                                disabled
+                                // hidden
+                                className="w-full px-4 py-2 mt-2 rounded-lg bg-input text-secondary outline-none"
+                            />
+                            <input
+                                {...createPlaylist("name")}
                                 type="text"
                                 placeholder="Nome da playlist"
-                                value={newName}
-                                onChange={(e) => setNewName(e.target.value)}
                                 className="w-full px-4 py-2 mt-2 rounded-lg bg-input text-foreground outline-none"
                             />
                             <button
-                                onClick={handleChangeName}
                                 className="w-full text-foreground outline-none bg-input hover:bg-hover transition duration-300 py-2 mt-3 rounded-lg font-semibold"
                             >
                                 Criar

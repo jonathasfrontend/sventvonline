@@ -48,11 +48,11 @@
 
 @layer base {
   :root {
-    --background: #09090b;
+    --background: #121214;
     --foreground: #fafafa;
-    --card:  #121214;
+    --card:  #1c1c1c;
     --card-foreground: #fafafa;
-    --popover: #09090b;
+    --popover: #121214;
     --popover-foreground: #fafafa;
     --primary: #fafafa;
     --primary-foreground: #18181b;
@@ -65,7 +65,7 @@
     --destructive: #7f1d1d;
     --destructive-foreground: #fafafa;
     --border: #27272a;
-    --input: #1c1c1c;
+    --input: #09090b;
     --ring: #d4d4d8;
     --hover: #41414165;
     --chart-1: #2662d9;
