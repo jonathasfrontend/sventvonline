@@ -6,7 +6,7 @@ import { Bounce, ToastContainer } from 'react-toastify';
 import { AvatarCompenent } from '@/components/Avatar';
 import Loading from '@/components/Loading';
 
-interface ChannelData {
+type ChannelData = {
     playlistName: string,
     data: [
         {
@@ -24,7 +24,6 @@ interface ChannelData {
 }
 
 export default function PlaylsitContent() {
-
     const { id } = useParams();
     const [playlistContent, setPlaylistContent] = useState<ChannelData | null>(null);
 
@@ -38,7 +37,6 @@ export default function PlaylsitContent() {
             .catch(err => console.error(err));
     }, [id, userId]);
 
-    // Renderiza um loading enquanto os dados não chegam
     if (!playlistContent) {
         return <Loading />;
     }
@@ -48,28 +46,24 @@ export default function PlaylsitContent() {
             <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" transition={Bounce} />
             <Header />
             <div className="flex flex-col items-center justify-center py-10 px-16">
-                <h1 className="text-foreground text-4xl font-bold mt-10">{playlistContent.playlistName}</h1>
+                <h1 className="text-foreground text-4xl font-bold mt-10">
+                    {playlistContent.playlistName}
+                </h1>
                 <div className="w-full grid grid-cols-3 gap-4 mt-10">
                     {
-                        playlistContent.data.length > 0 ? (
-                            playlistContent.data.map((item) => (
-                                <div key={item.tv_channels.id} className="w-full flex flex-col px-6 py-4 bg-card border hover:bg-hover transition rounded-md">
-                                    <a href={item.tv_channels.url} target="_blank" rel="noreferrer">
-                                        <div className="w-full flex items-center justify-between">
-                                            <h3 className="text-foreground font-semibold">{item.tv_channels.name}</h3>
-                                        </div>
-                                        <div className="w-full mt-3">
-                                            <p className="text-foreground text-xs font-medium">{item.tv_channels.description}</p>
-                                        </div>
-                                        <div className="w-full mt-3">
-                                            <AvatarCompenent nameUsers={item.tv_channels.name || ''} avatarUser={item.tv_channels.image || ''} size={35} />
-                                        </div>
-                                    </a>
+                        playlistContent.data.map((channel) => (
+                            <div key={channel.tv_channels.id} className="w-full flex flex-col px-6 py-4 bg-card border hover:bg-hover transition rounded-md">
+                                <div className="w-full flex items-center justify-between">
+                                    <h3 className="text-foreground font-semibold">{channel.tv_channels.name}</h3>
+                                    <AvatarCompenent
+                                        avatarUser={channel.tv_channels.image}
+                                        nameUsers={channel.tv_channels.name}
+                                        size={48}
+                                    />
                                 </div>
-                            ))
-                        ) : (
-                            <h2 className="text-slate-700 text-sm font-semibold">Nenhum canal nesta playlist</h2>
-                        )
+                                <p className="text-gray-300 text-sm mt-3">{channel.tv_channels.description}</p>
+                            </div>
+                        ))
                     }
                 </div>
             </div>

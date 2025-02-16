@@ -135,7 +135,7 @@ export default function AccordionComponent(props: DetailsUsersData) {
                                                                     <img src={channel.image} alt={channel.name} className="w-16 h-16 rounded-full" />
                                                                 </div>
                                                                 <div className="flex flex-col p-2">
-                                                                    <p className="text-sm font-bold">{channel.name}</p>
+                                                                    <p className="text-sm text-foreground font-bold">{channel.name}</p>
                                                                 </div>
                                                             </div>
                                                         ))

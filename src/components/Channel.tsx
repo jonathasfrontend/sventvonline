@@ -380,69 +380,70 @@ export default function Channel() {
                             </form>
                         </TabsContent>
 
-                        <TabsContent value="deletChannel" className="w-full h-full flex justify-between gap-3">
+                        <TabsContent value="deletChannel" className="w-full h-full flex flex-col gap-3">
                             <form className="w-full flex flex-col gap-5 rounded-lg shadow-lg p-5 bg-card border" onSubmit={handleSubmitremoveChannel(handleDeleteChannel)}>
                                 <div className="w-full pb-3">
                                     <h1 className="text-lg text-foreground font-bold">Deletar Canal</h1>
                                     <p className="text-xs text-gray-500 mt-1">Remova um canal da sua lista</p>
                                 </div>
-                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-input box-border transition-opacity focus-within:border-purpleseat-base'>
+                                <div className="w-full flex items-center">
                                     <input
                                         {...registerDeleteChannel('id')}
                                         type="text"
                                         placeholder="Id do canal"
                                         id="id"
                                         name="id"
-                                        className="outline-none border-none w-full h-full text-gray-100 text-base font-normal bg-transparent placeholder:text-gray-400 transition-colors"
+                                        className="w-full px-4 py-2 rounded-tl-md rounded-bl-md bg-input border text-foreground outline-none"
                                     />
+                                    <button
+                                        type="submit"
+                                        className="w-[100px] text-foreground outline-none bg-chart-5 hover:opacity-[0.8] transition duration-100 py-2 rounded-tr-md rounded-br-md font-semibold"
+                                        disabled={isLoading}
+                                    >
+                                        {isLoading ? (
+                                            <CircleNotch className="animate-spin text-white" size={32} />
+                                        ) : (
+                                            'Deletar'
+                                        )}
+                                    </button>
                                 </div>
-                                <button
-                                    type="submit"
-                                    className="relative inline-flex bg-[#ff3f3f] hover:bg-[#d73131] flex-shrink-0 justify-center items-center gap-2 rounded transition-colors ease-in-out duration-200 font-semibold disabled:opacity-50 disabled:cursor-not-allowed disabled:select-none border-none cursor-pointer overflow-hidden bg-purpleseat-dark hover:enabled:bg-purpleseat-base text-white px-4 py-3 [&_svg]:size-6 text-md leading-6"
-                                    disabled={isLoading}
-                                >
-                                    {isLoading ? (
-                                        <CircleNotch className="animate-spin text-white" size={32} />
-                                    ) : (
-                                        'Deletar Canal'
-                                    )}
-                                </button>
                             </form>
                             <form className="w-full flex flex-col gap-5 rounded-lg shadow-lg p-5 bg-card border" onSubmit={handleSubmitremoveAllChannel(handleDeleteAllChannels)}>
                                 <div className="w-full pb-3">
                                     <h1 className="text-lg text-foreground font-bold">Deletar Todos os Canais</h1>
                                     <p className="text-xs text-gray-500 mt-1">Remova todos os canais da sua lista</p>
                                 </div>
-                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-input box-border transition-opacity focus-within:border-purpleseat-base'>
+                                <div className="w-full flex items-center">
+
                                     <input
                                         {...registerDeleteAllChannel('id')}
                                         type="text"
                                         placeholder="Id do usuario"
                                         id="id"
                                         name="id"
-                                        value={localStorage.getItem("id_username") || ""} // pega o id do usuario logado
-                                        className="outline-none border-none w-full h-full text-gray-100 text-base font-normal bg-transparent placeholder:text-gray-400 transition-colors"
+                                        disabled
+                                        hidden
+                                        value={localStorage.getItem("id_username") || ""}
+                                        className="w-full px-4 py-2 rounded-tl-md rounded-bl-md bg-input border text-foreground outline-none"
                                     />
-                                </div>
-                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-input box-border transition-opacity focus-within:border-purpleseat-base'>
                                     <input
                                         {...registerDeleteAllChannel('password')}
                                         type="password"
                                         placeholder="Senha"
                                         id="password"
                                         name="password"
-                                        className="outline-none border-none w-full h-full text-gray-100 text-base font-normal bg-transparent placeholder:text-gray-400 transition-colors"
+                                        className="w-full px-4 py-2 rounded-tl-md rounded-bl-md bg-input border text-foreground outline-none"
                                     />
+                                    <button
+                                        className="w-[100px] text-foreground outline-none bg-chart-5 hover:opacity-[0.8] transition duration-100 py-2 rounded-tr-md rounded-br-md font-semibold"
+                                    >
+                                        {isLoading ? (
+                                            <CircleNotch className="animate-spin text-white" size={32} />
+                                        ) : (
+                                            'Deletar'
+                                        )}
+                                    </button>
                                 </div>
-                                <button
-                                    className="relative inline-flex bg-[#ff3f3f] hover:bg-[#d73131] flex-shrink-0 justify-center items-center gap-2 rounded transition-colors ease-in-out duration-200 font-semibold disabled:opacity-50 disabled:cursor-not-allowed disabled:select-none border-none cursor-pointer overflow-hidden bg-purpleseat-dark hover:enabled:bg-purpleseat-base text-white px-4 py-3 [&_svg]:size-6 text-md leading-6"
-                                >
-                                    {isLoading ? (
-                                        <CircleNotch className="animate-spin text-white" size={32} />
-                                    ) : (
-                                        'Deletar Todos os Canais'
-                                    )}
-                                </button>
                             </form>
                         </TabsContent>
                     </Tabs>

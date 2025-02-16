@@ -261,7 +261,7 @@ export default function Users() {
                     </ChartContainer>
                 </Card>
             </div>
-            
+
             <div className="w-full h-full flex gap-3 pb-5">
                 <div className="w-full h-full">
                     <Tabs defaultValue="users" className="w-full">
@@ -300,27 +300,29 @@ export default function Users() {
                                         <h1 className="text-lg text-foreground font-bold">Remover Usuario</h1>
                                         <p className="text-xs text-gray-500 mt-1">Remova a conta de um usuario</p>
                                     </div>
-                                    <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-[#3fa5ff2f] box-border transition-opacity focus-within:border-purpleseat-base'>
+
+                                    <div className="w-full flex items-center">
                                         <input
                                             {...registerRemoveUser('id')}
                                             type="text"
                                             placeholder="ID do usuario"
                                             id="id"
                                             name="id"
-                                            className="outline-none border-none w-full h-full text-gray-100 text-base font-normal bg-transparent placeholder:text-gray-400 transition-colors"
+                                            className="w-full px-4 py-2 rounded-tl-md rounded-bl-md bg-input border text-foreground outline-none"
                                         />
+
+                                        <button
+                                            type="submit"
+                                            className="w-[100px] text-foreground outline-none bg-chart-5 hover:opacity-[0.8] transition duration-100 py-2 rounded-tr-md rounded-br-md font-semibold"
+                                            disabled={isLoading}
+                                        >
+                                            {isLoading ? (
+                                                <CircleNotch className="animate-spin text-white" size={32} />
+                                            ) : (
+                                                'Remover'
+                                            )}
+                                        </button>
                                     </div>
-                                    <button
-                                        type="submit"
-                                        className="relative inline-flex bg-[#ff3f3f] hover:bg-[#d73131] flex-shrink-0 justify-center items-center gap-2 rounded transition-colors ease-in-out duration-200 font-semibold disabled:opacity-50 disabled:cursor-not-allowed disabled:select-none border-none cursor-pointer overflow-hidden bg-purpleseat-dark hover:enabled:bg-purpleseat-base text-white px-4 py-3 [&_svg]:size-6 text-md leading-6"
-                                        disabled={isLoading}
-                                    >
-                                        {isLoading ? (
-                                            <CircleNotch className="animate-spin text-white" size={32} />
-                                        ) : (
-                                            'Remover Usuario'
-                                        )}
-                                    </button>
                                 </form>
                             </div>
                             <div className="w-1/2">

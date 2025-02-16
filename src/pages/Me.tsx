@@ -235,7 +235,7 @@ export default function Me() {
                                                     className="w-full px-4 py-2 mt-2 rounded-sm bg-input placeholder:text-gray-400 text-foreground outline-none"
                                                 />
                                                 <button
-                                                    className="w-full text-foreground outline-none bg-input hover:bg-hover transition duration-300 py-2 mt-3 rounded-sm font-semibold"
+                                                    className="w-full mt-2 text-foreground outline-none bg-chart-1 hover:opacity-[0.8] transition duration-100 py-2 rounded-md font-semibold"
                                                 >
                                                     Atualizar Senha
                                                 </button>
@@ -340,7 +340,7 @@ export default function Me() {
                                 className="w-full px-4 py-2 text-base mt-2 rounded-sm bg-input text-foreground outline-none placeholder:text-neutral-700"
                             />
                             <button
-                                className="w-full text-foreground outline-none bg-input hover:bg-hover transition duration-300 py-2 mt-3 rounded-sm font-semibold"
+                                className="w-full text-foreground outline-none bg-chart-1 hover:opacity-[0.8] transition duration-100 py-2 mt-2 rounded-md  font-semibold"
                             >
                                 Criar
                             </button>
