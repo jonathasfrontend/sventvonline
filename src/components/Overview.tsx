@@ -358,13 +358,15 @@ export default function Overview() {
       </div>
 
       <div className="w-full h-full flex items-center gap-3">
+
         <div className="w-1/2 h-[465px] overflow-hidden">
+        
           <div className="w-full h-full border rounded-xl p-5 bg-card">
             <div className="w-full pb-3">
               <h1 className="text-lg text-foreground font-bold">Todos os usuários</h1>
               <p className="text-xs text-gray-500 mt-1">Último usuário cadastrado</p>
             </div>
-            <div className="h-full w-full pb-5">
+            <ScrollArea className="h-full w-full pb-8">
               {user.length > 0 ? (
                 user.map((userItem: User) => (
                   <CardScrollArea
@@ -379,10 +381,12 @@ export default function Overview() {
                   <p className="text-sm text-gray-500">Nenhum usuário cadastrado.</p>
                 </div>
               )}
-            </div>
+            </ScrollArea>
           </div>
         </div>
+
         <div className="w-1/2 h-[465px] overflow-hidden">
+
           <div className="w-full h-full border rounded-xl p-5 bg-card">
             <div className="w-full pb-3">
               <h1 className="text-lg text-foreground font-bold">Todos os canais</h1>

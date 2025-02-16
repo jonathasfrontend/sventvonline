@@ -29,10 +29,11 @@ export default function Painel() {
             <Header />
             <div className="w-full flex px-5 pt-24">
                 <Tabs defaultValue="overviewdata" className="w-full">
-                    <TabsList className="grid w-[300px] grid-cols-3">
+                    <TabsList className="grid w-[370px] grid-cols-4">
                         <TabsTrigger value="overviewdata">Visão Geral</TabsTrigger>
                         <TabsTrigger value="channel">Canais</TabsTrigger>
                         <TabsTrigger value="users">Usuarios</TabsTrigger>
+                        <TabsTrigger value="feed">Feedbaks</TabsTrigger>
                     </TabsList>
                     <Overview />
                     <Channel />

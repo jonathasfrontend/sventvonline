@@ -11,9 +11,9 @@ export default function CardScrollArea(props: CardScrollAreaProps) {
         <div key={props.id} className="w-full my-5">
             <div className="flex items-center justify-between w-full h-full gap-5">
                 <div className="flex items-center gap-5">
-                    <Avatar.Root className="w-12 h-12 items-center justify-center overflow-hidden rounded-2xl">
+                    <Avatar.Root className="w-12 h-12 items-center justify-center overflow-hidden rounded-full">
                         <Avatar.Image
-                            className="w-12 h-12 rounded-2xl object-cover border-2 border-[#3fa5ff]"
+                            className="w-12 h-12 rounded-full object-cover border-2 border-[#3fa5ff]"
                             src={props.image}
                             alt={props.name}
                         />

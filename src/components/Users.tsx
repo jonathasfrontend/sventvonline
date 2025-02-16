@@ -192,13 +192,11 @@ export default function Users() {
     }
 
     useEffect(() => {
-
         const interval = setInterval(() => {
             loadData();
             getDetalhesUsers();
             getEvolutionRegistersUsersData()
-        }, 5000);
-
+        }, 1000);
         return () => clearInterval(interval);
     }, []);
 

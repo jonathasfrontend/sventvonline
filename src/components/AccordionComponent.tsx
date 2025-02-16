@@ -4,7 +4,7 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion"
-import { ArrowElbowDownRight } from "@phosphor-icons/react";
+import { ArrowElbowDownRight, ArrowElbowRightDown } from "@phosphor-icons/react";
 import * as Avatar from "@radix-ui/react-avatar";
 
 interface DetailsUsersData {
@@ -120,11 +120,12 @@ export default function AccordionComponent(props: DetailsUsersData) {
                                     props.playlists.length > 0 ? (
                                         props.playlists.map((playlist) => (
                                             <div key={playlist.id}>
-                                                <div className="flex items-end">
-                                                    <ArrowElbowDownRight size={32} />
-                                                    <span className="text-sm">
+                                                <div className="flex items-center">
+                                                    <ArrowElbowDownRight className="w-5 h-6 text-foreground" />
+                                                    <span className="text-sm bg-popover py-1 px-2 rounded-sm text-foreground ml-2">
                                                         {playlist.name}
                                                     </span>
+                                                    <ArrowElbowRightDown className="w-5 h-6 text-foreground ml-2" />
                                                 </div>
                                                 {
                                                     playlist.channels.length > 0 ? (
@@ -139,7 +140,7 @@ export default function AccordionComponent(props: DetailsUsersData) {
                                                             </div>
                                                         ))
                                                     ) : (
-                                                        <p className="text-sm text-gray-400">Nenhum canal nessa playlist</p>
+                                                        <p className="text-sm text-gray-400 py-2">Nenhum canal nessa playlist</p>
                                                     )
                                                 }
                                             </div>
@@ -164,7 +165,7 @@ export default function AccordionComponent(props: DetailsUsersData) {
                                             </div>
                                         ))
                                     ) : (
-                                        <p className="text-sm text-gray-400">Nenhum canal favoritado</p>
+                                        <p className="text-sm text-gray-400 py-2">Nenhum canal favoritado</p>
                                     )
                                 }
                             </div>
@@ -183,7 +184,7 @@ export default function AccordionComponent(props: DetailsUsersData) {
                                             </div>
                                         ))
                                     ) : (
-                                        <p className="text-sm text-gray-400">Nenhum canal curtido</p>
+                                        <p className="text-sm text-gray-400 py-2">Nenhum canal curtido</p>
                                     )
                                 }
                             </div>

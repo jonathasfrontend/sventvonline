@@ -1,14 +1,13 @@
 import { destroyCookie } from "nookies";
 import { useEffect, useState } from 'react';
-import * as Avatar from "@radix-ui/react-avatar";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../img/white_logo.png';
 import bcrypt from "bcryptjs-react";
 import { MagnifyingGlass } from "@phosphor-icons/react";
+import { AvatarCompenent } from "./Avatar";
 
 // import { List } from '@phosphor-icons/react'
-
 export function Header() {
     const [avatar, setAvatar] = useState<string | null>(null);
     const [username, setUsername] = useState<string | null>(null);
@@ -109,19 +108,7 @@ export function Header() {
                 <DropdownMenu.Root>
                     <DropdownMenu.Trigger asChild className='outline-none'>
                         <button aria-label="Customise options ">
-                            <Avatar.Root className="inline-flex size-[45px] select-none items-center justify-center overflow-hidden rounded-2xl  ">
-                                <Avatar.Image
-                                    className="size-full rounded-[inherit] object-cover border-2 border-[#3fa5ff]"
-                                    src={avatar || ''}
-                                    alt="Avatar"
-                                />
-                                <Avatar.Fallback
-                                    className="leading-1 flex size-full items-center justify-center bg-white text-sm font-medium text-[#121214]"
-                                    delayMs={600}
-                                >
-                                    {username?.charAt(0).toUpperCase()}
-                                </Avatar.Fallback>
-                            </Avatar.Root>
+                        <AvatarCompenent nameUsers={username || ''} avatarUser={avatar || ''} size={45} />
                         </button>
                     </DropdownMenu.Trigger>
 
@@ -132,20 +119,8 @@ export function Header() {
                         >
                             <DropdownMenu.Item className="w-full pl-1 outline-none">
                                 <Link to={`/me/${nametag}`} className="flex items-center hover:bg-hover p-2 rounded-md">
-                                    <Avatar.Root className="size-[35px] select-none items-center justify-center overflow-hidden rounded-xl bg-blackA1 align-middle mr-2">
-                                        <Avatar.Image
-                                            className="size-full rounded-[inherit] object-cover border-2 border-[#3fa5ff]"
-                                            src={avatar || ''}
-                                            alt="Avatar"
-                                        />
-                                        <Avatar.Fallback
-                                            className="leading-1 flex size-full items-center justify-center bg-white text-sm font-medium text-[#121214]"
-                                            delayMs={600}
-                                        >
-                                            {username?.charAt(0).toUpperCase()}
-                                        </Avatar.Fallback>
-                                    </Avatar.Root>
-                                    <span className="text-foreground text-sm font-normal">{username}</span>
+                                    <AvatarCompenent nameUsers={username || ''} avatarUser={avatar || ''} size={35} />
+                                    <span className="text-foreground text-sm font-normal ml-2">{username}</span>
                                 </Link>
                             </DropdownMenu.Item>
 

@@ -14,6 +14,7 @@ import Movies from "./pages/Movies";
 import Infantil from "./pages/Infantil";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import PlaylsitContent from "./pages/PlaylistContent";
 
 function App() {
   return (
@@ -73,6 +74,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Playlist />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/playlist/:id"
+            element={
+              <ProtectedRoute>
+                <PlaylsitContent />
               </ProtectedRoute>
             }
           />

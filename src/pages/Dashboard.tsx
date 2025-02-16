@@ -7,7 +7,7 @@ import Movies from "@/components/MovieCard";
 import Slider from "react-slick";
 import SampleNextPrevArrow from "@/components/SampleNextPrevArrow";
 import Series from "@/components/SerieCard";
-import logoSolo from '../img/white_logo_solo_vazado.png';
+import Loading from "@/components/Loading";
 
 interface Movie {
   id: string;
@@ -59,175 +59,123 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
 
   async function getMoviesSeries() {
-    try {
+    const storedMovies = localStorage.getItem("movies");
+    const storedSeries = localStorage.getItem("series");
 
-      // Verificar se os dados já estão no localStorage
-      const storedMovies = localStorage.getItem("movies");
-      const storedSeries = localStorage.getItem("series");
+    if (storedMovies && storedSeries) {
+      setMovies(JSON.parse(storedMovies));
+      setSeries(JSON.parse(storedSeries));
+    } else {
+      const [
+        moviesResponse,
+        seriesResponse,
+      ] = await Promise.all([
+        api.get('/metadata/movies'),
+        api.get('/metadata/series'),
+      ]);
 
-      if (storedMovies && storedSeries) {
-        // Se os dados já estiverem armazenados, utilizamos eles
-        setMovies(JSON.parse(storedMovies));
-        setSeries(JSON.parse(storedSeries));
-      } else {
-        // Se não, fazemos a requisição
-        const [
-          moviesResponse,
-          seriesResponse,
-        ] = await Promise.all([
-          api.get('/metadata/movies'),
-          api.get('/metadata/series'),
-        ]);
-
-        setMovies(moviesResponse.data.destaques);
-        setSeries(seriesResponse.data.destaques);
-        localStorage.setItem("movies", JSON.stringify(moviesResponse.data.destaques));
-        localStorage.setItem("series", JSON.stringify(seriesResponse.data.destaques));
-      }
-    } catch (error) {
-      console.error('Error fetching highlights:', error);
-    } finally {
-      setLoading(false);
+      setMovies(moviesResponse.data.destaques);
+      setSeries(seriesResponse.data.destaques);
+      localStorage.setItem("movies", JSON.stringify(moviesResponse.data.destaques));
+      localStorage.setItem("series", JSON.stringify(seriesResponse.data.destaques));
     }
   }
 
   async function getTvAberta() {
-    setLoading(true);
-    try {
-      const storedTvAberta = localStorage.getItem("channelsTvAberta");
-      if (storedTvAberta) {
-        setChannelsTvAberta(JSON.parse(storedTvAberta));
-      } else {
-        const response = await api.get("/liked/channelswithlikes/Tv Aberta");
-        setChannelsTvAberta(response.data);
-        localStorage.setItem("channelsTvAberta", JSON.stringify(response.data));
+    const storedTvAberta = localStorage.getItem("channelsTvAberta");
+    if (storedTvAberta) {
+      setChannelsTvAberta(JSON.parse(storedTvAberta));
+    } else {
+      const response = await api.get("/liked/channelswithlikes/Tv Aberta");
+      setChannelsTvAberta(response.data);
+      localStorage.setItem("channelsTvAberta", JSON.stringify(response.data));
 
-      }
-    } catch (error) {
-      console.error('Error fetching highlights:', error);
-    } finally {
-      setLoading(false);
     }
   };
 
   async function getChannelNoticias() {
-    setLoading(true);
-    try {
-      const storedNoticias = localStorage.getItem("channelsNoticias");
-      if (storedNoticias) {
-        setChannelsNoticias(JSON.parse(storedNoticias));
-      } else {
-        const response = await api.get("/liked/channelswithlikes/Noticias");
-        setChannelsNoticias(response.data);
-        localStorage.setItem("channelsNoticias", JSON.stringify(response.data));
-      }
-    } catch (error) {
-      console.error('Error fetching highlights:', error);
-    } finally {
-      setLoading(false);
+    const storedNoticias = localStorage.getItem("channelsNoticias");
+    if (storedNoticias) {
+      setChannelsNoticias(JSON.parse(storedNoticias));
+    } else {
+      const response = await api.get("/liked/channelswithlikes/Noticias");
+      setChannelsNoticias(response.data);
+      localStorage.setItem("channelsNoticias", JSON.stringify(response.data));
     }
   }
 
   async function getChannelFilmes() {
-    setLoading(true);
-    try {
-      const storedFilmes = localStorage.getItem("channelsFilmes");
-      if (storedFilmes) {
-        setChannelsFilmes(JSON.parse(storedFilmes));
-      } else {
-        const response = await api.get("/liked/channelswithlikes/Filmes");
-        setChannelsFilmes(response.data);
-        localStorage.setItem("channelsFilmes", JSON.stringify(response.data));
-      }
-    } catch (error) {
-      console.error('Error fetching highlights:', error);
-    } finally {
-      setLoading(false);
+    const storedFilmes = localStorage.getItem("channelsFilmes");
+    if (storedFilmes) {
+      setChannelsFilmes(JSON.parse(storedFilmes));
+    } else {
+      const response = await api.get("/liked/channelswithlikes/Filmes");
+      setChannelsFilmes(response.data);
+      localStorage.setItem("channelsFilmes", JSON.stringify(response.data));
     }
   }
 
   async function getChannelInfantil() {
-    setLoading(true);
-    try {
-      const storedInfantil = localStorage.getItem("channelsInfantil");
-      if (storedInfantil) {
-        setChannelsInfantil(JSON.parse(storedInfantil));
-      } else {
-        const response = await api.get("/liked/channelswithlikes/Infantil");
-        setChannelsInfantil(response.data);
-        localStorage.setItem("channelsInfantil", JSON.stringify(response.data));
-      }
-    } catch (error) {
-      console.error('Error fetching highlights:', error);
-    } finally {
-      setLoading(false);
+    const storedInfantil = localStorage.getItem("channelsInfantil");
+    if (storedInfantil) {
+      setChannelsInfantil(JSON.parse(storedInfantil));
+    } else {
+      const response = await api.get("/liked/channelswithlikes/Infantil");
+      setChannelsInfantil(response.data);
+      localStorage.setItem("channelsInfantil", JSON.stringify(response.data));
     }
   }
 
   async function getChannelVariedades() {
-    setLoading(true);
-    try {
-      const storedVariedades = localStorage.getItem("channelsVariedades");
-      if (storedVariedades) {
-        setChannelsVariedades(JSON.parse(storedVariedades));
-      } else {
-        const response = await api.get("/liked/channelswithlikes/Variedades");
-        setChannelsVariedades(response.data);
-        localStorage.setItem("channelsVariedades", JSON.stringify(response.data));
-      }
-    } catch (error) {
-      console.error('Error fetching highlights:', error);
-    } finally {
-      setLoading(false);
+    const storedVariedades = localStorage.getItem("channelsVariedades");
+    if (storedVariedades) {
+      setChannelsVariedades(JSON.parse(storedVariedades));
+    } else {
+      const response = await api.get("/liked/channelswithlikes/Variedades");
+      setChannelsVariedades(response.data);
+      localStorage.setItem("channelsVariedades", JSON.stringify(response.data));
     }
   }
 
   async function getChannelDocumentario() {
-    setLoading(true);
-    try {
-      const storedDocumentario = localStorage.getItem("channelsDocumentario");
-      if (storedDocumentario) {
-        setChannelsDocumentario(JSON.parse(storedDocumentario));
-      } else {
-        const response = await api.get("/liked/channelswithlikes/Documentario");
-        setChannelsDocumentario(response.data);
-        localStorage.setItem("channelsDocumentario", JSON.stringify(response.data));
-      }
-    } catch (error) {
-      console.error('Error fetching highlights:', error);
-    } finally {
-      setLoading(false);
+    const storedDocumentario = localStorage.getItem("channelsDocumentario");
+    if (storedDocumentario) {
+      setChannelsDocumentario(JSON.parse(storedDocumentario));
+    } else {
+      const response = await api.get("/liked/channelswithlikes/Documentario");
+      setChannelsDocumentario(response.data);
+      localStorage.setItem("channelsDocumentario", JSON.stringify(response.data));
     }
   }
 
   async function getChannelEsportes() {
-    setLoading(true);
-    try {
-      const storedEsportes = localStorage.getItem("channelsEsportes");
-      if (storedEsportes) {
-        setChannelsEsportes(JSON.parse(storedEsportes));
-      } else {
-        const response = await api.get("/liked/channelswithlikes/Esportes");
-        setChannelsEsportes(response.data);
-        localStorage.setItem("channelsEsportes", JSON.stringify(response.data));
-      }
-    } catch (error) {
-      console.error('Error fetching highlights:', error);
-    } finally {
-      setLoading(false);
+    const storedEsportes = localStorage.getItem("channelsEsportes");
+    if (storedEsportes) {
+      setChannelsEsportes(JSON.parse(storedEsportes));
+    } else {
+      const response = await api.get("/liked/channelswithlikes/Esportes");
+      setChannelsEsportes(response.data);
+      localStorage.setItem("channelsEsportes", JSON.stringify(response.data));
     }
   }
 
   useEffect(() => {
     const interval = setInterval(() => {
-      getMoviesSeries();
-      getTvAberta();
-      getChannelFilmes();
-      getChannelNoticias();
-      getChannelInfantil();
-      getChannelVariedades();
-      getChannelDocumentario();
-      getChannelEsportes();
+      setLoading(true);
+      try {
+        getMoviesSeries();
+        getTvAberta();
+        getChannelFilmes();
+        getChannelNoticias();
+        getChannelInfantil();
+        getChannelVariedades();
+        getChannelDocumentario();
+        getChannelEsportes();
+      } catch (error) {
+        console.error('Error fetching highlights:', error);
+      } finally {
+        setLoading(false);
+      }
     }, 1000);
 
     return () => clearInterval(interval);
@@ -301,11 +249,7 @@ export default function Dashboard() {
   };
 
   if (loading) {
-    return (
-      <div className="absolute top-0 left-0 z-50 w-full h-screen bg-background flex items-center justify-center">
-        <img src={logoSolo} className="w-16 animate-bounce " alt="" />
-      </div>
-    )
+    return <Loading />;
   }
 
   return (
