@@ -46,6 +46,7 @@ type UpdateChannelData = {
     name: string;
     categoria: string;
     image: string;
+    url: string;
 };
 
 type RemoveUserData = {
@@ -175,9 +176,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
         }
     }
 
-    async function updateChannel({ id, name, categoria, image }: UpdateChannelData) {
+    async function updateChannel({ id, name, categoria, image, url }: UpdateChannelData) {
         try {
-            await api.put(`/channels/${id}`, { name, categoria, image });
+            await api.put(`/channels/${id}`, { name, categoria, image, url });
             toast.success("Canal atualizado com sucesso!");
         } catch (err: any) {
             toast.error(err.response?.data?.error || "Erro ao atualizar");

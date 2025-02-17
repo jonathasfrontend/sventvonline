@@ -7,17 +7,8 @@
   font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
-::-webkit-scrollbar {
-  width: 5px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #121214;
-  border-radius: 20px;
-}
-
 .gradient-movies {
-  background: linear-gradient(0deg, #121214 2%, #09090b6d 40%, #09090b00 50%, #09090b00 100%);
+  background: linear-gradient(0deg, #0f0f0f 2%, #09090b6d 40%, #09090b00 50%, #09090b00 100%);
 }
 
 .gradient-series {
@@ -77,34 +68,32 @@
   }
 
 }
-.d {
-  /* background-color: #09090b; */
-  /* background-color: #fafafa; */
-  /* background-color: #121212; */
-  /* background-color: #fafafa; */
-  /* background-color: #09090b; */
-  /* background-color: #fafafa; */
-  /* background-color: #fafafa; */
-  /* background-color: #18181b; */
-  /* background-color: #27272a; */
-  /* background-color: #fafafa; */
-  /* background-color: #27272a; */
-  /* background-color: #a1a1aa; */
-  /* background-color: #27272a; */
-  /* background-color: #fafafa; */
-  /* background-color: #7f1d1d; */
-  /* background-color: #fafafa; */
-  /* background-color: #27272a; */
-  /* background-color: #27272a; */
-  /* background-color: #d4d4d8; */
-  /* background-color: #2662d9; */
-  /* background-color: #2eb88a; */
-  /* background-color: #e88c30; */
-  /* background-color: #af57db; */
-  /* background-color: #e23670; */
-  /* 0.5rem; */
+/* background-color: #09090b; */
+/* background-color: #fafafa; */
+/* background-color: #121212; */
+/* background-color: #fafafa; */
+/* background-color: #09090b; */
+/* background-color: #fafafa; */
+/* background-color: #fafafa; */
+/* background-color: #18181b; */
+/* background-color: #27272a; */
+/* background-color: #fafafa; */
+/* background-color: #27272a; */
+/* background-color: #a1a1aa; */
+/* background-color: #27272a; */
+/* background-color: #fafafa; */
+/* background-color: #7f1d1d; */
+/* background-color: #fafafa; */
+/* background-color: #27272a; */
+/* background-color: #27272a; */
+/* background-color: #d4d4d8; */
+/* background-color: #2662d9; */
+/* background-color: #2eb88a; */
+/* background-color: #e88c30; */
+/* background-color: #af57db; */
+/* background-color: #e23670; */
+/* 0.5rem; */
   
-}
 @layer base {
   * {
     @apply border-border;

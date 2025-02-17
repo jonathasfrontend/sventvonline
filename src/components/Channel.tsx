@@ -73,6 +73,7 @@ type UpdateChannelData = {
     name: string;
     categoria: string;
     image: string;
+    url: string;
 };
 
 export default function Channel() {
@@ -118,8 +119,6 @@ export default function Channel() {
         loadData();
         getPerformanceChannelData();
     }, []);
-
-
 
     async function handleAddChannel(data: AddChannelData) {
         setIsLoading(true);
@@ -198,7 +197,7 @@ export default function Channel() {
                             />
                             <ChartTooltip content={<ChartTooltipContent />} />
                             <ChartLegend content={<ChartLegendContent />} />
-                            <Bar dataKey="likeCount" name="Likes" fill="fill-foreground" radius={4} >
+                            <Bar dataKey="likeCount" name="Likes" fill="var(--foreground)" radius={4} >
                                 <LabelList
                                     position="top"
                                     offset={12}
@@ -256,54 +255,47 @@ export default function Channel() {
                         </TabsList>
 
                         <TabsContent value="addChannel" className="w-full h-full flex flex-col gap-3">
-                            <form className="w-full flex flex-col gap-5 rounded-lg shadow-lg p-5 bg-card border" onSubmit={handleSubmitAddChannel(handleAddChannel)}>
+                            <form className="w-full flex flex-col gap-3 rounded-lg shadow-lg p-5 bg-card border" onSubmit={handleSubmitAddChannel(handleAddChannel)}>
                                 <div className="w-full pb-3">
                                     <h1 className="text-lg text-foreground font-bold">Cadastrar Canal</h1>
                                     <p className="text-xs text-gray-500 mt-1">Adicione um novo canal a sua lista</p>
                                 </div>
-                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-input box-border transition-opacity focus-within:border-purpleseat-base'>
-                                    <input
-                                        {...registerChannel('name')}
-                                        type="text"
-                                        placeholder="Nome do canal"
-                                        id="name"
-                                        name="name"
-                                        className="outline-none border-none w-full h-full text-gray-100 text-base font-normal bg-transparent placeholder:text-gray-400 transition-colors"
-                                    />
-                                </div>
-                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-input box-border transition-opacity focus-within:border-purpleseat-base'>
-                                    <input
-                                        {...registerChannel('categoria')}
-                                        type="text"
-                                        placeholder="Categoria do canal"
-                                        id="categoria"
-                                        name="categoria"
-                                        className="outline-none border-none w-full h-full text-gray-100 text-base font-normal bg-transparent placeholder:text-gray-400 transition-colors"
-                                    />
-                                </div>
-                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-input box-border transition-opacity focus-within:border-purpleseat-base'>
-                                    <input
-                                        {...registerChannel('image')}
-                                        type="text"
-                                        placeholder="Url da imagem"
-                                        id="image"
-                                        name="image"
-                                        className="outline-none border-none w-full h-full text-gray-100 text-base font-normal bg-transparent placeholder:text-gray-400 transition-colors"
-                                    />
-                                </div>
-                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-input box-border transition-opacity focus-within:border-purpleseat-base'>
-                                    <input
-                                        {...registerChannel('url')}
-                                        type="text"
-                                        placeholder="Url da TV"
-                                        id="url"
-                                        name="url"
-                                        className="outline-none border-none w-full h-full text-gray-100 text-base font-normal bg-transparent placeholder:text-gray-400 transition-colors"
-                                    />
-                                </div>
+                                <input
+                                    {...registerChannel('name')}
+                                    type="text"
+                                    placeholder="Nome do canal"
+                                    id="name"
+                                    name="name"
+                                    className="w-full px-4 py-2 rounded-md bg-input border text-foreground outline-none"
+                                />
+                                <input
+                                    {...registerChannel('categoria')}
+                                    type="text"
+                                    placeholder="Categoria do canal"
+                                    id="categoria"
+                                    name="categoria"
+                                    className="w-full px-4 py-2 rounded-md bg-input border text-foreground outline-none"
+                                />
+                                <input
+                                    {...registerChannel('image')}
+                                    type="text"
+                                    placeholder="Url da imagem"
+                                    id="image"
+                                    name="image"
+                                    className="w-full px-4 py-2 rounded-md bg-input border text-foreground outline-none"
+                                />
+                                <input
+                                    {...registerChannel('url')}
+                                    type="text"
+                                    placeholder="Url da TV"
+                                    id="url"
+                                    name="url"
+                                    className="w-full px-4 py-2 rounded-md bg-input border text-foreground outline-none"
+                                />
+
                                 <button
                                     type="submit"
-                                    className="relative inline-flex bg-[#3fa6ff] hover:bg-[#318ad7] flex-shrink-0 justify-center items-center gap-2 rounded transition-colors ease-in-out duration-200 font-semibold disabled:opacity-50 disabled:cursor-not-allowed disabled:select-none border-none cursor-pointer overflow-hidden bg-purpleseat-dark hover:enabled:bg-purpleseat-base text-white px-4 py-3 [&_svg]:size-6 text-md leading-6"
+                                    className="w-full flex items-center justify-center text-center text-foreground outline-none bg-chart-1 hover:opacity-[0.8] transition duration-100 py-2 rounded-md font-semibold"
                                     disabled={isLoading}
                                 >
                                     {isLoading ? (
@@ -316,54 +308,54 @@ export default function Channel() {
                         </TabsContent>
 
                         <TabsContent value="updateChannel" className="w-full h-full flex flex-col gap-3">
-                            <form className="w-full flex flex-col gap-5 rounded-lg shadow-lg p-5 bg-card border" onSubmit={handleSubmitUpdateChannel(handleUpdateChannel)}>
+                            <form className="w-full flex flex-col gap-2 rounded-lg shadow-lg p-5 bg-card border" onSubmit={handleSubmitUpdateChannel(handleUpdateChannel)}>
                                 <div className="w-full pb-3">
                                     <h1 className="text-lg text-foreground font-bold">Atualizar Canal</h1>
                                     <p className="text-xs text-gray-500 mt-1">Atualize um canal da sua lista</p>
                                 </div>
-                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-input box-border transition-opacity focus-within:border-purpleseat-base'>
-                                    <input
-                                        {...registerUpdateChannel('id')}
-                                        type="text"
-                                        placeholder="Id do canal"
-                                        id="id"
-                                        name="id"
-                                        className="outline-none border-none w-full h-full text-gray-100 text-base font-normal bg-transparent placeholder:text-gray-400 transition-colors"
-                                    />
-                                </div>
-                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-input box-border transition-opacity focus-within:border-purpleseat-base'>
-                                    <input
-                                        {...registerUpdateChannel('name')}
-                                        type="text"
-                                        placeholder="Nome do canal"
-                                        id="name"
-                                        name="name"
-                                        className="outline-none border-none w-full h-full text-gray-100 text-base font-normal bg-transparent placeholder:text-gray-400 transition-colors"
-                                    />
-                                </div>
-                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-input box-border transition-opacity focus-within:border-purpleseat-base'>
-                                    <input
-                                        {...registerUpdateChannel('categoria')}
-                                        type="text"
-                                        placeholder="Categoria do canal"
-                                        id="categoria"
-                                        name="categoria"
-                                        className="outline-none border-none w-full h-full text-gray-100 text-base font-normal bg-transparent placeholder:text-gray-400 transition-colors"
-                                    />
-                                </div>
-                                <div className='flex w-full h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm bg-input box-border transition-opacity focus-within:border-purpleseat-base'>
-                                    <input
-                                        {...registerUpdateChannel('image')}
-                                        type="text"
-                                        placeholder="Url da imagem"
-                                        id="image"
-                                        name="image"
-                                        className="outline-none border-none w-full h-full text-gray-100 text-base font-normal bg-transparent placeholder:text-gray-400 transition-colors"
-                                    />
-                                </div>
+                                <input
+                                    {...registerUpdateChannel('id')}
+                                    type="text"
+                                    placeholder="Id do canal"
+                                    id="id"
+                                    name="id"
+                                    className="w-full px-4 py-2 rounded-md bg-input border text-foreground outline-none"
+                                />
+                                <input
+                                    {...registerUpdateChannel('name')}
+                                    type="text"
+                                    placeholder="Nome do canal"
+                                    id="name"
+                                    name="name"
+                                    className="w-full px-4 py-2 rounded-md bg-input border text-foreground outline-none"
+                                />
+                                <input
+                                    {...registerUpdateChannel('categoria')}
+                                    type="text"
+                                    placeholder="Categoria do canal"
+                                    id="categoria"
+                                    name="categoria"
+                                    className="w-full px-4 py-2 rounded-md bg-input border text-foreground outline-none"
+                                />
+                                <input
+                                    {...registerUpdateChannel('image')}
+                                    type="text"
+                                    placeholder="Url da imagem"
+                                    id="image"
+                                    name="image"
+                                    className="w-full px-4 py-2 rounded-md bg-input border text-foreground outline-none"
+                                />
+                                <input
+                                    {...registerUpdateChannel('url')}
+                                    type="text"
+                                    placeholder="Url da do frame"
+                                    id="url"
+                                    name="url"
+                                    className="w-full px-4 py-2 rounded-md bg-input border text-foreground outline-none"
+                                />
                                 <button
                                     type="submit"
-                                    className="relative inline-flex bg-[#3fa6ff] hover:bg-[#318ad7] flex-shrink-0 justify-center items-center gap-2 rounded transition-colors ease-in-out duration-200 font-semibold disabled:opacity-50 disabled:cursor-not-allowed disabled:select-none border-none cursor-pointer overflow-hidden bg-purpleseat-dark hover:enabled:bg-purpleseat-base text-white px-4 py-3 [&_svg]:size-6 text-md leading-6"
+                                    className="w-full flex items-center justify-center text-center text-foreground outline-none bg-chart-1 hover:opacity-[0.8] transition duration-100 py-2 rounded-md font-semibold"
                                     disabled={isLoading}
                                 >
                                     {isLoading ? (
@@ -374,7 +366,8 @@ export default function Channel() {
                                 </button>
                                 <button
                                     type="reset"
-                                    className="relative inline-flex bg-[#3fa6ff] hover:bg-[#318ad7] flex-shrink-0 justify-center items-center gap-2 rounded transition-colors ease-in-out duration-200 font-semibold disabled:opacity-50 disabled:cursor-not-allowed disabled:select-none border-none cursor-pointer overflow-hidden bg-purpleseat-dark hover:enabled:bg-purpleseat-base text-white px-4 py-3 [&_svg]:size-6 text-md leading-6">
+                                    className="w-full text-foreground outline-none bg-chart-1 hover:opacity-[0.8] transition duration-100 py-2 rounded-md font-semibold"
+                                >
                                     Limpar
                                 </button>
                             </form>

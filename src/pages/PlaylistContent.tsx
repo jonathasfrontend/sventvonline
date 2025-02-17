@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Header } from '@/components/Header';
 import { api } from '@/services/api';
 import { Bounce, ToastContainer } from 'react-toastify';
@@ -49,19 +49,25 @@ export default function PlaylsitContent() {
                 <h1 className="text-foreground text-4xl font-bold mt-10">
                     {playlistContent.playlistName}
                 </h1>
-                <div className="w-full grid grid-cols-3 gap-4 mt-10">
+                <div className="w-full grid grid-cols-4 gap-4 mt-10">
                     {
                         playlistContent.data.map((channel) => (
                             <div key={channel.tv_channels.id} className="w-full flex flex-col px-6 py-4 bg-card border hover:bg-hover transition rounded-md">
-                                <div className="w-full flex items-center justify-between">
-                                    <h3 className="text-foreground font-semibold">{channel.tv_channels.name}</h3>
-                                    <AvatarCompenent
-                                        avatarUser={channel.tv_channels.image}
-                                        nameUsers={channel.tv_channels.name}
-                                        size={48}
-                                    />
-                                </div>
-                                <p className="text-gray-300 text-sm mt-3">{channel.tv_channels.description}</p>
+                                <Link to={`/${channel.tv_channels.id}`} >
+                                    <div className="w-full gap-3 flex items-center">
+                                        <AvatarCompenent
+                                            avatarUser={channel.tv_channels.image}
+                                            nameUsers={channel.tv_channels.name}
+                                            size={48}
+                                        />
+                                        <h3 className="text-foreground font-semibold">{channel.tv_channels.name}</h3>
+                                    </div>
+                                </Link>
+                                <button
+                                    className="text-foreground mt-3 text-xs font-medium bg-red-500 px-2 py-1 rounded-sm"
+                                >
+                                    Excluir
+                                </button>
                             </div>
                         ))
                     }

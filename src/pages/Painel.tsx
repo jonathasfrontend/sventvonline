@@ -27,7 +27,7 @@ export default function Painel() {
             />
 
             <Header />
-            <div className="w-full flex px-5 pt-24">
+            <div className="w-full flex px-5 pt-20">
                 <Tabs defaultValue="overviewdata" className="w-full">
                     <TabsList className="grid w-[370px] grid-cols-4">
                         <TabsTrigger value="overviewdata">Visão Geral</TabsTrigger>

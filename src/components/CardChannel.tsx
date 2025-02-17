@@ -51,7 +51,7 @@ export function CardChannel(props: CardChannelProps) {
               <BookmarkSimple weight="regular" className="w-6 h-6 text-foreground" />
             </button>
           </div>
-          <Link to={props.id} className="w-[140px] text-center text-sm font-medium text-[#323262] px-5 py-2 mt-2 rounded-full bg-white">
+          <Link to={`/${props.id}`} className="w-[140px] text-center text-sm font-medium text-[#323262] px-5 py-2 mt-2 rounded-full bg-white">
             Acessar
           </Link>
         </div>
